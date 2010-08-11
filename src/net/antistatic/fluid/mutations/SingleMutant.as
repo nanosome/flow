@@ -1,23 +1,23 @@
 package net.antistatic.fluid.mutations 
 {
-import flash.display.DisplayObject;
-import net.antistatic.fluid.mutations.IMutatable;
-
-/**
- * @author User
- */
-public class SingleMutant implements IMutatable 
-{
-	protected var object:DisplayObject;
+	import flash.display.DisplayObject;
+	import net.antistatic.fluid.mutations.IMutatable;
 	
-	public function SingleMutant(object:DisplayObject)
+	/**
+	 * @author User
+	 */
+	public class SingleMutant implements IMutatable 
 	{
-		this.object = object;
+		protected var object:DisplayObject;
+		
+		public function SingleMutant(object:DisplayObject)
+		{
+			this.object = object;
+		}
+		
+		public function applyMutation(mutation:Mutation, value:Number):void
+		{
+			mutation.applyValue(object, value);
+		}
 	}
-	
-	public function applyMutation(mutation:Mutation, value:Number):void
-	{
-		mutation.applyValue(object, value);
-	}
-}
 }
