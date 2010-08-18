@@ -3,8 +3,8 @@ package net.antistatic.processes
 import flash.events.Event;
 import flash.display.Sprite;
 
-import net.antistatic.fluid.stateMachine.State;	
-import net.antistatic.fluid.stateMachine.StateMachine;
+import nanosome.flow.stateMachine.logic.State;	
+import nanosome.flow.stateMachine.StateMachine;
 
 /**
  * @author User

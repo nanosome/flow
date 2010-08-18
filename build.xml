@@ -1,0 +1,40 @@
+<project name="lib.flow" basedir=".">
+	<!-- setup a prefix for all environment variables -->
+	<property environment="env" />
+	
+	<!-- Setup paths for build -->
+	<property name="ant.dir" location="${basedir}/ant" />
+	<property name="bin.dir" location="${basedir}/bin" />
+	<property name="report.dir" location="${bin.dir}/report" />
+	
+	<property name="main.src.dir" location="${basedir}/src" />
+	<property name="test.src.dir" location="${basedir}/src.tests" />
+	<property name="lib.dir" location="${basedir}/libs" />
+
+	<!-- Setup Flex and FlexUnit ant tasks -->
+	<!-- You can set this directly so mxmlc will work correctly, or set FLEX_HOME as an environment variable and use as below -->
+	<property name="FLEX_HOME" location="${env.FLEX_HOME}" />
+	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+	<taskdef resource="flexUnitTasks.tasks" classpath="${ant.dir}/flexUnitTasks-4.1.0.jar" />
+
+	<target name="test">
+		<!-- Compile TestRunner.mxml as a SWF -->
+		<mxmlc file="${test.src.dir}/FlowTest.as" output="${bin.dir}/FlowTest.swf">
+			<source-path path-element="${main.src.dir}" />
+			<library-path dir="${lib.dir}" append="true">
+				<include name="*.swc" />
+			</library-path>
+			<compiler.verbose-stacktraces>true</compiler.verbose-stacktraces>
+			<compiler.headless-server>true</compiler.headless-server>
+		</mxmlc>
+		
+		<!-- Execute TestRunner.swf as FlexUnit tests and publish reports -->
+		<flexunit swf="${bin.dir}/FlowTest.swf" 
+		    workingDir="${bin.dir}"
+		    toDir="${report.dir}" 
+			haltonfailure="false" 
+			verbose="true" 
+			localTrusted="true"/>
+	</target>
+	
+</project>

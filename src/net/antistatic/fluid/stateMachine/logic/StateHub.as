@@ -81,8 +81,8 @@ package net.antistatic.fluid.stateMachine.logic
 			
 			for each (transition in conditionalTransitions) 
 			{
-				newTransition = transition.checkCondition(context);
-				if (newTransition != null) 
+				newTransition = transition.checkCondition();
+				if (newTransition != null)
 					break;
 			}
 			return newTransition;

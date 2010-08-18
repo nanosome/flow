@@ -10,9 +10,9 @@ package net.antistatic.fluid.mutations
 {
 		
 	import flash.events.Event;
-	
-	import net.antistatic.fluid.stateMachine.StateMachine;
-	import net.antistatic.fluid.stateMachine.logic.StateMachineLogic;
+
+	import nanosome.flow.stateMachine.StateMachine;
+	import nanosome.flow.stateMachine.logic.AbstractStateMachine;
 	import net.antistatic.fluid.IStepStateMachine;
 	import net.antistatic.fluid.mutations.MutationBehaviour;
 	
@@ -52,9 +52,9 @@ package net.antistatic.fluid.mutations
 		 *  Constructor
 		 *  
 		 */	
-		public function Mutator(logic:StateMachineLogic, behaviour:MutationBehaviour, mutation:Mutation, mutant:IMutatable, context:* = null)
+		public function Mutator(logic:AbstractStateMachine, behaviour:MutationBehaviour, mutation:Mutation, mutant:IMutatable)
 		{
-			super(logic, context);
+			super(logic);
 			this.behaviour = behaviour;
 			this.mutation = mutation;
 			this.mutant = mutant;

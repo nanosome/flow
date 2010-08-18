@@ -7,4 +7,9 @@
     <AS3Classpath generateProblems="false" type="lib" useAsSharedCode="false">flex.swc</AS3Classpath>
     <AS3Classpath generateProblems="false" type="lib" useAsSharedCode="false">framework.swc</AS3Classpath>
     <AS3Classpath generateProblems="true" type="source" useAsSharedCode="false">libs/as3commons-logging</AS3Classpath>
+    <AS3Classpath generateProblems="false" type="source" useAsSharedCode="false">NanosomeBind</AS3Classpath>
+    <AS3Classpath generateProblems="true" type="source" useAsSharedCode="false">src.tests</AS3Classpath>
+    <AS3Classpath generateProblems="false" type="lib" useAsSharedCode="false">libs/mockito-1.3-RC5.swc</AS3Classpath>
+    <AS3Classpath generateProblems="false" type="lib" useAsSharedCode="false">libs/flexunit-core-as3-4.1.0.swc</AS3Classpath>
+    <AS3Classpath generateProblems="false" type="lib" useAsSharedCode="false">libs/flexunit-uilistener-4.1.0-beta3.60-sdk4.0.0.14159.swc</AS3Classpath>
 </AS3Classpath>

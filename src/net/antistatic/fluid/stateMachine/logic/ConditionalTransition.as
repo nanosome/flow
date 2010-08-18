@@ -53,9 +53,9 @@ package net.antistatic.fluid.stateMachine.logic
 		 *  
 		 *  @return Transition to perform
 		 */		
-		public function checkCondition(context:*):Transition
+		public function checkCondition():Transition
 		{
-			return condition.check(context) ? super : null;  
+			return condition.check() ? super : null;  
 		}
 		
 	}

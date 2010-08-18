@@ -9,12 +9,11 @@
 package net.antistatic.fluid.ui 
 {
 
-import net.antistatic.fluid.stateMachine.logic.StateMachineLogic;
+import nanosome.flow.stateMachine.logic.AbstractStateMachine;
+import nanosome.flow.stateMachine.logic.State;
 	
 import net.antistatic.data.holder.map.PrimitiveTypeMap;
 import net.antistatic.fluid.logic.BooleanCondition;
-import net.antistatic.fluid.stateMachine.*;
-
 
 /**
  *  AbstractButton class. 
@@ -82,19 +81,19 @@ public class ButtonLogicsFactory
 		_instance = this;
 	}
 	
-	public function getLogic(key:String):StateMachineLogic
+	public function getLogic(key:String):AbstractStateMachine
 	{
 		return logics.containsKey(key) ? logics.get(key) : createLogic(key);
 	}
 
-	public function addLogic(key:String, logic:StateMachineLogic):void
+	public function addLogic(key:String, logic:AbstractStateMachine):void
 	{
 		logics.put(key, logic);
 	}
 	
-	private function createLogic(key:String):StateMachineLogic  
+	private function createLogic(key:String):AbstractStateMachine  
 	{
-		var logic:StateMachineLogic;
+		var logic:AbstractStateMachine;
 		var ifOvered:BooleanCondition;
 		var ifPressed:BooleanCondition;
 		var normalState:State;
@@ -113,7 +112,7 @@ public class ButtonLogicsFactory
 				overedState 	= statesFactory.getState(ButtonStatesFactory.OVERED_STATE);
 				resetActionID();
 				// init logic itself
-				logic = new StateMachineLogic(AbstractButton);
+				logic = new AbstractStateMachine();
 				logic.addState(normalState);
 				logic.addState(overedState);
 				logic.addTransition(normalState, ifOvered, overedState, getActionID());
@@ -128,7 +127,7 @@ public class ButtonLogicsFactory
 				pressedState 	= statesFactory.getState(ButtonStatesFactory.PRESSED_STATE);
 				resetActionID();			
 				// init logic itself
-				logic = new StateMachineLogic(AbstractButton);
+				logic = new AbstractStateMachine();
 				logic.addState(normalState);	
 				logic.addState(pressedState);
 				logic.addTransition(normalState, ifPressed, pressedState, getActionID());
@@ -146,7 +145,7 @@ public class ButtonLogicsFactory
 				pressedOutsideState = statesFactory.getState(ButtonStatesFactory.PRESSED_OUTSIDE_STATE);
 				resetActionID();
 				// init logic itself
-				logic = new StateMachineLogic(AbstractButton);
+				logic = new AbstractStateMachine();
 				logic.addState(normalState);
 				logic.addState(overedState);
 				logic.addState(pressedState);

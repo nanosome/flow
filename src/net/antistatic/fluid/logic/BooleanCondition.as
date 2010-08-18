@@ -68,11 +68,9 @@ package net.antistatic.fluid.logic
 		 *  @param params Parameters for checking function 
 		 *  @param negation Will checking require negation of the function result
 		 */		
-		public function BooleanCondition(func:Function, obj:Object = null, params:Array = null, negation:Boolean = false)
+		public function BooleanCondition(func:Function, negation:Boolean = false)
 		{
 			this.func = func;
-			this.obj = obj;
-			this.params = params;
 			this.negation = negation;
 			andConditions = new Array();
 			orConditions = new Array();
@@ -123,7 +121,7 @@ package net.antistatic.fluid.logic
 		 */		
 		public function get yes():BooleanCondition
 		{
-			var newCondition:BooleanCondition = new BooleanCondition(func, obj, params, negation);
+			var newCondition:BooleanCondition = new BooleanCondition(func, negation);
 		 	copyConditionsTo(newCondition);
 			return newCondition; 
 		}
@@ -135,7 +133,7 @@ package net.antistatic.fluid.logic
 		 */			
 		public function get no():BooleanCondition
 		{
-			var newCondition:BooleanCondition = new BooleanCondition(func, obj, params, !negation);
+			var newCondition:BooleanCondition = new BooleanCondition(func, !negation);
 		 	copyConditionsTo(newCondition);
 			return newCondition; 
 		}
@@ -143,25 +141,22 @@ package net.antistatic.fluid.logic
 		/**
 		 *  Performs check of the BooleanCondition
 		 *
-		 *	@param context Context this condition will be checked within. If not null, added to the params.
-		 *	
 		 *  @return result of the BooleanCondition check
 		 */			
-		public function check(context:* = null):Boolean
+		public function check():Boolean
 		{
 			var condition:BooleanCondition;
 			var fparams:Array = null;
 			if(params!=null)
 				fparams = params.concat(); // copy array
-			if(context!=null)
-				fparams = (fparams == null) ? [context] : fparams.concat(context);
+
 			var res:Boolean = func.apply(obj, fparams);
 			
 			for each (condition in orConditions) 
-				res = res || condition.check(context);
+				res = res || condition.check();
 	
 			for each (condition in andConditions) 
-				res = res && condition.check(context);
+				res = res && condition.check();
 	
 			if (negation) 
 				res = !res; 
