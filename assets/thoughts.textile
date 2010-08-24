@@ -1,0 +1,53 @@
+h1. Some thoughts on nanosome.fluid
+
+* it’s a state machine not for components themselves, but for certain attributes of its properties.
+* aim is to provide visual consistency and fluid, smooth experience
+* animation is updating every frame, because its all about visuals
+
+* @StateMachine@ - this state machine has states and transitions, but lacks @TransitionConditions@ required for triggering them. 
+* @Transitions@ has no durations.
+* @VisualStateMachine@ - its a @StateMachine@ with @TransitionCondtitions@ and with transition durations.
+* @StateMachineVisualizer@
+
+h2. Linking subject and state machine 
+
+We can use two approaches in linking chain _Object - Transition Condition - Transition - State_. First is to group Object with Transition conditions within Element, and Transitions with States within StateMachine. That means each Element should define his own Transition Conditions and pass them to the State Machine:
+
+bc. private function onMouseMove(overed:Boolean):void
+{
+    _backSM.setCondition("isOvered", overed);
+    _iconSM.setCondition("isOvered", overed);
+}
+
+This code is relatively safe (nothing bad will happen if we will send incorrect signal name), and it does not require SM to check condition itself. 
+
+Other approach is a little bit more tricky - we're grouping Transition condition with StateMachine, and passing Element as context:
+
+bc. 
+_backSM.addCondition("isOvered", function(o:Object):Boolean { return o.isOvered; });
+_backSM.setContext(this);
+
+bc. 
+private function onMouseMove():void
+{
+    _backSM.invalidate();
+}
+
+Alternative way would be using bindable variables, like IFields from nanosome.bind:
+
+bc. 
+var isOvered:Field;
+_backSM.setCondition("isOvered", isOvered);
+
+bc. private function onMouseMove(overed:Boolean):void
+{
+    isOvered.value= overed;
+}
+
+h2. Implementation Details
+
+TODO
+
+h2. Miscellaneous
+
+%{color:red}*Important:*% We have to animate with timings (see GoASAP for reference), not with enterFrame event
