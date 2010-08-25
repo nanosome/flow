@@ -46,7 +46,32 @@ bc. private function onMouseMove(overed:Boolean):void
 
 h2. Implementation Details
 
-TODO
+h3. Stage 1: Logic definition
+
+bc. 
+var _backSMLogic = new StateMachineLogic();
+
+_backSM
+
+TODO: State Machine logic definition
+
+h3. Stage 2: Creating State Machine from logic
+
+h3. Stage 3: Creating State Machine Visualizers
+
+h3. Stage 4: Wiring conditions and visualizers
+
+bc. 
+var isOvered:Field;
+var isPressed:Field;
+_backSM = new StateMachine(backSMLogic);
+// we should wire all conditions first
+_backSM.defineCondition("overed", isOvered);
+_backSM.defineCondition("pressed", isPressed);
+// now adding visualizers, if added before condition 
+// definitions, error will be thrown
+_backSM.addVisualizer(_iconBackSMVisualizer);
+
 
 h2. Miscellaneous
 
