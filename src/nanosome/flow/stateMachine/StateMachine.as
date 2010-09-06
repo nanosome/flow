@@ -15,8 +15,8 @@ package nanosome.flow.stateMachine
 	public class StateMachine extends EventDispatcher 
 	{
 		// Messages constants for two events used in the StateMachine 
-		public static const STATE_CHANGED:String = "stateChanged"; 
-		public static const HAS_CHANGED:String = "hasChanged"; 
+		public static const STATE_CHANGED:String 	= "stateChanged"; 
+		public static const HAS_CHANGED:String 		= "hasChanged"; 
 			
 		/**
 		 * @private

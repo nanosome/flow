@@ -1,4 +1,4 @@
-h1. Some thoughts on nanosome.fluid
+h1. Some thoughts on nanosome.flow
 
 * it’s a state machine not for components themselves, but for certain attributes of its properties.
 * aim is to provide visual consistency and fluid, smooth experience
