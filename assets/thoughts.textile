@@ -9,7 +9,49 @@ h1. Some thoughts on nanosome.flow
 * @VisualStateMachine@ - its a @StateMachine@ with @TransitionCondtitions@ and with transition durations.
 * @StateMachineVisualizer@
 
-h2. Linking subject and state machine 
+h2. State machine creation and configuration
+
+Old architecture was based on "one logic - many states". 
+Like
+
+bc. 
+simpleSMLogic = new StateMachineLogic();
+... configure logic ...
+fwdButton.stateMachine = new StateMachine(simpleSMLogic);
+bwdButton.stateMachine = new StateMachine(simpleSMLogic);
+
+SMLogic was supposed to be configured once and reused afterwards. Although, this approach is faulty in linking SMLogic and SM itself - each time we need to copy a bunch of logic from SMLogic to SM. I guess, it is solvable, but in this case code will became unnecessary complicated.
+
+Alternative solution was suggested by Martin, and it seems to be very cool and type safe.
+
+StateMachine configuration should be moved to factory:
+
+bc. 
+public interface ISimpleButton
+{
+	function pressed():BindableBoolean;
+	function overed():BindableBoolean;
+	function setStateMachine(value:StateMachine):void
+}
+public class SimpleSMFactory
+{
+  public static function configureSM(button:ISimpleButton):void
+  {
+  	  var sm:StateMachine = new StateMachine();
+	  sm.addStates("normal", "overed", "pressed", "pressedOutside");
+	  sm.from("normal").on(button.overed).to("overed").andBack();
+	  sm.from("overed").on(button.pressed).to("pressed").andBack();
+	  sm.from("pressed").on(button.overed.not).to("pressedOutised");
+	  button.setStateMachine(sm);
+  }
+}
+public function myMethod():void
+{
+  fwdButton.stateMachine = SimpleSMFactory.configure(fwdButton);
+  bwdButton.stateMachine = SimpleSMFactory.configure(bwdButton);
+}
+
+SimpleFactory
 
 We can use two approaches in linking chain _Object - Transition Condition - Transition - State_. First is to group Object with Transition conditions within Element, and Transitions with States within StateMachine. That means each Element should define his own Transition Conditions and pass them to the State Machine:
 
