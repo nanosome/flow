@@ -4,36 +4,29 @@ h1. Some thoughts on nanosome.flow
 * aim is to provide visual consistency and fluid, smooth experience
 * animation is updating every frame, because its all about visuals
 
-* @StateMachine@ - this state machine has states and transitions, but lacks @TransitionConditions@ required for triggering them. 
-* @Transitions@ has no durations.
-* @VisualStateMachine@ - its a @StateMachine@ with @TransitionCondtitions@ and with transition durations.
-* @StateMachineVisualizer@
-
 h2. State machine creation and configuration
 
-Old architecture was based on "one logic - many states". 
-Like
+State machine has a set of states, state transitions and state conditions. Transitions has no duration. With plain Fluid, regular functions are used for state conditions:   
 
-bc. 
-simpleSMLogic = new StateMachineLogic();
-... configure logic ...
-fwdButton.stateMachine = new StateMachine(simpleSMLogic);
-bwdButton.stateMachine = new StateMachine(simpleSMLogic);
+bc. public interface ISimpleButton
+{
+	function isPressed():Boolean;
+	function isOvered():Boolean;
+	function setStateMachine(value:StateMachine):void
+}
+ 
+Although, in this case after every event (pressing or overing) we have to invoke StateMachine.invalidate to re-check all conditions. To avoid this, using nanosome.bind is recommended:
 
-SMLogic was supposed to be configured once and reused afterwards. Although, this approach is faulty in linking SMLogic and SM itself - each time we need to copy a bunch of logic from SMLogic to SM. I guess, it is solvable, but in this case code will became unnecessary complicated.
-
-Alternative solution was suggested by Martin, and it seems to be very cool and type safe.
-
-StateMachine configuration should be moved to factory:
-
-bc. 
-public interface ISimpleButton
+bc. public interface INanoSimpleButton
 {
 	function pressed():BindableBoolean;
 	function overed():BindableBoolean;
 	function setStateMachine(value:StateMachine):void
 }
-public class SimpleSMFactory
+
+Recommended (and kinda obvious) way to configure StateMachine is a Factory pattern:
+
+bc. public class SimpleSMFactory
 {
   public static function configureSM(button:ISimpleButton):void
   {
@@ -41,7 +34,7 @@ public class SimpleSMFactory
 	  sm.addStates("normal", "overed", "pressed", "pressedOutside");
 	  sm.from("normal").on(button.overed).to("overed").andBack();
 	  sm.from("overed").on(button.pressed).to("pressed").andBack();
-	  sm.from("pressed").on(button.overed.not).to("pressedOutised");
+	  sm.from("pressed").on(button.overed.not).to("pressedOutside");
 	  button.setStateMachine(sm);
   }
 }
@@ -51,69 +44,73 @@ public function myMethod():void
   bwdButton.stateMachine = SimpleSMFactory.configure(bwdButton);
 }
 
-SimpleFactory
 
-We can use two approaches in linking chain _Object - Transition Condition - Transition - State_. First is to group Object with Transition conditions within Element, and Transitions with States within StateMachine. That means each Element should define his own Transition Conditions and pass them to the State Machine:
+h2. State machine visualizing
 
-bc. private function onMouseMove(overed:Boolean):void
-{
-    _backSM.setCondition("isOvered", overed);
-    _iconSM.setCondition("isOvered", overed);
-}
-
-This code is relatively safe (nothing bad will happen if we will send incorrect signal name), and it does not require SM to check condition itself. 
-
-Other approach is a little bit more tricky - we're grouping Transition condition with StateMachine, and passing Element as context:
+The core difference of StateMachine visualizer from StateMachine itself is having duration for transitions. Each StateMachine may have several visualizers, each visualizer is acting independently, trying to achieve same state StateMachine currently in. Thus, some visualizers may be very quick, other may have inert feel and slow. 
 
 bc. 
-_backSM.addCondition("isOvered", function(o:Object):Boolean { return o.isOvered; });
-_backSM.setContext(this);
+var sm:StateMachine = getStateMachine();
+var backVis:IStateMachineVisualizer = getVisualizerForBack(sm);
+var iconVis:IStateMachineVisualizer = getVisualizerForIcon(sm);
+
+Because of visualizers having durations for transitions, they can't be fully in sync with StateMachine, its more like "following to" StateMachine's state. 
+
+h3. Visualizer's architecture
+
+There's specific hierarchy in visualizer's structure. Each transition has exactly one duration. Each duration have at least one easing function: Each easing function has at least one related values set. Each values set has exactly one associated item transform.
+
+First of all, let's define, what will be visualized by declaring item transforms: 
 
 bc. 
-private function onMouseMove():void
-{
-    _backSM.invalidate();
-}
+var iconScaleTransform:IItemTransform = new ScaleTransform(_icon, {normal: 1, overed: 1.1, pressed: .8, pressedOutside: 1}); 
+var iconAlphaTransform:IItemTransform = new AlphaTransform(_icon, {normal: .3, overed: .7, pressed: 1, pressedOutside: .8});
+var iconColorTransform:IItemTransform = new ColorTransform(_icon, {normal: 0xFFFFFF, overed: 0xFF0000, pressed: 0x660000, pressedOutside: 0x666666});
 
-Alternative way would be using bindable variables, like IFields from nanosome.bind:
-
-bc. 
-var isOvered:Field;
-_backSM.setCondition("isOvered", isOvered);
-
-bc. private function onMouseMove(overed:Boolean):void
-{
-    isOvered.value= overed;
-}
-
-h2. Implementation Details
-
-h3. Stage 1: Logic definition
+After then, we can define durations and easings for StateMachine transitions, and link those easings to item transforms: 
 
 bc. 
-var _backSMLogic = new StateMachineLogic();
+vis.defineTransitions({
+	normalToOvered: 
+	{	duration: 10,
+		easing: Linear.easeOut,
+		transform: [iconScaleTransform, iconAlphaTransform, iconColorTransform] // one easing, three transforms
+	}, 	
+	overedToNormal:
+	{	duration: 10, 
+		easing:  // two easings, three transforms
+		[
+			{	easing: Cubic.easeIn,
+				transform: iconScaleTransform
+			},
+			{	easing: Linear.easeIn,
+				transform: [iconAlphaTransform, iconColorTransform]
+			}
+		]
+	});
 
-_backSM
-
-TODO: State Machine logic definition
-
-h3. Stage 2: Creating State Machine from logic
-
-h3. Stage 3: Creating State Machine Visualizers
-
-h3. Stage 4: Wiring conditions and visualizers
+In the end, we're linking visualizer to the StateMachine:
 
 bc. 
-var isOvered:Field;
-var isPressed:Field;
-_backSM = new StateMachine(backSMLogic);
-// we should wire all conditions first
-_backSM.defineCondition("overed", isOvered);
-_backSM.defineCondition("pressed", isPressed);
-// now adding visualizers, if added before condition 
-// definitions, error will be thrown
-_backSM.addVisualizer(_iconBackSMVisualizer);
+vis.linkTo(sm);
 
+At this point, visualizer is parsed to be valid and joinable to this state machine (all states and transitions are defined, etc), if something is wrong, error message will be thrown.
+
+h3. Reversing transition
+
+Initial state: A, second state B.
+
+Reversing transition is required when state machine is switching back to its state A from B when visualizing to B is not over. In this case, intersection point of incoming and outcoming easing functions will be found and used as a starting point for outcoming easing.
+
+*TODO: Example?* 
+
+h3. Switching between transitions
+
+Initial state: A, second state B, third state C.
+
+Switching transition is required when state machine is switching to C when visualizing to B is not yet complete. In this case, starting point for easing is not value at B, but current value. Easing function and duration will remain the same (for "B to C" transition).
+
+*TODO: Example?* 
 
 h2. Miscellaneous
 
