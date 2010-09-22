@@ -31,7 +31,7 @@ bc. public class SimpleSMFactory
   public static function configureSM(button:ISimpleButton):void
   {
   	  var sm:StateMachine = new StateMachine();
-	  sm.addStates("normal", "overed", "pressed", "pressedOutside");
+	  // sm.addStates("normal", "overed", "pressed", "pressedOutside"); // can be skipped
 	  sm.from("normal").on(button.overed).to("overed").andBack();
 	  sm.from("overed").on(button.pressed).to("pressed").andBack();
 	  sm.from("pressed").on(button.overed.not).to("pressedOutside");
@@ -58,7 +58,7 @@ Because of visualizers having durations for transitions, they can't be fully in 
 
 h3. Visualizer's architecture
 
-There's specific hierarchy in visualizer's structure. Each transition has exactly one duration. Each duration have at least one easing function: Each easing function has at least one related values set. Each values set has exactly one associated item transform.
+There's specific hierarchy in visualizer's structure. Each transition has exactly one duration. Each duration have at least one easing function. Each easing function has at least one related values set. Each values set has exactly one associated item transform.
 
 First of all, let's define, what will be visualized by declaring item transforms: 
 
