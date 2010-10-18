@@ -12,18 +12,25 @@ package nanosome.flow.stateMachine.logic
 	*  @author dimitri.fedorov
 	*/
 	public class Transition
-	{
+	{ 
+		
+	 	/**
+	     * @private
+	     * Holds source state.
+	     */
+		private var _source:State;
+		
 	    /**
 	     * @private
 	     * Holds destination state.
 	     */
-		private var _destination:State;
+		private var _target:State;
 		
 		/**
 		 * @private 
-		 * Holds id for this transition
+		 * Holds triggering signal for this transition
 		 */
-		private var _id:String;       
+		private var _trigger:Signal;       
 	       
 	    //--------------------------------------------------------------------------
 	    //
@@ -34,26 +41,36 @@ package nanosome.flow.stateMachine.logic
 		/**
 	     *  Constructor
 	     */    
-		public function Transition(destination:State, id:String)
+		public function Transition(source:State, trigger:Signal, target:State)
 	    {
-			_destination = destination;
-			_id = id;
+	    	_source = source;
+			_target = target;
+			_trigger = trigger;
 		}
 	       
+	       
 		/**
-	     *  Returns destination state for this transition
+	     *  Returns source state for this transition
 	     */    
-		public function get destinationState():State
+		public function get source():State
 		{
-			return _destination;
+			return _source;
+		}	       
+	       
+		/**
+	     *  Returns target state for this transition
+	     */    
+		public function get target():State
+		{
+			return _target;
 		}
 
 		/**
-	     *  Returns id for this transition
+	     *  Returns triggering code for this transition
 	     */    
-		public function get id():String
+		public function get trigger():Signal
 		{
-			return _id;
+			return _trigger;
 		}
 
 	}

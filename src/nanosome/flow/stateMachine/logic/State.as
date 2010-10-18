@@ -1,6 +1,8 @@
 // @license@
 package nanosome.flow.stateMachine.logic
 {
+	import flash.utils.Dictionary;
+	
 	/**
 	 *  State object for the StateMachine class.
 	 *  
@@ -20,7 +22,7 @@ package nanosome.flow.stateMachine.logic
 		 * @private 
 		 * Holds a set of conditional transitions from this state
 		 */
-		private var _conditionalTransitions:Vector.<ConditionalTransition>;
+		private var _transitions:Dictionary;
 		
 		//--------------------------------------------------------------------------
 		//
@@ -36,7 +38,7 @@ package nanosome.flow.stateMachine.logic
 		public function State(id:String)
 		{
 			_id = id;
-			_conditionalTransitions = new Vector.<ConditionalTransition>();
+			_transitions = new Dictionary();
 		}
 		
 		public function get id():String
@@ -55,37 +57,35 @@ package nanosome.flow.stateMachine.logic
 		 *  
 		 *  @return Transition object.
 		 *  
-		 *  @see ConditionalTransition
+		 *  @see Transition
 		 */		
-		public function checkForTransition():Transition
+		public function targetState(signalID:String):State
 		{
-			var transition:ConditionalTransition;
-			var newTransition:Transition;
-			
-			for each (transition in _conditionalTransitions) 
-			{
-				newTransition = transition.check();
-				if (newTransition != null)
-					return newTransition;
-			}
-			return null;
-		}
-		
-		public function countEdges():uint
-		{
-			return _conditionalTransitions.length;
+			return Transition(_transitions[signalID]).target;
 		}
 		
 		/**
-		 *  Adds ConditionalTransition for this State.
+		 *  Performs check for transition with signalID,.
 		 *  
-		 *  @param ConditionalTransition ConditionalTransition object to be added.
+		 *  @return True, if transition exists, false otherwise.
 		 *  
-		 *  @see ConditionalTransition
+		 *  @see Transition
 		 */		
-		public function addTransition(transition:ConditionalTransition):void
+		public function hasTransition(signalID:String):Boolean
 		{
-			_conditionalTransitions.push(transition);
+			return _transitions[signalID] != null;
+		}
+		
+		/**
+		 *  Adds Transition for this State.
+		 *  
+		 *  @param Transition object to be added.
+		 *  
+		 *  @see Transition
+		 */		
+		public function addTransition(signal:Signal, targetState:State):void
+		{
+			_transitions[signal.id] = new Transition(this, signal, targetState);
 		}
 	
 		/**
