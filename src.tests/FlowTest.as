@@ -31,7 +31,8 @@ package
             _core.run( _tests );
 	
 		}
-		/*FDT_IGNORE*/
+/*
+		
 		public function someTest():void
 		{
 			var sm:StateMachine = new StateMachine();
@@ -55,6 +56,6 @@ package
 		
 		public interface IStateMachineVisualizer
 		
-		/*FDT_IGNORE*/
+*/
 	}
 }

@@ -1,5 +1,6 @@
 package tests 
 {
+	import nanosome.flow.stateMachine.logic.Signal;
 	import net.antistatic.fluid.logic.BooleanCondition;
 	import flexunit.framework.TestCase;
 
@@ -12,9 +13,16 @@ package tests
 		
 		public function testNegation():void 
 		{
-			var bc:BooleanCondition = new BooleanCondition(function():Boolean {return _classScope;});
-			var result:Boolean = bc.no.no.check();
-		    assertEquals(result, true);
+			var e:Signal = new Signal("hi");
+			defineSignal(e, "hello");
+			//var bc:BooleanCondition = new BooleanCondition(function():Boolean {return _classScope;});
+			//var result:Boolean = bc.no.no.check();
+		    assertEquals(e.id, "hi");
+		}
+		
+		private function defineSignal(s:Signal, id:String):void
+		{
+			s = new Signal(id);
 		}
 		
 	}
