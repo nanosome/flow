@@ -24,12 +24,12 @@ package nanosome.flow.builders
 		private var _stateMachine:StateMachine;
 		private var _context:StateMachineBuilderContext;
 		
-		public var initial:State;
+		public var normal:State;
 		
 		public function StateMachineBuilder()
 		{
 			initiateStatesAndSignals();
-			_stateMachine = new StateMachine(initial);
+			_stateMachine = new StateMachine(normal);
 		}
 		
 		public function getContent():StateMachine
