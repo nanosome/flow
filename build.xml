@@ -12,10 +12,61 @@
 	<property name="lib.dir" location="${basedir}/libs" />
 
 	<!-- Setup Flex and FlexUnit ant tasks -->
-	<!-- You can set this directly so mxmlc will work correctly, or set FLEX_HOME as an environment variable and use as below -->
 	<property name="FLEX_HOME" location="${env.FLEX_HOME}" />
 	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 	<taskdef resource="flexUnitTasks.tasks" classpath="${ant.dir}/flexUnitTasks-4.1.0.jar" />
+	
+	<!-- project directories -->
+	<property name="build.dir" location="${basedir}/bin" /> 
+	<property name="src.dir" location="${basedir}/src" />
+	<property name="sample.src.dir" location="${basedir}/src.sample" />
+	<property name="libs.dir" location="${basedir}/libs" />	
+	
+	<!-- project files and parameters -->
+    <property name="application.main.class" location="${sample.src.dir}/SampleApp.as" />
+    <property name="application.main.target" location="${build.dir}/SampleApp.swf" />
+	<property name="target.player" value="10.0.0" />
+    <property name="application.width" value="800" />
+    <property name="application.height" value="600" />	
+    	
+	<!-- ================================= 
+	      target: compile             
+	    ================================= -->
+    <target name="compile.sample"
+	    description="compile application"
+    >
+	    <echo>Compiling sample application</echo>
+	    <mxmlc
+	        fork="true"
+            file="${application.main.class}"
+            output="${application.main.target}"
+            strict="true"
+	    	debug="true"
+          	use-network="true"
+	    	target-player="${target.player}"
+	    	static-link-runtime-shared-libraries="true"
+	    >    	
+	    	<default-script-limits max-recursion-depth="1000" max-execution-time="3" />
+          	<default-frame-rate>52</default-frame-rate>
+          	<default-background-color>0xFFFFFF</default-background-color>
+            <!-- Set size of output SWF file. -->
+            <default-size width="${application.width}" height="${application.height}" />
+            <!-- setting en_US locale for forked VM to get compiler messages in english -->
+            <sysproperty key="user.language" value="en" />
+            <sysproperty key="user.region" value="US" />
+            <!-- now provide forked VM with path to mxmlc.jar to prevent exception -->      	
+            <classpath>
+                <pathelement location="${mxmlc.jar}"/> 
+            </classpath>
+	    	<compiler.source-path path-element="${src.dir}" />
+            <compiler.library-path dir="${libs.dir}" append="true">
+                <include name="Antistatic.swc" />
+            </compiler.library-path>  	
+            <!--compiler.include-libraries dir="${libs.dir}" append="true">
+                <include name="assets.swc" />
+            </compiler.include-libraries-->     	
+        </mxmlc>
+    </target>
 
 	<target name="test">
 		<!-- Compile TestRunner.mxml as a SWF -->
@@ -37,4 +88,27 @@
 			localTrusted="true"/>
 	</target>
 	
+	<target name="build.sample">
+	</target>
+	
+    <!-- ================================= 
+            Run targets           
+        ================================= -->
+    <target name="runWithFDTViewDocument"> 
+        <fdt.viewDocument location="${application.main.target}" />
+    </target>
+ 	
+	
+	<target name="runWithPlayer">
+		<exec executable="${FLEX_HOME}/runtimes/player/10.1/win/FlashPlayerDebugger.exe" spawn="true">
+			<arg line="'${application.main.target}'" />
+		</exec>
+	</target>
+		
+	<target name="runWithBrowser800">
+		<exec executable="cmd" spawn="true" >
+			<arg value="/c" />
+			<arg value="${build.dir}/index_800.html"/>
+		</exec>
+	</target>
 </project>

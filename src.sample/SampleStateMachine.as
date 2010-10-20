@@ -1,6 +1,11 @@
 // @license@
-package nanosome.flow.builders 
+package  
 {
+	import net.antistatic.logging.LogFactory;
+	import net.antistatic.logging.ILogger;
+	import nanosome.flow.builders.StateMachineBuilder;
+	
+	import nanosome.flow.stateMachine.StateMachine;
 	import nanosome.flow.stateMachine.logic.State;
 	import nanosome.flow.stateMachine.logic.Signal;
 	
@@ -19,25 +24,26 @@ package nanosome.flow.builders
 		public var mouseDown:Signal;
 		public var mouseOver:Signal;
 		public var mouseOut:Signal;
-/*	
-		var e:Event;
-		send(e, 12);
-		trace(e);
+
+		private var _logger:ILogger;
 		
-		private function(e:Event, value:uint):void
+		public function SampleStateMachine()
 		{
-			e = new Event(value);
+			_logger = LogFactory.getLogger(this);
+			createStateMachine();		
 		}
-		 
-*/		
+		
 		public function createStateMachine():StateMachine
 		{
 			from(initial).by(mouseOver).to(overed).back(mouseOut);
-			from(mouseOver).by(mouseDown).to(pressed).back(mouseUp);
+			from(overed).by(mouseDown).to(pressed).back(mouseUp);
 			from(pressed).by(mouseOut).to(pressedOutside).back(mouseOver);
 			from(pressedOutside).by(mouseUp).to(initial);
 			
+			_logger.info(overed.id);
 			return getContent();		
 		}
+
+		
 	}
 }
