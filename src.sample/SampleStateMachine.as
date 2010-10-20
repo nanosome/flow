@@ -7,7 +7,7 @@ package
 	
 	import nanosome.flow.stateMachine.StateMachine;
 	import nanosome.flow.stateMachine.logic.State;
-	import nanosome.flow.stateMachine.logic.Signal;
+	import nanosome.flow.stateMachine.logic.AbstractSignal;
 	
 	/**
 	 * @author dimitri.fedorov
@@ -20,10 +20,10 @@ package
 		public var pressedOutside:State;
 		
 		// signals
-		public var mouseUp:Signal;
-		public var mouseDown:Signal;
-		public var mouseOver:Signal;
-		public var mouseOut:Signal;
+		public var mouseUp:AbstractSignal;
+		public var mouseDown:AbstractSignal;
+		public var mouseOver:AbstractSignal;
+		public var mouseOut:AbstractSignal;
 
 		private var _logger:ILogger;
 		

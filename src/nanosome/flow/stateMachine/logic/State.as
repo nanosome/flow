@@ -83,7 +83,7 @@ package nanosome.flow.stateMachine.logic
 		 *  
 		 *  @see Transition
 		 */		
-		public function addTransition(signal:Signal, targetState:State):void
+		public function addTransition(signal:AbstractSignal, targetState:State):void
 		{
 			_transitions[signal.id] = new Transition(this, signal, targetState);
 		}

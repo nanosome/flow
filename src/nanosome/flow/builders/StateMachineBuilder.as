@@ -5,7 +5,7 @@ package nanosome.flow.builders
 	import flash.utils.getQualifiedClassName;
 	
 	import nanosome.flow.stateMachine.logic.State;
-	import nanosome.flow.stateMachine.logic.Signal;
+	import nanosome.flow.stateMachine.logic.AbstractSignal;
 	import nanosome.flow.stateMachine.StateMachine;
 	
 	/**
@@ -39,7 +39,7 @@ package nanosome.flow.builders
 		
 		private function initiateStatesAndSignals():void
 		{
-			var signalClassName:String = getQualifiedClassName(Signal);
+			var signalClassName:String = getQualifiedClassName(AbstractSignal);
 			var stateClassName:String = getQualifiedClassName(State);
 			var typeDesc:XML = describeType(this);
 			
@@ -54,7 +54,7 @@ package nanosome.flow.builders
 				nameAttr = item.attribute("name");
 				
 				if (typeAttr == signalClassName)
-					this[nameAttr] = new Signal(SIGNAL_ID_PREFIX + nameAttr);
+					this[nameAttr] = new AbstractSignal(SIGNAL_ID_PREFIX + nameAttr);
 				else if (typeAttr == stateClassName)
 					this[nameAttr] = new State(STATE_ID_PREFIX + nameAttr);
 			}
@@ -69,7 +69,7 @@ package nanosome.flow.builders
 			return this;
 		}
 		
-		public function by(signal:Signal):StateMachineBuilder
+		public function by(signal:AbstractSignal):StateMachineBuilder
 		{
 			_context.signal = signal;
 			checkExpression();
@@ -83,7 +83,7 @@ package nanosome.flow.builders
 			return this;
 		}
 
-		public function back(signal:Signal):void
+		public function back(signal:AbstractSignal):void
 		{
 			_context.targetState.addTransition(signal, _context.sourceState);
 		}			

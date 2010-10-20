@@ -30,7 +30,7 @@ package nanosome.flow.stateMachine.logic
 		 * @private 
 		 * Holds triggering signal for this transition
 		 */
-		private var _trigger:Signal;       
+		private var _trigger:AbstractSignal;       
 	       
 	    //--------------------------------------------------------------------------
 	    //
@@ -41,7 +41,7 @@ package nanosome.flow.stateMachine.logic
 		/**
 	     *  Constructor
 	     */    
-		public function Transition(source:State, trigger:Signal, target:State)
+		public function Transition(source:State, trigger:AbstractSignal, target:State)
 	    {
 	    	_source = source;
 			_target = target;
@@ -68,7 +68,7 @@ package nanosome.flow.stateMachine.logic
 		/**
 	     *  Returns triggering code for this transition
 	     */    
-		public function get trigger():Signal
+		public function get trigger():AbstractSignal
 		{
 			return _trigger;
 		}
