@@ -17,21 +17,26 @@ package
 			
 			// problem here is we may want to group transitions by easing,
 			// duration or both. most obvious way to let people do so: 
-			viz.set(
+			viz.define(
 				sm.fromNormalToOvered, sm.fromOveredToNormal
 			).easing(Linear.easeInOut).duration(150);
 			
 	
-			viz.set(sm.fromOveredToPressed, sm.fromPressedToPressedOutside).easing(Linear.easeIn).duration(75);
-			viz.set(sm.fromPressedToOvered, sm.fromPressedOutsideToPressed).easing(Linear.easeOut).duration(50);
-			viz.set(sm.fromPressedToNormal).easing(Linear.easeOut).duration(100);
+			// it is possible to define transition partly...
+			viz.define(sm.fromOveredToPressed, sm.fromPressedToOvered).duration(75);
+			viz.define(sm.fromPressedToPressedOutside, sm.fromPressedOutsideToPressed).duration(50);
 			
-			// you can override later some parts:
-			viz.set(sm.fromOveredToPressed, sm.fromPressedToOvered).duration(120);
+			// and define other part later in the code 
+			viz.define(sm.fromPressedToPressedOutside, sm.fromOveredToPressed).easing(Elastic.easeIn);
+			viz.define(sm.fromPressedOutsideToPressed, sm.fromPressedToOvered).easing(Elastic.easeOut);
+			
+			viz.define(sm.fromPressedOutsideToNormal).easing(Linear.easeOut).duration(100);
 			
 			// -- states
 			
 			// -- events / bindings 
 		}
+		
+		
 	}
 }
