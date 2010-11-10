@@ -1,4 +1,4 @@
-package sample
+package samples
 {
     import flash.display.Sprite;
     import flash.events.MouseEvent;
@@ -8,8 +8,8 @@ package sample
 
     import nanosome.flow.stateMachine.StateMachineController;
 
-    import sample.signalSets.ButtonSignals;
-    import sample.stateMachines.ButtonStateMachine;
+    import samples.signalSets.ButtonSignals;
+    import samples.stateMachines.ButtonStateMachine;
 
     import nanosome.flow.visualizing.EasingBuilder;
     import nanosome.flow.visualizing.ValuesBuilder;

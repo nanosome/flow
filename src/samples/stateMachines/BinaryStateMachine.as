@@ -1,5 +1,5 @@
 // @license@
-package sample.stateMachines
+package samples.stateMachines
 {
 	import nanosome.flow.stateMachine.logic.Transition;
 	import net.antistatic.logging.LogFactory;
@@ -10,7 +10,7 @@ package sample.stateMachines
 	import nanosome.flow.stateMachine.logic.State;
 	import nanosome.flow.signals.Signal;
 
-    import sample.signalSets.ToggleSignals;
+    import samples.signalSets.ToggleSignals;
 
     /**
 	 * @author dimitri.fedorov

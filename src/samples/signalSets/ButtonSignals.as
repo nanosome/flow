@@ -1,4 +1,4 @@
-package sample.signalSets
+package samples.signalSets
 {
     import flash.events.EventDispatcher;
 
@@ -7,14 +7,9 @@ package sample.signalSets
 
     public class ButtonSignals extends AbstractSignalSet
     {
-		// signals
 		public var mouseUp:Signal;
 		public var mouseDown:Signal;
 		public var mouseOver:Signal;
 		public var mouseOut:Signal;
-
-        public function ButtonSignals()
-        {
-        }
     }
 }

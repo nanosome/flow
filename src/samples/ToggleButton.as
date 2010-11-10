@@ -1,10 +1,12 @@
-package sample
+package samples
 {
     import flash.display.Sprite;
     import flash.events.MouseEvent;
 
-    import stateMachines.buttons.ButtonStateMachine;
-    import stateMachines.misc.BinaryStateMachine;
+    import samples.signalSets.ButtonSignals;
+    import samples.signalSets.ToggleSignals;
+    import samples.stateMachines.BinaryStateMachine;
+    import samples.stateMachines.ButtonStateMachine;
 
     public class ToggleButton
     {

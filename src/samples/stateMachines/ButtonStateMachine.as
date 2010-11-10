@@ -1,4 +1,4 @@
-package sample.stateMachines
+package samples.stateMachines
 {
 	import nanosome.flow.stateMachine.logic.Transition;
 	import net.antistatic.logging.LogFactory;
@@ -8,7 +8,7 @@ package sample.stateMachines
 	import nanosome.flow.stateMachine.StateMachine;
 	import nanosome.flow.stateMachine.logic.State;
 
-    import sample.signalSets.ButtonSignals;
+    import samples.signalSets.ButtonSignals;
 
     /**
 	 * @author dimitri.fedorov

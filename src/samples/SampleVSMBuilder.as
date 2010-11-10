@@ -1,5 +1,5 @@
 // @license@
-package sample
+package samples
 {
 	import nanosome.flow.stateMachine.StateMachineController;
     import mx.effects.easing.Linear;
@@ -7,7 +7,7 @@ package sample
 
     import nanosome.flow.stateMachine.logic.Transition;
 
-    import sample.stateMachines.ButtonStateMachine;
+    import samples.stateMachines.ButtonStateMachine;
 
     /**
 	 * @author dimitri.fedorov
