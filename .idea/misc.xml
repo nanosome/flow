@@ -66,39 +66,6 @@
             </SvnBranchConfiguration>
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src.sample/sample/stateMachines">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="branchMap">
-                <map>
-                  <entry key="http://subversion.assembla.com/svn/nanosome/branches">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                  <entry key="http://subversion.assembla.com/svn/nanosome/build">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                  <entry key="http://subversion.assembla.com/svn/nanosome/tags">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                </map>
-              </option>
-              <option name="branchUrls">
-                <list>
-                  <option value="http://subversion.assembla.com/svn/nanosome/branches" />
-                  <option value="http://subversion.assembla.com/svn/nanosome/build" />
-                  <option value="http://subversion.assembla.com/svn/nanosome/tags" />
-                </list>
-              </option>
-              <option name="trunkUrl" value="http://subversion.assembla.com/svn/nanosome/trunk" />
-            </SvnBranchConfiguration>
-          </value>
-        </entry>
       </map>
     </option>
     <option name="mySupportsUserInfoFilter" value="true" />

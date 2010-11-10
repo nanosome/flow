@@ -2,39 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="4e37d36b-e1cb-4a7c-8da7-89f6b18df5e7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src.sample/sample/stateMachines" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nanosome/flow/signals" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nanosome/flow/visualizing/vizualizations" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nanosome/flow/visualizing" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/tests/utils" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/tests" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib.flow.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nanosome/flow/signals/AbstractSignalSet.as" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nanosome/flow/signals/Signal.as" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nanosome/flow/signals/SignalEvent.as" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nanosome/flow/visualizing/EasingBuilder.as" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nanosome/flow/visualizing/ValuesBuilder.as" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nanosome/flow/visualizing/Visualizer.as" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nanosome/flow/visualizing/vizualizations/AlphaVisualization.as" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nanosome/flow/visualizing/vizualizations/IVisualization.as" />
-      <change type="DELETED" beforePath="C:\Work\Antistatic\flow\src\nanosome\flow\stateMachine\logic\AbstractSignal.as" afterPath="" />
-      <change type="DELETED" beforePath="C:\Work\Antistatic\flow\src\nanosome\flow\stateMachine\logic\Command.as" afterPath="" />
-      <change type="DELETED" beforePath="C:\Work\Antistatic\flow\src\nanosome\flow\stateMachine\logic\Signal.as" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src.tests/tests" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src.tests/utils" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src.tests" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/nanosome/flow/builders" afterPath="" />
-      <change type="MOVED" beforePath="C:\Work\Antistatic\flow\src.sample\SampleStateMachine.as" afterPath="$PROJECT_DIR$/src.sample/sample/stateMachines/ButtonStateMachine.as" />
-      <change type="MOVED" beforePath="C:\Work\Antistatic\flow\src.tests\FlowTest.as" afterPath="$PROJECT_DIR$/src/tests/FlowTestRunner.as" />
-      <change type="MOVED" beforePath="C:\Work\Antistatic\flow\src.tests\tests\BooleanConditionTest.as" afterPath="$PROJECT_DIR$/src/tests/BooleanConditionTest.as" />
-      <change type="MOVED" beforePath="C:\Work\Antistatic\flow\src.tests\utils\SOSRunListener.as" afterPath="$PROJECT_DIR$/src/tests/utils/SOSRunListener.as" />
-      <change type="MOVED" beforePath="C:\Work\Antistatic\flow\src\nanosome\flow\builders\StateMachineBuilder.as" afterPath="$PROJECT_DIR$/src/nanosome/flow/stateMachine/StateMachineBuilder.as" />
-      <change type="MOVED" beforePath="C:\Work\Antistatic\flow\src\nanosome\flow\builders\StateMachineBuilderContext.as" afterPath="$PROJECT_DIR$/src/nanosome/flow/stateMachine/StateMachineBuilderContext.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TestRunner.mxml" afterPath="$PROJECT_DIR$/TestRunner.mxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.xml" afterPath="$PROJECT_DIR$/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nanosome/flow/stateMachine/StateMachineController.as" afterPath="$PROJECT_DIR$/src/nanosome/flow/stateMachine/StateMachineController.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nanosome/flow/stateMachine/logic/State.as" afterPath="$PROJECT_DIR$/src/nanosome/flow/stateMachine/logic/State.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nanosome/flow/stateMachine/logic/Transition.as" afterPath="$PROJECT_DIR$/src/nanosome/flow/stateMachine/logic/Transition.as" />
+      <change type="DELETED" beforePath="C:\Work\Antistatic\flow\TEST-flexunit.framework.WarningTestCase.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Work\Antistatic\flow\TEST-tests.BooleanConditionTest.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Work\Antistatic\flow\TestRunner.mxml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Work\Antistatic\flow\TestRunner.swf" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib.flow.iml" afterPath="$PROJECT_DIR$/lib.flow.iml" />
     </list>
     <ignored path="flow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -97,89 +71,7 @@
     <favorites_list name="flow" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="BinaryStateMachine.as" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src.sample/sample/stateMachines/BinaryStateMachine.as">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="4" selection-start="237" selection-end="237" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EasingBuilder.as" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/nanosome/flow/visualizing/EasingBuilder.as">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SampleVSMBuilder.as" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src.sample/sample/SampleVSMBuilder.as">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="26" selection-start="248" selection-end="248" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SimpleButton.as" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src.sample/sample/SimpleButton.as">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="27" selection-start="1633" selection-end="1633" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/build.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="76" column="30" selection-start="3475" selection-end="3475" vertical-scroll-proportion="0.33796296">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FlowTestRunner.as" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/tests/FlowTestRunner.as">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="4" selection-start="250" selection-end="286" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StateMachineController.as" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/nanosome/flow/stateMachine/StateMachineController.as">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="76" selection-start="1882" selection-end="1882" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Visualizer.as" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/nanosome/flow/visualizing/Visualizer.as">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="10" selection-start="46" selection-end="46" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SampleApp.as" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src.sample/sample/SampleApp.as">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="0" selection-start="243" selection-end="243" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -269,29 +161,6 @@
     </navigator>
     <panes>
       <pane id="Favorites" />
-      <pane id="Scope">
-        <subPane subId="Problems" />
-      </pane>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="flow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="flow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="flow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -320,11 +189,48 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Problems" />
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="recentsLimit" value="5" />
@@ -336,8 +242,8 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -372,14 +278,6 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
-    <configuration default="true" type="FlexRunConfigurationType" factoryName="Flex" browser_family="FIREFOX" debugger_sdk="Module SDK" html_or_swf_file_path="" launcher_type="OSDefault" main_class_name="" module_name="" player_path="FlashPlayer.exe" run_mode="HtmlOrSwfFile" run_trusted="false" url_to_launch="http://">
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -391,6 +289,14 @@
       <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="FlexRunConfigurationType" factoryName="Flex" browser_family="FIREFOX" debugger_sdk="Module SDK" html_or_swf_file_path="" launcher_type="OSDefault" main_class_name="" module_name="" player_path="FlashPlayer.exe" run_mode="HtmlOrSwfFile" run_trusted="false" url_to_launch="http://">
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -488,12 +394,8 @@
           <option name="myCopyRoot" value="C:\Work\Antistatic\flow" />
         </SvnCopyRootSimple>
         <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="C:\Work\Antistatic\flow" />
-          <option name="myCopyRoot" value="C:\Work\Antistatic\flow\src.sample\sample\stateMachines\ButtonStateMachine.as" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="C:\Work\Antistatic\flow" />
-          <option name="myCopyRoot" value="C:\Work\Antistatic\flow\src.sample\sample\stateMachines" />
+          <option name="myVcsRoot" value="C:\Work\Antistatic\flow\.idea" />
+          <option name="myCopyRoot" value="C:\Work\Antistatic\flow\.idea" />
         </SvnCopyRootSimple>
       </list>
     </option>
@@ -502,10 +404,6 @@
         <SvnCopyRootSimple>
           <option name="myVcsRoot" value="C:\Work\Antistatic\flow" />
           <option name="myCopyRoot" value="C:\Work\Antistatic\flow" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="C:\Work\Antistatic\flow" />
-          <option name="myCopyRoot" value="C:\Work\Antistatic\flow\src.sample\sample\stateMachines" />
         </SvnCopyRootSimple>
       </list>
     </option>
@@ -549,17 +447,17 @@
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1924307" sideWeight="0.5937804" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295583" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="true" weight="0.24532454" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" x="375" y="741" width="1545" height="223" />
       <window_info id="TODO" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22061966" sideWeight="0.42464247" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22061966" sideWeight="0.5478548" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22008547" sideWeight="0.5522552" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39989322" sideWeight="0.7619048" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22061966" sideWeight="0.44444445" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22008547" sideWeight="0.44004402" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32893288" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="true" weight="0.24532454" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" x="375" y="741" width="1545" height="223" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33113313" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
@@ -688,9 +586,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="30" selection-start="3475" selection-end="3475" vertical-scroll-proportion="0.33796296">
-          <folding />
-        </state>
+        <state line="76" column="30" selection-start="3475" selection-end="3475" vertical-scroll-proportion="0.33796296" />
       </provider>
     </entry>
   </component>

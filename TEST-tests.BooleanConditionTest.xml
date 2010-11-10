@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<testsuite name="tests.BooleanConditionTest" tests="1" failures="0" errors="0" skipped="0" time="0.003" hostname="ksk-307" timestamp="2010-08-15T13:54:06">
-  <testcase classname="tests::BooleanConditionTest" name="testSimpleAdd" time="0.003"/>
-</testsuite>
