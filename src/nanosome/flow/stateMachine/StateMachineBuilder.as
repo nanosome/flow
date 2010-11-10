@@ -1,35 +1,35 @@
 // @license@
-package nanosome.flow.builders 
+package nanosome.flow.stateMachine
 {
 	import flash.utils.describeType;
 	import flash.utils.getQualifiedClassName;
-	
-	import nanosome.flow.stateMachine.logic.State;
-	import nanosome.flow.stateMachine.logic.AbstractSignal;
+
+    import flashx.textLayout.tlf_internal;
+
+    import nanosome.flow.stateMachine.logic.State;
+	import nanosome.flow.signals.Signal;
 	import nanosome.flow.stateMachine.StateMachine;
-	
-	/**
+    import nanosome.flow.stateMachine.logic.Transition;
+
+    /**
 	 * Suggestion is there'll be fairly small amount of StateMachines,
 	 * so it makes sense to define them with separate classes, 
 	 * to provide code hinting and typechecking at early stage.
 	 * 
-	 * @see SampleStateMachine
+	 * @see stateMachines.buttons.ButtonStateMachine
 	 * @author dimitri.fedorov
 	 */
 	public class StateMachineBuilder 
 	{
-		private static const SIGNAL_ID_PREFIX:String 	= "si.";
 		private static const STATE_ID_PREFIX:String 	= "st.";
 		
 		private var _stateMachine:StateMachine;
 		private var _context:StateMachineBuilderContext;
 		
-		public var normal:State;
-		
-		public function StateMachineBuilder()
+		public function StateMachineBuilder(defaultState:State)
 		{
-			initiateStatesAndSignals();
-			_stateMachine = new StateMachine(normal);
+			initiateStates();
+			_stateMachine = new StateMachine(defaultState);
 		}
 		
 		public function getContent():StateMachine
@@ -37,9 +37,8 @@ package nanosome.flow.builders
 			return _stateMachine;
 		}
 		
-		private function initiateStatesAndSignals():void
+		private function initiateStates():void
 		{
-			var signalClassName:String = getQualifiedClassName(AbstractSignal);
 			var stateClassName:String = getQualifiedClassName(State);
 			var typeDesc:XML = describeType(this);
 			
@@ -52,16 +51,21 @@ package nanosome.flow.builders
 			{
 				typeAttr = item.attribute("type");
 				nameAttr = item.attribute("name");
-				
-				if (typeAttr == signalClassName)
-					this[nameAttr] = new AbstractSignal(SIGNAL_ID_PREFIX + nameAttr);
+
+                if (this[nameAttr] != null) // exit, if this member already exists
+                    return;
+
 				else if (typeAttr == stateClassName)
 					this[nameAttr] = new State(STATE_ID_PREFIX + nameAttr);
 			}
 		}
 		
-		// DSL specific methods 
-		
+		//--------------------------------------------------------------------------
+		//
+		//  DSL specific methods
+		//
+		//--------------------------------------------------------------------------
+
 		public function from(state:State):StateMachineBuilder
 		{
 			_context = new StateMachineBuilderContext();
@@ -69,7 +73,7 @@ package nanosome.flow.builders
 			return this;
 		}
 		
-		public function by(signal:AbstractSignal):StateMachineBuilder
+		public function by(signal:Signal):StateMachineBuilder
 		{
 			_context.signal = signal;
 			checkExpression();
@@ -83,9 +87,9 @@ package nanosome.flow.builders
 			return this;
 		}
 
-		public function back(signal:AbstractSignal):void
+		public function back(signal:Signal):void
 		{
-			_context.targetState.addTransition(signal, _context.sourceState);
+			_context.targetState.addTransition(signal.id, _context.sourceState);
 		}			
 		
 		private function checkExpression():void
@@ -93,7 +97,21 @@ package nanosome.flow.builders
 			if (	_context && _context.sourceState && _context.signal && _context.targetState &&
 					!_context.sourceState.hasTransition(_context.signal.id)
 				)
-				_context.sourceState.addTransition(_context.signal, _context.targetState);
+				_context.sourceState.addTransition(_context.signal.id, _context.targetState);
 		}
+
+        public function backIs(backTransition:Transition):StateMachineBuilder
+        {
+            return this;
+        }
+
+        public function _is(
+                stateMachineBuilder:StateMachineBuilder,
+                backStateMachineBuilder:StateMachineBuilder = null
+                ):Transition
+        {
+            return null;
+        }
+
 	}
 }

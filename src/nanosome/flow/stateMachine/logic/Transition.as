@@ -2,8 +2,9 @@
 package nanosome.flow.stateMachine.logic
 {
 	import nanosome.flow.stateMachine.logic.State;
-	
-	/**
+    import nanosome.flow.signals.Signal;
+
+    /**
 	*  State Transition for StateMachine
 	*  
 	*  @see StateMachine
@@ -25,12 +26,6 @@ package nanosome.flow.stateMachine.logic
 	     * Holds destination state.
 	     */
 		private var _target:State;
-		
-		/**
-		 * @private 
-		 * Holds triggering signal for this transition
-		 */
-		private var _trigger:AbstractSignal;       
 	       
 	    //--------------------------------------------------------------------------
 	    //
@@ -41,11 +36,10 @@ package nanosome.flow.stateMachine.logic
 		/**
 	     *  Constructor
 	     */    
-		public function Transition(source:State, trigger:AbstractSignal, target:State)
+		public function Transition(source:State, target:State)
 	    {
 	    	_source = source;
 			_target = target;
-			_trigger = trigger;
 		}
 	       
 	       
@@ -63,14 +57,6 @@ package nanosome.flow.stateMachine.logic
 		public function get target():State
 		{
 			return _target;
-		}
-
-		/**
-	     *  Returns triggering code for this transition
-	     */    
-		public function get trigger():AbstractSignal
-		{
-			return _trigger;
 		}
 
 	}

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="FlexUnit">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/flexunit-core-as3-4.1.0.swc!/" />
+      <root url="jar://$PROJECT_DIR$/libs/flexunit-cilistener-4.1.0-beta3.60-sdk4.0.0.14159.swc!/" />
+      <root url="jar://$PROJECT_DIR$/libs/flexunit-uilistener-4.1.0-beta3.60-sdk4.0.0.14159.swc!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

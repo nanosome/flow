@@ -2,8 +2,10 @@
 package nanosome.flow.stateMachine.logic
 {
 	import flash.utils.Dictionary;
-	
-	/**
+
+    import nanosome.flow.signals.Signal;
+
+    /**
 	 *  State object for the StateMachine class.
 	 *  
 	 *  @see StateMachine
@@ -83,9 +85,9 @@ package nanosome.flow.stateMachine.logic
 		 *  
 		 *  @see Transition
 		 */		
-		public function addTransition(signal:AbstractSignal, targetState:State):void
+		public function addTransition(signalID:String, targetState:State):void
 		{
-			_transitions[signal.id] = new Transition(this, signal, targetState);
+			_transitions[signalID] = new Transition(this, targetState);
 		}
 	
 		/**

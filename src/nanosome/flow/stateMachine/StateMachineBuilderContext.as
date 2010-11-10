@@ -1,7 +1,7 @@
 // @license@
-package nanosome.flow.builders 
+package nanosome.flow.stateMachine
 {
-	import nanosome.flow.stateMachine.logic.AbstractSignal;
+	import nanosome.flow.signals.Signal;
 	import nanosome.flow.stateMachine.logic.State;
 
 	/**
@@ -10,7 +10,7 @@ package nanosome.flow.builders
 	public class StateMachineBuilderContext 
 	{
 		public var sourceState:State;
-		public var signal:AbstractSignal;
+		public var signal:Signal;
 		public var targetState:State;		
 	}
 }

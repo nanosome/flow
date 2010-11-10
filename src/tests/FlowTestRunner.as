@@ -1,6 +1,6 @@
 // @license@
 package 
-{
+tests{
 	import utils.SOSRunListener;
 	import tests.BooleanConditionTest;
 
@@ -13,12 +13,12 @@ package
 	/**
 	 * @author dimitri.fedorov
 	 */
-	public class FlowTest extends Sprite 
+	public class FlowTestRunner extends Sprite
 	{
 		private var _core:FlexUnitCore;
 		private var _tests : Array;
 		
-		public function FlowTest()
+		public function FlowTestRunner()
 		{
 			// Instantiating the core.
 			_core = new FlexUnitCore();

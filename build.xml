@@ -70,7 +70,7 @@
 
 	<target name="test">
 		<!-- Compile TestRunner.mxml as a SWF -->
-		<mxmlc file="${test.src.dir}/FlowTest.as" output="${bin.dir}/FlowTest.swf">
+		<mxmlc file="${test.src.dir}/FlowTestRunner.as" output="${bin.dir}/FlowTestRunner.swf">
 			<source-path path-element="${main.src.dir}" />
 			<library-path dir="${lib.dir}" append="true">
 				<include name="*.swc" />
@@ -80,25 +80,18 @@
 		</mxmlc>
 		
 		<!-- Execute TestRunner.swf as FlexUnit tests and publish reports -->
-		<flexunit swf="${bin.dir}/FlowTest.swf" 
+		<flexunit swf="${bin.dir}/FlowTestRunner.swf"
 		    workingDir="${bin.dir}"
 		    toDir="${report.dir}" 
 			haltonfailure="false" 
 			verbose="true" 
 			localTrusted="true"/>
 	</target>
-	
-	<target name="build.sample">
-	</target>
+
 	
     <!-- ================================= 
             Run targets           
         ================================= -->
-    <target name="runWithFDTViewDocument"> 
-        <fdt.viewDocument location="${application.main.target}" />
-    </target>
- 	
-	
 	<target name="runWithPlayer">
 		<exec executable="${FLEX_HOME}/runtimes/player/10.1/win/FlashPlayerDebugger.exe" spawn="true">
 			<arg line="'${application.main.target}'" />
