@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="SOS Logging">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libs/Antistatic.swc!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
