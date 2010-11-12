@@ -60,12 +60,12 @@ package nanosome.flow.stateMachine
 
         public function onSignalFired(event:SignalEvent):void
         {
-            handle(event.signalCode);
+            handle(event.signalID);
         }
 
         public function addVisualization(valuesBuilder:ValuesBuilder, easingBuilder:EasingBuilder):void
         {
-            _visualizers.push(new Visualizer(valuesBuilder, easingBuilder));
+            //_visualizers.push(new Visualizer(valuesBuilder, easingBuilder));
         }
 
 		/**

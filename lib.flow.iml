@@ -3,7 +3,7 @@
   <component name="FacetManager">
     <facet type="flex" name="Flex">
       <configuration flex_sdk="Flex_SDK_4.1 (player 10.0)">
-        <option name="DO_BUILD" value="false" />
+        <option name="DO_BUILD" value="true" />
         <option name="OUTPUT_TYPE" value="Application" />
         <option name="USE_DEFAULT_SDK_CONFIG_FILE" value="true" />
         <option name="USE_CUSTOM_CONFIG_FILE" value="false" />
@@ -11,17 +11,17 @@
         <option name="USE_CUSTOM_CONFIG_FILE_FOR_TESTS" value="false" />
         <option name="CUSTOM_CONFIG_FILE_FOR_TESTS" value="" />
         <option name="APPLICATION_ENTRY_POINT" value="" />
-        <option name="MAIN_CLASS" value="" />
-        <option name="OUTPUT_FILE_NAME" value="flex.swf" />
+        <option name="MAIN_CLASS" value="tests.FlowTestRunner" />
+        <option name="OUTPUT_FILE_NAME" value="FlowTestRunner.swf" />
         <option name="USE_FACET_COMPILE_OUTPUT_PATH" value="false" />
         <option name="FACET_COMPILE_OUTPUT_PATH" value="$MODULE_DIR$/bin" />
         <option name="FACET_COMPILE_OUTPUT_PATH_FOR_TESTS" value="" />
         <option name="INCLUDE_RESOURCE_FILES_IN_SWC" value="false" />
         <option name="TARGET_PLAYER_VERSION" value="10.0.0" />
         <option name="STATIC_LINK_RUNTIME_SHARED_LIBRARIES" value="true" />
-        <option name="USE_LOCALE_SETTINGS" value="false" />
+        <option name="USE_LOCALE_SETTINGS" value="true" />
         <option name="LOCALE" value="en_US" />
-        <option name="ADDITIONAL_COMPILER_OPTIONS" value="" />
+        <option name="ADDITIONAL_COMPILER_OPTIONS" value="-static-link-runtime-shared-libraries=true" />
         <option name="PATH_TO_SERVICES_CONFIG_XML" value="" />
         <option name="CONTEXT_ROOT" value="" />
         <option name="VERSION" value="3" />
@@ -33,6 +33,7 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/bin" />
+    <output-test url="file://$MODULE_DIR$/bin/test" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />

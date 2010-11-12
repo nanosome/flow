@@ -1,6 +1,8 @@
 package nanosome.flow.signals
 {
-	/**
+    import flash.events.Event;
+
+    /**
 	 * @author dimitri.fedorov
 	 */
 	public class Signal
@@ -21,7 +23,7 @@ package nanosome.flow.signals
 
         public function fire():void
         {
-
+            _ownerSet.fireSignal(this);
         }
 	}
 }

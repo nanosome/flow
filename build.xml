@@ -7,8 +7,7 @@
 	<property name="bin.dir" location="${basedir}/bin" />
 	<property name="report.dir" location="${bin.dir}/report" />
 	
-	<property name="main.src.dir" location="${basedir}/src" />
-	<property name="test.src.dir" location="${basedir}/src.tests" />
+	<property name="src.dir" location="${basedir}/src" />
 	<property name="lib.dir" location="${basedir}/libs" />
 
 	<!-- Setup Flex and FlexUnit ant tasks -->
@@ -19,19 +18,16 @@
 	<!-- project directories -->
 	<property name="build.dir" location="${basedir}/bin" /> 
 	<property name="src.dir" location="${basedir}/src" />
-	<property name="sample.src.dir" location="${basedir}/src.sample" />
 	<property name="libs.dir" location="${basedir}/libs" />	
 	
 	<!-- project files and parameters -->
-    <property name="application.main.class" location="${sample.src.dir}/SampleApp.as" />
-    <property name="application.main.target" location="${build.dir}/SampleApp.swf" />
 	<property name="target.player" value="10.0.0" />
     <property name="application.width" value="800" />
     <property name="application.height" value="600" />	
     	
 	<!-- ================================= 
 	      target: compile             
-	    ================================= -->
+	    ================================= >
     <target name="compile.sample"
 	    description="compile application"
     >
@@ -49,29 +45,26 @@
 	    	<default-script-limits max-recursion-depth="1000" max-execution-time="3" />
           	<default-frame-rate>52</default-frame-rate>
           	<default-background-color>0xFFFFFF</default-background-color>
-            <!-- Set size of output SWF file. -->
+            - Set size of output SWF file. -
             <default-size width="${application.width}" height="${application.height}" />
-            <!-- setting en_US locale for forked VM to get compiler messages in english -->
+            - setting en_US locale for forked VM to get compiler messages in english -
             <sysproperty key="user.language" value="en" />
             <sysproperty key="user.region" value="US" />
-            <!-- now provide forked VM with path to mxmlc.jar to prevent exception -->      	
+            - now provide forked VM with path to mxmlc.jar to prevent exception -
             <classpath>
                 <pathelement location="${mxmlc.jar}"/> 
             </classpath>
 	    	<compiler.source-path path-element="${src.dir}" />
             <compiler.library-path dir="${libs.dir}" append="true">
                 <include name="Antistatic.swc" />
-            </compiler.library-path>  	
-            <!--compiler.include-libraries dir="${libs.dir}" append="true">
-                <include name="assets.swc" />
-            </compiler.include-libraries-->     	
+            </compiler.library-path>
         </mxmlc>
-    </target>
+    </target-->
 
 	<target name="test">
-		<!-- Compile TestRunner.mxml as a SWF -->
-		<mxmlc file="${test.src.dir}/FlowTestRunner.as" output="${bin.dir}/FlowTestRunner.swf">
-			<source-path path-element="${main.src.dir}" />
+		<!-- Compile Test Runner as a SWF -->
+		<mxmlc file="${src.dir}/tests/FlowTestRunner.as" output="${bin.dir}/FlowTestRunner.swf">
+			<source-path path-element="${src.dir}" />
 			<library-path dir="${lib.dir}" append="true">
 				<include name="*.swc" />
 			</library-path>
@@ -92,7 +85,7 @@
     <!-- ================================= 
             Run targets           
         ================================= -->
-	<target name="runWithPlayer">
+	<!--target name="runWithPlayer">
 		<exec executable="${FLEX_HOME}/runtimes/player/10.1/win/FlashPlayerDebugger.exe" spawn="true">
 			<arg line="'${application.main.target}'" />
 		</exec>
@@ -103,5 +96,5 @@
 			<arg value="/c" />
 			<arg value="${build.dir}/index_800.html"/>
 		</exec>
-	</target>
+	</target-->
 </project>

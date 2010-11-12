@@ -42,6 +42,11 @@ package nanosome.flow.signals
 					this[nameAttr] = new Signal(SIGNAL_ID_PREFIX + nameAttr, this);
 			}
 		}
+
+        public function fireSignal(signal:Signal):void
+        {
+            dispatchEvent(new SignalEvent(signal));
+        }
     }
 
 }

@@ -1,23 +1,22 @@
-/**
- * Created by ${PRODUCT_NAME}.
- * User: Dmitry
- * Date: 01.11.10
- * Time: 18:48
- * To change this template use File | Settings | File Templates.
- */
 package nanosome.flow.signals
 {
-    public class SignalEvent
+    import flash.events.Event;
+
+    public class SignalEvent extends Event
     {
         public static const SIGNAL_FIRED:String = "signalFired";
 
-        public function SignalEvent()
+        private var _signalID:String;
+
+        public function SignalEvent(signal:Signal)
         {
+            super(SIGNAL_FIRED);
+            _signalID = signal.id;
         }
 
-        public function get signalCode():String
+        public function get signalID():String
         {
-
+            return _signalID;
         }
     }
 }
