@@ -2,6 +2,7 @@ package tests
 {
     import tests.signals.SignalsLayerTest;
     import tests.stateMachine.StateMachineTest;
+    import tests.builder.StateMachineBuilderTest;
 
     [Suite]
     [RunWith("org.flexunit.runners.Suite")]
@@ -9,6 +10,6 @@ package tests
     {
         public var t1:SignalsLayerTest;
         public var t2:StateMachineTest;
-        // public var t3:StateMachineBuilderTest;
+        public var t3:StateMachineBuilderTest;
     }
 }

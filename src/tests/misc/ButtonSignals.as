@@ -1,4 +1,4 @@
-package tests.stateMachine
+package tests.misc
 {
     import flash.events.EventDispatcher;
 

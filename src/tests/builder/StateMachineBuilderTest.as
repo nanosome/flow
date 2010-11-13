@@ -6,7 +6,7 @@ package tests.builder
 
     import org.flexunit.Assert;
 
-    import tests.stateMachine.ButtonSignals;
+    import tests.misc.ButtonSignals;
 
     public class StateMachineBuilderTest
     {

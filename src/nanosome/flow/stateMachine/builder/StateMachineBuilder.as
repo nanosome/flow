@@ -1,6 +1,7 @@
 // @license@
-package nanosome.flow.stateMachine
+package nanosome.flow.stateMachine.builder
 {
+    import nanosome.flow.stateMachine.*;
     import nanosome.flow.stateMachine.logic.State;
 	import nanosome.flow.signals.Signal;
 	import nanosome.flow.stateMachine.StateMachine;
@@ -21,9 +22,6 @@ package nanosome.flow.stateMachine
 
         private static var _stateMachine:StateMachine;
 
-		private var _context:StateMachineBuilderContext;
-        private var _backwardContext:StateMachineBuilderBackwardContext;
-
         /**
          * Please note, this method acts like singleton.
          * State machine initialization will take place only once.
@@ -32,7 +30,7 @@ package nanosome.flow.stateMachine
 		{
             if (!_stateMachine)
             {
-                initiateStates();
+                initiateStatesAndTransitions();
 			    _stateMachine = configureStateMachine();
                 checkTransitions();
             }
@@ -54,13 +52,25 @@ package nanosome.flow.stateMachine
 		//
 		//--------------------------------------------------------------------------
 
-		private function initiateStates():void
+        /**
+         * We need all states and transitions before constructing DSL expressions.
+         * Unlike states, transitions will be instantiated, but not defined.
+         */
+		private function initiateStatesAndTransitions():void
 		{
-            var stateNames:Vector.<String> = ClassUtils.getVariablesOfType(this, State);
+            var names:Vector.<String>;
+            var name:String;
 
-			for each (var stateName:String in stateNames)
+            names = ClassUtils.getVariablesOfType(this, State);
+			for each (name in names)
 			{
-				this[stateName] = new State(STATE_ID_PREFIX + stateName);
+				this[name] = new State(STATE_ID_PREFIX + name);
+			}
+
+            names = ClassUtils.getVariablesOfType(this, Transition);
+			for each (name in names)
+			{
+				this[name] = new Transition();
 			}
 		}
 
@@ -73,12 +83,16 @@ package nanosome.flow.stateMachine
             var notDefinedTransitions:Array = [];
 			for each (var transitionName:String in transitionNames)
 			{
-				if (this[transitionName] == null)
+				if (!Transition(this[transitionName]).isDefined)
                     notDefinedTransitions.push("'" + transitionName + "'");
 			}
 
             if (notDefinedTransitions.length > 0)
-                throw new Error("Following transitions should be defined: " + notDefinedTransitions.join(", ") + ".");
+                throw new Error(
+                        "Following transitions should be defined: " +
+                        notDefinedTransitions.join(", ") +
+                        "."
+                );
         }
 		
 		//--------------------------------------------------------------------------
@@ -86,62 +100,19 @@ package nanosome.flow.stateMachine
 		//  DSL specific methods
 		//
 		//--------------------------------------------------------------------------
+
+        final public function get _():TransitionBuilder
+        {
+            return new TransitionBuilder();
+        }
 /*
-			fromNormalToOvered = _is(
-				from(normal).to(overed).by(signals.mouseOver),
-				backIs(fromOveredToNormal).by(signals.mouseOut)
-			);
- */
-
-		final public function from(state:State):StateMachineBuilder
-		{
-			_context = new StateMachineBuilderContext();
-            _backwardContext = null;
-			_context.sourceState = state;
-			return this;
-		}
-		
-		final public function by(signal:Signal):StateMachineBuilder
-		{
-			_context.signal = signal;
-			checkExpression();
-			return this;
-		}
-
-		final public function to(state:State):StateMachineBuilder
-		{
-			_context.targetState = state;
-			checkExpression();
-			return this;
-		}
-
-		final public function back(signal:Signal):void
-		{
-			_context.targetState.addTransition(signal.id, _context.sourceState);
-		}			
-		
 		private function checkExpression():void
 		{
 			if (	_context && _context.sourceState && _context.signal && _context.targetState &&
 					!_context.sourceState.hasTransitionForEvent(_context.signal.id)
 				)
-				_context.sourceState.addTransition(_context.signal.id, _context.targetState);
+				_context.sourceState.addTransition(_context.signal, _context.targetState);
 		}
-
-        final public function backIs(backTransition:Transition):StateMachineBuilder
-        {
-            _backwardContext = new StateMachineBuilderBackwardContext();
-            backTransition
-            return this;
-        }
-
-        final public function _is(
-                stateMachineBuilder:StateMachineBuilder,
-                backStateMachineBuilder:StateMachineBuilder = null
-                ):Transition
-        {
-            return null;
-        }
-
+*/
 	}
 }

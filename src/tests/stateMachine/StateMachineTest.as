@@ -9,10 +9,10 @@ package tests.stateMachine
 
     import org.flexunit.Assert;
 
+    import tests.misc.ButtonSignals;
+
     public class StateMachineTest
     {
-        private var _signals:ButtonSignals;
-
         private var _normalState:State;
         private var _overedState:State;
         private var _overedAndPressedState:State;
@@ -31,7 +31,7 @@ package tests.stateMachine
         [Before]
         public function ConfigureStateMachine():void
         {
-            _signals = new ButtonSignals();
+            var s:ButtonSignals = new ButtonSignals();
 
             _normalState = new State("normal");
             _overedState = new State("overed");
@@ -41,34 +41,35 @@ package tests.stateMachine
             _stateMachine = new StateMachine(_normalState);
 
             _normalToOveredTransition =
-                    _normalState.addTransition(_signals.mouseOver, _overedState);
+                    _normalState.addTransition(s.mouseOver, _overedState);
 
             _overedToNormalTransition =
-                    _overedState.addTransition(_signals.mouseOut, _normalState);
+                    _overedState.addTransition(s.mouseOut, _normalState);
 
             _overedToPressedTransition =
-                    _overedState.addTransition(_signals.mouseDown, _overedAndPressedState);
+                    _overedState.addTransition(s.mouseDown, _overedAndPressedState);
 
             _pressedToOveredTransition =
-                    _overedAndPressedState.addTransition(_signals.mouseUp, _overedState);
+                    _overedAndPressedState.addTransition(s.mouseUp, _overedState);
 
             _pressedToPressedOutsideTransition =
-                _overedAndPressedState.addTransition(_signals.mouseOut, _pressedOutsideState);
+                _overedAndPressedState.addTransition(s.mouseOut, _pressedOutsideState);
 
             _pressedOutsideToPressedTransition =
-                _pressedOutsideState.addTransition(_signals.mouseOver, _overedAndPressedState);
+                _pressedOutsideState.addTransition(s.mouseOver, _overedAndPressedState);
 
             _pressedOutsideToNormalTransition =
-                _pressedOutsideState.addTransition(_signals.mouseUp, _normalState);
+                _pressedOutsideState.addTransition(s.mouseUp, _normalState);
         }
 
         [Test]
         public function StateMachineTriggeringStateTest():void
         {
-            var controller:StateMachineController = new StateMachineController(_stateMachine, _signals);
-            _signals.mouseOver.fire();
-            _signals.mouseDown.fire();
-            _signals.mouseOver.fire();
+            var s:ButtonSignals = new ButtonSignals();
+            var controller:StateMachineController = new StateMachineController(_stateMachine, s);
+            s.mouseOver.fire();
+            s.mouseDown.fire();
+            s.mouseOver.fire();
 
             Assert.assertEquals(controller.getCurrentState(), _overedAndPressedState);
         }
@@ -78,11 +79,16 @@ package tests.stateMachine
         [Test]
         public function StateMachineFiringControllerEventTest():void
         {
-            var controller:StateMachineController = new StateMachineController(_stateMachine, _signals);
+            var s:ButtonSignals = new ButtonSignals();
+            var controller:StateMachineController = new StateMachineController(_stateMachine, s);
 
             controller.addEventListener(StateMachineControllerEvent.STATE_CHANGED, onSMControllerEvent);
-            _signals.mouseOver.fire();
-            _signals.mouseDown.fire();
+            s.mouseOver.fire();
+
+            Assert.assertEquals(_event.transition, _normalToOveredTransition);
+            Assert.assertEquals(_event.oldState, _normalState);
+
+            s.mouseDown.fire();
 
             Assert.assertEquals(_event.transition, _overedToPressedTransition);
             Assert.assertEquals(_event.oldState, _overedState);
@@ -92,5 +98,34 @@ package tests.stateMachine
         {
             _event = event;
         }
+
+        [Test]
+        public function SharedSignalsLayerTest():void
+        {
+            var s:ButtonSignals = new ButtonSignals();
+            var controllerOne:StateMachineController = new StateMachineController(_stateMachine, s);
+            var controllerTwo:StateMachineController = new StateMachineController(_stateMachine, s);
+
+            s.mouseOver.fire();
+
+            Assert.assertEquals(controllerOne.getCurrentState(), controllerTwo.getCurrentState(), _overedState);
+        }
+
+        [Test]
+        public function SeparatedSignalsLayerTest():void
+        {
+            var sOne:ButtonSignals = new ButtonSignals();
+            var sTwo:ButtonSignals = new ButtonSignals();
+            var controllerOne:StateMachineController = new StateMachineController(_stateMachine, sOne);
+            var controllerTwo:StateMachineController = new StateMachineController(_stateMachine, sTwo);
+
+            sOne.mouseOver.fire();
+            sTwo.mouseOver.fire();
+            sTwo.mouseDown.fire();
+
+            Assert.assertEquals(controllerOne.getCurrentState(), _overedState);
+            Assert.assertEquals(controllerTwo.getCurrentState(), _overedAndPressedState);
+        }
+
     }
 }

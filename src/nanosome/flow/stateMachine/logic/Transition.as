@@ -1,9 +1,6 @@
 // @license@
 package nanosome.flow.stateMachine.logic
 {
-	import nanosome.flow.stateMachine.logic.State;
-    import nanosome.flow.signals.Signal;
-
     /**
 	*  State Transition for StateMachine
 	*  
@@ -31,16 +28,12 @@ package nanosome.flow.stateMachine.logic
 	    //  Constructor
 	    //
 	    //--------------------------------------------------------------------------
-	       
-		/**
-	     *  Constructor
-	     */    
-		public function Transition(source:State, target:State)
-	    {
+
+        public function define(source:State, target:State):void
+        {
 	    	_source = source;
 			_target = target;
-		}
-	       
+        }
 	       
 		/**
 	     *  Returns source state for this transition
@@ -58,6 +51,10 @@ package nanosome.flow.stateMachine.logic
 			return _target;
 		}
 
-	}
+        public function get isDefined():Boolean
+        {
+            return _source != null;
+        }
 
+	}
 }

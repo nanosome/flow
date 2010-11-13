@@ -1,11 +1,11 @@
 package tests.builder
 {
     import nanosome.flow.stateMachine.StateMachine;
-    import nanosome.flow.stateMachine.StateMachineBuilder;
+    import nanosome.flow.stateMachine.builder.StateMachineBuilder;
     import nanosome.flow.stateMachine.logic.State;
     import nanosome.flow.stateMachine.logic.Transition;
 
-    import tests.stateMachine.ButtonSignals;
+    import tests.misc.ButtonSignals;
 
     public class TestStateMachineBuilder extends StateMachineBuilder
 	{
@@ -33,22 +33,19 @@ package tests.builder
 		{
             var signals:ButtonSignals = getNewSignalsSet();
 
-			fromNormalToOvered = _is(
-				from(normal).to(overed).by(signals.mouseOver),
-				backIs(fromOveredToNormal).by(signals.mouseOut)
-			);
+			fromNormalToOvered = _.
+                from(normal).to(overed).by(signals.mouseOver).
+				back(fromOveredToNormal, signals.mouseOut)._;
 				
-			fromOveredToPressed = _is(
-				from(overed).to(pressed).by(signals.mouseDown),
-				backIs(fromPressedToOvered).by(signals.mouseOut)
-			);
+			fromOveredToPressed = _.
+				from(overed).to(pressed).by(signals.mouseDown).
+				back(fromPressedToOvered, signals.mouseOut)._;
 			
-			fromPressedToPressedOutside = _is( 
-				from(pressed).to(pressedOutside).by(signals.mouseOut),
-				backIs(fromPressedOutsideToPressed).by(signals.mouseOver)
-			);
+			fromPressedToPressedOutside = _.
+				from(pressed).to(pressedOutside).by(signals.mouseOut).
+				back(fromPressedOutsideToPressed, signals.mouseOver)._;
 				
-			fromPressedOutsideToNormal = _is(from(pressedOutside).to(normal).by(signals.mouseUp));
+			fromPressedOutsideToNormal = _.from(pressedOutside).to(normal).by(signals.mouseUp)._;
 
 			return new StateMachine(normal);
 		}
