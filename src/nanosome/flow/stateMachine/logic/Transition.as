@@ -14,7 +14,6 @@ package nanosome.flow.stateMachine.logic
 	*/
 	public class Transition
 	{ 
-		
 	 	/**
 	     * @private
 	     * Holds source state.
@@ -26,7 +25,7 @@ package nanosome.flow.stateMachine.logic
 	     * Holds destination state.
 	     */
 		private var _target:State;
-	       
+
 	    //--------------------------------------------------------------------------
 	    //
 	    //  Constructor

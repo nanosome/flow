@@ -61,9 +61,9 @@ package nanosome.flow.stateMachine.logic
 		 *  
 		 *  @see Transition
 		 */		
-		public function targetState(signalID:String):State
+		public function transitionForEvent(signalID:String):Transition
 		{
-			return Transition(_transitions[signalID]).target;
+			return Transition(_transitions[signalID]);
 		}
 		
 		/**
@@ -73,7 +73,7 @@ package nanosome.flow.stateMachine.logic
 		 *  
 		 *  @see Transition
 		 */		
-		public function hasTransition(signalID:String):Boolean
+		public function hasTransitionForEvent(signalID:String):Boolean
 		{
 			return _transitions[signalID] != null;
 		}
@@ -85,9 +85,10 @@ package nanosome.flow.stateMachine.logic
 		 *  
 		 *  @see Transition
 		 */		
-		public function addTransition(signalID:String, targetState:State):void
+		public function addTransition(signal:Signal, targetState:State):Transition  //TODO: add namespace
 		{
-			_transitions[signalID] = new Transition(this, targetState);
+			_transitions[signal.id] = new Transition(this, targetState);
+            return Transition(_transitions[signal.id]);
 		}
 	
 		/**

@@ -1,24 +1,20 @@
 // @license@
-package nanosome.flow.stateMachine
+package nanosome.flow.stateMachine.controller
 {
+    import nanosome.flow.stateMachine.*;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	
+
 	import nanosome.flow.stateMachine.logic.State;
     import nanosome.flow.signals.AbstractSignalSet;
     import nanosome.flow.signals.SignalEvent;
-    import nanosome.flow.visualizing.EasingBuilder;
-    import nanosome.flow.visualizing.ValuesBuilder;
-    import nanosome.flow.visualizing.Visualizer;
+    import nanosome.flow.stateMachine.logic.Transition;
 
     /**
 	 * 
 	 */
 	public class StateMachineController extends EventDispatcher 
 	{
-		// Messages constants for events
-		public static const STATE_CHANGED:String 	= "stateChanged"; 
-			
 		/**
 		 * @private
 		 * Holds a reference to current state
@@ -37,9 +33,6 @@ package nanosome.flow.stateMachine
          */
         private var _signals:AbstractSignalSet;
 
-        private var _visualizers:Vector.<Visualizer>;
-
-				
 		//--------------------------------------------------------------------------
 		//
 		//  Constructor
@@ -54,18 +47,19 @@ package nanosome.flow.stateMachine
 		public function StateMachineController(stateMachine:StateMachine, signals:AbstractSignalSet)
 		{
 			_stateMachine = stateMachine;
+            _currentState = stateMachine.getInitialState();
             _signals = signals;
+            // Frankly, we can add type checking for signals set here to match
+            // incoming signals parameter type with that of used for stateMachine
+            // but this coupling is no good, i guess, because
+            // signals from different sets but with same signal ID should be
+            // treated equally
             _signals.addEventListener(SignalEvent.SIGNAL_FIRED, onSignalFired);
 		}
 
         public function onSignalFired(event:SignalEvent):void
         {
             handle(event.signalID);
-        }
-
-        public function addVisualization(valuesBuilder:ValuesBuilder, easingBuilder:EasingBuilder):void
-        {
-            //_visualizers.push(new Visualizer(valuesBuilder, easingBuilder));
         }
 
 		/**
@@ -75,10 +69,10 @@ package nanosome.flow.stateMachine
 		 *  @return True, if conditions are met.
 		 */		
 		private function handle(eventCode:String):Boolean
-		{	
-		    if(_currentState.hasTransition(eventCode))
+		{
+		    if(_currentState.hasTransitionForEvent(eventCode))
 		    {
-		    	transitionTo(_currentState.targetState(eventCode));
+		    	handleTransition(_currentState.transitionForEvent(eventCode));
 		    	return true;
 		    }
 		    return false;
@@ -89,11 +83,17 @@ package nanosome.flow.stateMachine
 	 	 *  
 	 	 *  @param newState State to set
 	 	 */			
-		private function transitionTo(target:State):void
+		private function handleTransition(transition:Transition):void
 		{
-			_currentState = target;
-			dispatchEvent(new Event(STATE_CHANGED));
+            var oldState:State = _currentState;
+			_currentState = transition.target;
+			dispatchEvent(new StateMachineControllerEvent(oldState, transition));
 		}
+
+        public function getCurrentState():State
+        {
+            return _currentState;
+        }
 	
 	}
 }

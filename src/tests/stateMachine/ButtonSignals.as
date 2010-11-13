@@ -1,4 +1,4 @@
-package samples.signalSets
+package tests.stateMachine
 {
     import flash.events.EventDispatcher;
 

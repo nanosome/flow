@@ -1,7 +1,7 @@
 // @license@
 package nanosome.flow.stateMachine
 {
-	
+
 	import nanosome.flow.stateMachine.logic.State;
 	
 	/**
@@ -13,9 +13,8 @@ package nanosome.flow.stateMachine
 		 * @private
 		 * Holds a set of all states
 		 */
-		private var _state:State;
-		
-				
+		private var _initialState:State;
+
 		//--------------------------------------------------------------------------
 		//
 		//  Constructor
@@ -29,8 +28,13 @@ package nanosome.flow.stateMachine
 		 */			
 		public function StateMachine(initialState:State)
 		{
-			_state = initialState;
-		}	
+			_initialState = initialState;
+		}
+
+        public function getInitialState():State
+        {
+            return _initialState;
+        }
 
 	}
 }
