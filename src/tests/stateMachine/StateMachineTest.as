@@ -108,7 +108,8 @@ package tests.stateMachine
 
             s.mouseOver.fire();
 
-            Assert.assertEquals(_overedState, controllerOne.getCurrentState(), controllerTwo.getCurrentState());
+            Assert.assertEquals(_overedState, controllerOne.getCurrentState());
+            Assert.assertEquals(_overedState, controllerTwo.getCurrentState());
         }
 
         [Test]

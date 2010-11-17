@@ -1,12 +1,10 @@
 package tests.builder
 {
-    import tests.*;
     import nanosome.flow.stateMachine.StateMachine;
     import nanosome.flow.stateMachine.controller.StateMachineController;
 
     import org.flexunit.Assert;
 
-    import tests.builder.TestStateMachineBuildersFactory;
     import tests.misc.ButtonSignals;
 
     public class StateMachineBuilderTest
@@ -40,7 +38,6 @@ package tests.builder
             Assert.assertNotNull(signals, sm, c);
             Assert.assertNotNull(_smc.normal, c.getCurrentState());
             Assert.assertNotNull(_smc.normal, c.getCurrentState());
-            // Assert.assertEquals(c.getCurrentState().id, _smc.normal.id);
 
             signals.mouseOver.fire();
             Assert.assertEquals(_smc.overed.id, c.getCurrentState().id);
