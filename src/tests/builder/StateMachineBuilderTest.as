@@ -6,6 +6,7 @@ package tests.builder
 
     import org.flexunit.Assert;
 
+    import tests.builder.TestStateMachineBuildersFactory;
     import tests.misc.ButtonSignals;
 
     public class StateMachineBuilderTest
@@ -15,18 +16,19 @@ package tests.builder
         [Before]
         public function CreateBuildersAndStateMachines():void
         {
-            _smc = new TestStateMachineBuilder();
-            _smc.getStateMachine();
+            var repository:TestStateMachineBuildersFactory; // you're free to do it via singleton/.getInstance
+            repository = new TestStateMachineBuildersFactory();
+            _smc = repository.testStateMachineBuilder;
         }
 
         [Test]
-        public function CheckStateMachineCreation():void
+        public function isImplicitInstantiationOfBuildersWorking():void
         {
-            Assert.assertNotNull(_smc.getStateMachine());
+            Assert.assertNotNull(_smc);
         }
 
         [Test]
-        public function BuilderTest():void
+        public function currentlyInTheWorks():void
         {
             // alternatively, we can use new ButtonSignals(), but taking signals from _smc
             // helps us to validate types before compilation
@@ -35,9 +37,16 @@ package tests.builder
 
             var c:StateMachineController = new StateMachineController(sm, signals);
 
-            Assert.assertEquals(c.getCurrentState().id, _smc.normal.id);
+            Assert.assertNotNull(signals, sm, c);
+            Assert.assertNotNull(_smc.normal, c.getCurrentState());
+            Assert.assertNotNull(_smc.normal, c.getCurrentState());
+            // Assert.assertEquals(c.getCurrentState().id, _smc.normal.id);
+
+            signals.mouseOver.fire();
+            Assert.assertEquals(_smc.overed.id, c.getCurrentState().id);
             signals.mouseDown.fire();
-            Assert.assertEquals(c.getCurrentState().id, _smc.overed.id);
+            Assert.assertEquals(_smc.pressed.id, c.getCurrentState().id);
+
         }
 
     }

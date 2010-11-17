@@ -19,56 +19,52 @@ package nanosome.flow.stateMachine.builder
 
         public function get _():Transition
         {
-
+            checkTransition();
+            return _sourceState.addTransition(_signal, _targetState);
         }
 
 /*
             fromNormalToOvered = _.from(normal).to(overed).by(signals.mouseOver)._;
-                _backIs(fromOveredToNormal).by(signals.mouseOut)
-            );
 
             fromNormalToOvered = _.from(normal).to(overed).by(signals.mouseOver)
-                                  .backIs(fromOveredToNormal).by(signals.mouseOut)._;
+                                  .back(fromOveredToNormal, signals.mouseOut)._;
  */
-
-
 
 		public function from(state:State):TransitionBuilder
 		{
-			//_context = new StateMachineBuilderContext();
-            //_backwardContext = null;
-			//_context.sourceState = state;
+			_sourceState = state;
 			return this;
 		}
 
 		public function by(signal:Signal):TransitionBuilder
 		{
-            /*
-            if (_backwardContext == null)
-            {
-			    _context.signal = signal;
-                checkExpression();
-            }
-            else
-            {
-                _backwardContext.signal = signal;
-			}
-			*/
+            _signal = signal;
 			return this;
 		}
 
 		public function to(state:State):TransitionBuilder
 		{
-            /*
-			_context.targetState = state;
-			checkExpression();
-            */
+			_targetState = state;
 			return this;
 		}
 
-        public function back(backTransition:Transition, backSignal):TransitionBuilder
+        private function checkTransition():void
         {
+            if (!_sourceState)
+                throw new Error("Source state is not defined!");
 
+            if (!_targetState)
+                throw new Error("Target state is not defined!");
+
+            if (!_signal)
+                throw new Error("Signal for transition is not defined!");
+        }
+
+        public function back(backTransition:Transition, backSignal:Signal):TransitionBuilder
+        {
+            checkTransition();
+            _targetState.defineTransition(backTransition, backSignal, _sourceState);
+            return this;
         }
 
     }

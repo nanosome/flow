@@ -16,24 +16,24 @@ package tests.signals
         }
 
         [Test]
-        public function ImplicitSignalsInstantiationTest():void
+        public function implicitSignalsInstantiation():void
         {
             Assert.assertNotNull(_signalsSet.signalA);
             Assert.assertNotNull(_signalsSet.signalB);
         }
 
         [Test]
-        public function EventsFiringTest():void
+        public function eventsFiring():void
         {
             _firedSignals = [];
             _signalsSet.addEventListener(SignalEvent.SIGNAL_FIRED, onSignalFired);
             _signalsSet.signalB.fire();
             _signalsSet.signalA.fire();
             _signalsSet.signalA.fire();
-            Assert.assertEquals(_firedSignals.length, 3);
-            Assert.assertEquals(_firedSignals[0], _signalsSet.signalB.id);
-            Assert.assertEquals(_firedSignals[1], _signalsSet.signalA.id);
-            Assert.assertEquals(_firedSignals[2], _signalsSet.signalA.id);
+            Assert.assertEquals(3, _firedSignals.length);
+            Assert.assertEquals(_signalsSet.signalB.id, _firedSignals[0]);
+            Assert.assertEquals(_signalsSet.signalA.id, _firedSignals[1]);
+            Assert.assertEquals(_signalsSet.signalA.id, _firedSignals[2]);
         }
 
         private function onSignalFired(event:SignalEvent):void

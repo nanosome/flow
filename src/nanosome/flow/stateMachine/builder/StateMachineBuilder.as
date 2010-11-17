@@ -12,28 +12,47 @@ package nanosome.flow.stateMachine.builder
 	 * Suggestion is there'll be fairly small amount of StateMachines,
 	 * so it makes sense to define them with separate classes, 
 	 * to provide code hinting and type checking at early stage.
-	 * 
-	 * @see stateMachines.buttons.ButtonStateMachine
+     *
+     * Each builder should be instantiated (and thus, having respective SM configured) only once.
+     * In this code prevention from further instantiation is implemented via _isInstantiated static
+     * variable. Statics aren't good, so I'm suggesting using factory for controlling
+     * builders instantiation, leaving _isInstantiated check as a last resort.
+	 *
 	 * @author dimitri.fedorov
 	 */
 	public class StateMachineBuilder 
 	{
+        //----------------------------------
+        //  Static constants and vars
+        //----------------------------------
+
 		private static const STATE_ID_PREFIX:String 	= "st.";
 
-        private static var _stateMachine:StateMachine;
+        private static var _isInstantiated:Boolean = false;
 
-        /**
-         * Please note, this method acts like singleton.
-         * State machine initialization will take place only once.
-         */
+        //----------------------------------
+        //  Regular class properties
+        //----------------------------------
+
+        private var _stateMachine:StateMachine;
+
+        //--------------------------------------------------------------------------
+        //
+        //  Constructor
+        //
+        //--------------------------------------------------------------------------
+
 		public function StateMachineBuilder()
 		{
-            if (!_stateMachine)
+            if (_isInstantiated)
             {
-                initiateStatesAndTransitions();
-			    _stateMachine = configureStateMachine();
-                checkTransitions();
+                throw new Error("Each type of builder should be invoked only once")
             }
+            _isInstantiated = true;
+
+            initiateStatesAndTransitions();
+			_stateMachine = configureStateMachine();
+            checkTransitions();
 		}
 		
 		public function getStateMachine():StateMachine

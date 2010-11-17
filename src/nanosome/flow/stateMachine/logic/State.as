@@ -88,10 +88,15 @@ package nanosome.flow.stateMachine.logic
 		public function addTransition(signal:Signal, targetState:State):Transition  //TODO: add namespace
 		{
             var t:Transition = new Transition();
-            t.define(this, targetState);
-			_transitions[signal.id] = t;
+            defineTransition(t, signal, targetState);
             return t;
 		}
+
+        public function defineTransition(transition:Transition, signal:Signal, targetState:State):void
+        {
+            transition.define(this, targetState);
+            _transitions[signal.id] = transition;
+        }
 	
 		/**
 		 *  Stringifier for the State class

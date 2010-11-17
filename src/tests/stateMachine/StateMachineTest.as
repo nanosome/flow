@@ -29,7 +29,7 @@ package tests.stateMachine
         private var _stateMachine:StateMachine;
 
         [Before]
-        public function ConfigureStateMachine():void
+        public function configureStateMachine():void
         {
             var s:ButtonSignals = new ButtonSignals();
 
@@ -63,7 +63,7 @@ package tests.stateMachine
         }
 
         [Test]
-        public function StateMachineTriggeringStateTest():void
+        public function consequentStateTriggering():void
         {
             var s:ButtonSignals = new ButtonSignals();
             var controller:StateMachineController = new StateMachineController(_stateMachine, s);
@@ -71,13 +71,13 @@ package tests.stateMachine
             s.mouseDown.fire();
             s.mouseOver.fire();
 
-            Assert.assertEquals(controller.getCurrentState(), _overedAndPressedState);
+            Assert.assertEquals(_overedAndPressedState, controller.getCurrentState());
         }
 
         private var _event:StateMachineControllerEvent;
 
         [Test]
-        public function StateMachineFiringControllerEventTest():void
+        public function consequentTransitionEvents():void
         {
             var s:ButtonSignals = new ButtonSignals();
             var controller:StateMachineController = new StateMachineController(_stateMachine, s);
@@ -85,13 +85,13 @@ package tests.stateMachine
             controller.addEventListener(StateMachineControllerEvent.STATE_CHANGED, onSMControllerEvent);
             s.mouseOver.fire();
 
-            Assert.assertEquals(_event.transition, _normalToOveredTransition);
-            Assert.assertEquals(_event.oldState, _normalState);
+            Assert.assertEquals(_normalToOveredTransition, _event.transition);
+            Assert.assertEquals(_normalState, _event.oldState);
 
             s.mouseDown.fire();
 
-            Assert.assertEquals(_event.transition, _overedToPressedTransition);
-            Assert.assertEquals(_event.oldState, _overedState);
+            Assert.assertEquals(_overedToPressedTransition, _event.transition);
+            Assert.assertEquals(_overedState, _event.oldState);
         }
 
         private function onSMControllerEvent(event:StateMachineControllerEvent):void
@@ -100,7 +100,7 @@ package tests.stateMachine
         }
 
         [Test]
-        public function SharedSignalsLayerTest():void
+        public function twoControllersWithSameLogicAndSignalLayers():void
         {
             var s:ButtonSignals = new ButtonSignals();
             var controllerOne:StateMachineController = new StateMachineController(_stateMachine, s);
@@ -108,11 +108,11 @@ package tests.stateMachine
 
             s.mouseOver.fire();
 
-            Assert.assertEquals(controllerOne.getCurrentState(), controllerTwo.getCurrentState(), _overedState);
+            Assert.assertEquals(_overedState, controllerOne.getCurrentState(), controllerTwo.getCurrentState());
         }
 
         [Test]
-        public function SeparatedSignalsLayerTest():void
+        public function twoControllersWithSameLogicButDifferentSignalLayers():void
         {
             var sOne:ButtonSignals = new ButtonSignals();
             var sTwo:ButtonSignals = new ButtonSignals();
@@ -123,8 +123,8 @@ package tests.stateMachine
             sTwo.mouseOver.fire();
             sTwo.mouseDown.fire();
 
-            Assert.assertEquals(controllerOne.getCurrentState(), _overedState);
-            Assert.assertEquals(controllerTwo.getCurrentState(), _overedAndPressedState);
+            Assert.assertEquals(_overedState, controllerOne.getCurrentState());
+            Assert.assertEquals(_overedAndPressedState, controllerTwo.getCurrentState());
         }
 
     }
