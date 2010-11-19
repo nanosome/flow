@@ -28,8 +28,6 @@ package nanosome.flow.stateMachine.builder
 
 		private static const STATE_ID_PREFIX:String 	= "st.";
 
-        private static var _isInstantiated:Boolean = false;
-
         //----------------------------------
         //  Regular class properties
         //----------------------------------
@@ -44,12 +42,6 @@ package nanosome.flow.stateMachine.builder
 
 		public function StateMachineBuilder()
 		{
-            if (_isInstantiated)
-            {
-                throw new Error("Each type of builder should be invoked only once")
-            }
-            _isInstantiated = true;
-
             initiateStatesAndTransitions();
 			_stateMachine = configureStateMachine();
             checkTransitions();
