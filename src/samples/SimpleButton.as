@@ -13,7 +13,7 @@ package samples
 
     import nanosome.flow.visualizing.EasingBuilder;
     import nanosome.flow.visualizing.ValuesBuilder;
-    import nanosome.flow.visualizing.vizualizations.AlphaVisualization;
+    import nanosome.flow.visualizing.transforms.AlphaTransform;
 
     public class SimpleButton
     {
@@ -68,7 +68,7 @@ package samples
 
             // create visualizers
             var hilite:Sprite = new Sprite();
-            var hiliteViz:ValuesBuilder = new ValuesBuilder(new AlphaVisualization(hilite));
+            var hiliteViz:ValuesBuilder = new ValuesBuilder(new AlphaTransform(hilite));
             hiliteViz.forState(bt.normal).value(1);
             hiliteViz.forState(bt.overed).value(1);
             hiliteViz.forState(bt.pressed).value(1);

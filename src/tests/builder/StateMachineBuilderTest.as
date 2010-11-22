@@ -26,7 +26,7 @@ package tests.builder
         }
 
         [Test]
-        public function currentlyInTheWorks():void
+        public function builtStateMachineLogic():void
         {
             // alternatively, we can use new ButtonSignals(), but taking signals from _smc
             // helps us to validate types before compilation
@@ -35,16 +35,15 @@ package tests.builder
 
             var c:StateMachineController = new StateMachineController(sm, signals);
 
-            Assert.assertNotNull(signals, sm, c);
-            Assert.assertNotNull(_smc.normal, c.getCurrentState());
-            Assert.assertNotNull(_smc.normal, c.getCurrentState());
+            Assert.assertNotNull(signals);
+            Assert.assertNotNull(sm);
+            Assert.assertNotNull(c);
 
+            Assert.assertEquals(_smc.normal.id, c.getCurrentState().id);
             signals.mouseOver.fire();
             Assert.assertEquals(_smc.overed.id, c.getCurrentState().id);
             signals.mouseDown.fire();
             Assert.assertEquals(_smc.pressed.id, c.getCurrentState().id);
-
         }
-
     }
 }

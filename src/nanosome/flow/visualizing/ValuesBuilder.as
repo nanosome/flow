@@ -9,11 +9,11 @@ package nanosome.flow.visualizing
 {
     import nanosome.flow.stateMachine.logic.State;
 
-    import nanosome.flow.visualizing.vizualizations.IVisualization;
+    import nanosome.flow.visualizing.transforms.IVisualizerTransform;
 
     public class ValuesBuilder
     {
-        public function ValuesBuilder(visualization:IVisualization)
+        public function ValuesBuilder(visualization:IVisualizerTransform)
         {
         }
 

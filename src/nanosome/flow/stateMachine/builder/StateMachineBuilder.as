@@ -1,9 +1,7 @@
 // @license@
 package nanosome.flow.stateMachine.builder
 {
-    import nanosome.flow.stateMachine.*;
     import nanosome.flow.stateMachine.logic.State;
-	import nanosome.flow.signals.Signal;
 	import nanosome.flow.stateMachine.StateMachine;
     import nanosome.flow.stateMachine.logic.Transition;
     import nanosome.flow.utils.ClassUtils;

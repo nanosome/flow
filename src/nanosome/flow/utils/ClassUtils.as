@@ -72,10 +72,7 @@ package nanosome.flow.utils
         public static function getVariablesOfTypeOrInherited(targetClassInstance:Object, variableType:Class):Vector.<String>
         {
             var result:Vector.<String> = new Vector.<String>();
-
-            var variableClassName:String = getQualifiedClassName(variableType);
 			var typeDesc:XML = describeType(targetClassInstance);
-
 			var vars:XMLList = typeDesc.child("variable");
 
 			var typeAttr:String;
