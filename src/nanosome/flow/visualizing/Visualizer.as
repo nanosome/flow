@@ -2,6 +2,8 @@ package nanosome.flow.visualizing
 {
     import flash.utils.Dictionary;
 
+    import nanosome.flow.easingLines.EasingLine;
+    import nanosome.flow.easingLines.EasingValuesLine;
     import nanosome.flow.stateMachine.controller.StateMachineController;
     import nanosome.flow.stateMachine.controller.StateMachineControllerEvent;
     import nanosome.flow.stateMachine.logic.State;
@@ -15,17 +17,9 @@ package nanosome.flow.visualizing
         private var _transform:IVisualizerTransform;
 
         private var _values:Dictionary;
-
         private var _transitions:Dictionary;
 
-        //
-        private var _sourceValue:Number;
-
-        private var _deltaValue:Number;
-
-        private var _easingFunction:Function;
-
-        private var _progress:Number = 0;
+        private var _easingRunner:EasingValuesLine;
 
         /**
          * Visualizer consists of single target + transformer pair
@@ -68,14 +62,14 @@ package nanosome.flow.visualizing
 
         }
 
-        public function makeStep(step:Number):void
+        public function makeStep(delta:Number):void
         {
-            _progress += step;
+            _easingRunner.makeStep(delta);
         }
 
         public function applyTransform():void
         {
-            _transform.apply(_sourceValue + _progress*_deltaValue);
+            _transform.apply(_easingRunner.value);
         }
 
 

@@ -5,7 +5,7 @@ package tests.visualizer
 
     import nanosome.flow.stateMachine.StateMachine;
 
-    import nanosome.flow.visualizing.EasingLine;
+    import nanosome.flow.easingLines.EasingLine;
     import nanosome.flow.visualizing.Visualizer;
 
     import nanosome.flow.visualizing.controller.VisualizerController;

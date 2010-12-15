@@ -1,19 +1,18 @@
-package nanosome.flow.visualizing
+package nanosome.flow.easingLines
 {
-	public class EasingLine 
+	public class EasingLine
 	{
-	
 		/**
 		 *  @private
 		 *  Holds function for easing.
-		 */	
-		private var _easing:Function;
+		 */
+		protected var _easing:Function;
 	
 		/**
 		 *  @private
 		 *  Holds duration of the animation.
-		 */	
-		private var _duration:Number;
+		 */
+		protected var _duration:Number;
 		
 		//--------------------------------------------------------------------------
 		//
@@ -40,7 +39,7 @@ package nanosome.flow.visualizing
 		 */	
 		public function getEasingFunction():Function
 		{
-			_easing;
+			return _easing;
 		}
 	
 		/**
@@ -63,9 +62,9 @@ package nanosome.flow.visualizing
 		 *   
 		 *  @return Value of the easing function.
 		 */	
-		public function getValue(pos:Number, from:Number, to:Number):Number
+		protected function calculateValue(pos:Number, from:Number, delta:Number):Number
 		{
-			return _easing.apply(this, [pos, from, to-from, _duration]);
+			return _easing.apply(this, [pos, from, delta, _duration]);
 		}
 		
 		/**
