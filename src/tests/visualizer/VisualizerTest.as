@@ -30,6 +30,22 @@ package tests.visualizer
         }
 
         [Test]
+        public function mappingVisualizer():void
+        {
+            var visualizerTarget:Sprite;
+            var visualizer:Visualizer = new Visualizer(new AlphaTransform(visualizerTarget));
+
+            var inEasingLine:EasingLine = new EasingLine(Quadratic.easeIn, 100);
+            var outEasingLine:EasingLine = new EasingLine(Quadratic.easeOut, 200);
+
+            visualizer.mapTransition(_.fromNormalToOvered, inEasingLine);
+            visualizer.mapTransition(_.fromOveredToNormal, outEasingLine);
+            visualizer.mapValue(_.normal, .5);
+            visualizer.mapValue(_.overed, .9);
+
+        }
+
+        [Test]
         public function inProgress():void
         {
             var visualizerTarget:Sprite;
