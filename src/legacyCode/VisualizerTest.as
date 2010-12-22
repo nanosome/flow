@@ -1,11 +1,11 @@
-package tests.visualizer
+package tests.visualizing
 {
     import flash.display.Sprite;
     import mx.effects.easing.Quadratic;
 
     import nanosome.flow.stateMachine.StateMachine;
 
-    import nanosome.flow.easingLines.EasingLine;
+    import nanosome.flow.easing.EasingLine;
     import nanosome.flow.visualizing.Visualizer;
 
     import nanosome.flow.visualizing.controller.VisualizerController;

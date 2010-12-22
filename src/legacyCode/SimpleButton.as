@@ -11,7 +11,7 @@ package samples
     import samples.signalSets.ButtonSignals;
     import samples.stateMachines.ButtonStateMachine;
 
-    import nanosome.flow.visualizing.EasingBuilder;
+    import nanosome.flow.easing.EasingBuilder;
     import nanosome.flow.visualizing.ValuesBuilder;
     import nanosome.flow.visualizing.transforms.AlphaTransform;
 

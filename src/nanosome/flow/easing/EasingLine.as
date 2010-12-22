@@ -1,19 +1,25 @@
-package nanosome.flow.easingLines
+package nanosome.flow.easing
 {
-	public class EasingLine
+	public class EasingLine 
 	{
 		/**
 		 *  @private
 		 *  Holds function for easing.
-		 */
-		protected var _easing:Function;
+		 */	
+		private var _easing:Function;
 	
 		/**
 		 *  @private
-		 *  Holds duration of the animation.
-		 */
-		protected var _duration:Number;
-		
+		 *  Holds starting value for easing
+		 */	
+		private var _startValue:Number;
+
+        /**
+         *  @private
+         *  Holds delta value for easing
+         */
+        private var _deltaValue:Number;
+
 		//--------------------------------------------------------------------------
 		//
 		//  Constructor
@@ -26,10 +32,11 @@ package nanosome.flow.easingLines
 		 *  @param easing Function used for easing.
 		 *  @param duration Duration of the easing in steps.
 		 */	
-		public function EasingLine(easing:Function, duration:Number)
+		public function EasingLine(easing:Function, startValue:Number, endValue:Number)
 		{
 			_easing = easing;
-			_duration = duration;
+			_startValue = startValue;
+            _deltaValue = endValue - startValue;
 		}
 	
 		/**
@@ -41,30 +48,17 @@ package nanosome.flow.easingLines
 		{
 			return _easing;
 		}
-	
-		/**
-		 *  Returns duration of easing.
-		 *  Duration is measured in steps. 
-		 *  
-		 *  @return Number of steps used for easing.
-		 */	
-		public function getDuration():Number
-		{
-			return _duration;
-		}
 		
 		/**
 		 *  Returns value of the easing function for given position and range of values.
 		 *  
 		 *  @param pos Position where pointer of easing is.
-		 *  @param from Lower value for values range.
-		 *  @param to Upper value for values range.
 		 *   
 		 *  @return Value of the easing function.
 		 */	
-		protected function calculateValue(pos:Number, from:Number, delta:Number):Number
+		public function getValue(pos:Number, duration:Number):Number
 		{
-			return _easing.apply(this, [pos, from, delta, _duration]);
+			return _easing.apply(this, [pos, _startValue, _deltaValue, duration]);
 		}
 		
 		/**
@@ -74,7 +68,7 @@ package nanosome.flow.easingLines
 		 */	
 		public function toString():String
 		{
-			return "[object EasingLine (" + getEasingFunction() + ", " + getDuration() + ")]";
+			return "[object EasingLine (" + getEasingFunction() + ", [" + _startValue + ".. " + (_startValue + _deltaValue) + ")]";
 		}
 		
 	}
