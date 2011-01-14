@@ -1,24 +1,21 @@
 package nanosome.flow.easing
 {
-	public class EasingLine 
+    /**
+     * This class is fully specifying transition behavior for some element.
+     */
+	public class EasingLine extends TimedEasing
 	{
-		/**
-		 *  @private
-		 *  Holds function for easing.
-		 */	
-		private var _easing:Function;
-	
 		/**
 		 *  @private
 		 *  Holds starting value for easing
 		 */	
-		private var _startValue:Number;
+		internal var _startValue:Number;
 
         /**
          *  @private
          *  Holds delta value for easing
          */
-        private var _deltaValue:Number;
+        internal var _deltaValue:Number;
 
 		//--------------------------------------------------------------------------
 		//
@@ -28,25 +25,12 @@ package nanosome.flow.easing
 		
 		/**
 		 *  Constructor 
-		 *  
-		 *  @param easing Function used for easing.
-		 *  @param duration Duration of the easing in steps.
-		 */	
-		public function EasingLine(easing:Function, startValue:Number, endValue:Number)
+		 */
+		public function EasingLine(timedEasing:TimedEasing, startValue:Number, endValue:Number)
 		{
-			_easing = easing;
+            super(timedEasing._easing, timedEasing._duration);
 			_startValue = startValue;
             _deltaValue = endValue - startValue;
-		}
-	
-		/**
-		 *  Returns function used for easing. 
-		 *  
-		 *  @return Function used for easing.
-		 */	
-		public function getEasingFunction():Function
-		{
-			return _easing;
 		}
 		
 		/**
@@ -56,11 +40,11 @@ package nanosome.flow.easing
 		 *   
 		 *  @return Value of the easing function.
 		 */	
-		public function getValue(pos:Number, duration:Number):Number
+		public function getValue(pos:Number):Number
 		{
-			return _easing.apply(this, [pos, _startValue, _deltaValue, duration]);
+			return _easing.apply(this, [pos, _startValue, _deltaValue, _duration]);
 		}
-		
+
 		/**
 		 *  Stringifier for instance of EasingLine class. 
 		 *  
@@ -68,7 +52,11 @@ package nanosome.flow.easing
 		 */	
 		public function toString():String
 		{
-			return "[object EasingLine (" + getEasingFunction() + ", [" + _startValue + ".. " + (_startValue + _deltaValue) + ")]";
+			return "[object EasingLine (" +
+                    " easing: " + _easing +
+                    ", duration: " + _duration +
+                    ", values: [" + _startValue + ".. " + (_startValue + _deltaValue) +
+                    ")]";
 		}
 		
 	}

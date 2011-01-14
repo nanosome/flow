@@ -1,9 +1,9 @@
-package tests
+package
 {
     import tests.signals.SignalsLayerTest;
     import tests.stateMachine.StateMachineTest;
     import tests.builder.StateMachineBuilderTest;
-    import tests.visualizing.EasingLinesTest;
+    import easing.EasingLinesTest;
 
     [Suite]
     [RunWith("org.flexunit.runners.Suite")]
