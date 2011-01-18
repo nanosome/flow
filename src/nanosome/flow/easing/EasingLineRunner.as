@@ -1,12 +1,20 @@
 package nanosome.flow.easing
 {
+    import net.antistatic.logging.ILogger;
+    import net.antistatic.logging.LogFactory;
+
     public class EasingLineRunner
     {
+        private static const SWITCHING_PRECISION:Number = .001;
+
         private var _line:EasingLine;
         public var _position:Number;
 
+        private var _logger:ILogger;
+
         public function EasingLineRunner()
         {
+            _logger = LogFactory.getLogger(this);
             setPosition(0);
         }
 
@@ -110,6 +118,10 @@ package nanosome.flow.easing
 
             var targetTo:Number = targetLine._startValue + targetLine._deltaValue;
 
+            var srcValue:Number = Math.round(sourceValue / SWITCHING_PRECISION) + 1;
+
+            _logger.debug("Switching to new line, keeping value = " + srcValue);
+
             /*
              * This algorithm is using bisection to find in the new easing line
              * a position, closest to current position.
@@ -118,25 +130,37 @@ package nanosome.flow.easing
              * 2. This approach won't work well, if new easing line is too far from current value.
              *    although it should work good enough for alike transitions.
              */
-            while (Math.abs(fPos - tPos) > 1)
+            // TODO: Improve algorithm to choose closest value from adjacent steps
+            var steps:uint = 0;
+            while (Math.abs(fPos - tPos) > 1 && steps < 10)
             {
                 cPos = Math.round((fPos + tPos) / 2);
-                aVal = targetLine.getValue(cPos);
+                aVal = Math.round(targetLine.getValue(cPos) / SWITCHING_PRECISION);
+                _logger.debug(
+                    "Testing position '" + cPos +
+                    "', between positions '" + fPos + "' and '" + tPos +
+                    "', value = " + aVal
+                );
                 if (targetFrom < targetTo)
                 {
-                    if (aVal >= sourceValue)
+                    if (aVal > srcValue)
                         tPos = cPos;
-                    else if (aVal < sourceValue)
+                    else if (aVal < srcValue)
                         fPos = cPos;
+                    else
+                        return cPos;
                 }
                 else
                 {
-                    if (aVal <= sourceValue)
+                    if (aVal < srcValue)
                         tPos = cPos;
-                    else if(aVal > sourceValue)
+                    else if(aVal > srcValue)
                         fPos = cPos;
+                    else
+                        return cPos;
                 }
-            }
+                steps++;
+            };
             return cPos;
         }
 
