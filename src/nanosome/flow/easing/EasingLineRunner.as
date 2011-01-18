@@ -15,7 +15,7 @@ package nanosome.flow.easing
             _line = value;
         }
 
-        private function setPosition(value:Number):void
+        public function setPosition(value:Number):void
         {
             _position = value;
         }
@@ -53,7 +53,7 @@ package nanosome.flow.easing
             {
                 calculatedLine = new EasingLine(
                     new TimedEasing(newLine._easing, newLine._duration),
-                    this.value, newLine._startValue + newLine._deltaValue
+                    this.value, newLine._endValue
                 );
                 calculatedPosition = 0; // start from 0
             }
@@ -61,11 +61,17 @@ package nanosome.flow.easing
             {
                 calculatedLine = new EasingLine(
                     new TimedEasing(newLine._easing, newLine._duration),
-                    newLine._startValue, newLine._startValue + newLine._deltaValue
+                    newLine._startValue, newLine._endValue
                 );
 
-                // now we have to calculate position
+                if (!(_line._startValue == newLine._endValue && _line._endValue == newLine._startValue))
+                    throw new Error(
+                        "Current easing line starting/ending values (" +_line._startValue + ".." + _line._endValue +
+                        ") should match to reversed starting/ending values of the new line " +
+                        "(" + newLine._startValue + ".." + newLine._endValue + ")."
+                    );
 
+                // now we have to calculate position
                 if (newLine._duration < _position)
                     calculatedPosition = 0;
                 else

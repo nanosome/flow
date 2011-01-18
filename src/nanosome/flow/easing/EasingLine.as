@@ -11,6 +11,11 @@ package nanosome.flow.easing
 		 */	
 		internal var _startValue:Number;
 
+		/**
+		 *  @private
+		 *  Holds ending value for easing
+		 */
+		internal var _endValue:Number;
         /**
          *  @private
          *  Holds delta value for easing
@@ -30,7 +35,8 @@ package nanosome.flow.easing
 		{
             super(timedEasing._easing, timedEasing._duration);
 			_startValue = startValue;
-            _deltaValue = endValue - startValue;
+            _endValue = endValue;
+            _deltaValue = _endValue - _startValue;
 		}
 		
 		/**
@@ -55,7 +61,7 @@ package nanosome.flow.easing
 			return "[object EasingLine (" +
                     " easing: " + _easing +
                     ", duration: " + _duration +
-                    ", values: [" + _startValue + ".. " + (_startValue + _deltaValue) +
+                    ", values: [" + _startValue + ".. " + _endValue +
                     ")]";
 		}
 		
