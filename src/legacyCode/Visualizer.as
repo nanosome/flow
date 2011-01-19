@@ -1,4 +1,4 @@
-package nanosome.flow.visualizing
+package legacyCode
 {
     import flash.utils.Dictionary;
 
@@ -27,8 +27,7 @@ package nanosome.flow.visualizing
          * and one for easing lines.
          *
          * Visualizer captures CHANGE_STATE events of its parental state machine controller,
-         * getting old state and transition from it, and
-         * TODO: Continue here
+         * getting old state and transition from it, and ...
          */
         public function Visualizer(transform:IVisualizerTransform)
         {

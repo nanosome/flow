@@ -1,8 +1,5 @@
 package nanosome.flow.easing
 {
-    import net.antistatic.logging.ILogger;
-    import net.antistatic.logging.LogFactory;
-
     public class EasingLineRunner
     {
         private static const SWITCHING_PRECISION:Number = .001;
@@ -10,11 +7,8 @@ package nanosome.flow.easing
         private var _line:EasingLine;
         public var _position:Number;
 
-        private var _logger:ILogger;
-
         public function EasingLineRunner()
         {
-            _logger = LogFactory.getLogger(this);
             setPosition(0);
         }
 
@@ -106,10 +100,10 @@ package nanosome.flow.easing
             var aVal:Number;
 
             // current position during seeking
-            var cPos:uint;
+            var cPos:int;
 
             // 'from' position during seeking
-            var fPos:uint = 0;
+            var fPos:int = 0;
 
             // 'to' position during seeking
             var tPos:Number = targetLine._duration;
@@ -118,9 +112,7 @@ package nanosome.flow.easing
 
             var targetTo:Number = targetLine._startValue + targetLine._deltaValue;
 
-            var srcValue:Number = Math.round(sourceValue / SWITCHING_PRECISION) + 1;
-
-            _logger.debug("Switching to new line, keeping value = " + srcValue);
+            var srcValue:Number = Math.round(sourceValue / SWITCHING_PRECISION);
 
             /*
              * This algorithm is using bisection to find in the new easing line
@@ -130,17 +122,11 @@ package nanosome.flow.easing
              * 2. This approach won't work well, if new easing line is too far from current value.
              *    although it should work good enough for alike transitions.
              */
-            // TODO: Improve algorithm to choose closest value from adjacent steps
-            var steps:uint = 0;
-            while (Math.abs(fPos - tPos) > 1 && steps < 10)
+            while (Math.abs(fPos - tPos) > 1)
             {
                 cPos = Math.round((fPos + tPos) / 2);
                 aVal = Math.round(targetLine.getValue(cPos) / SWITCHING_PRECISION);
-                _logger.debug(
-                    "Testing position '" + cPos +
-                    "', between positions '" + fPos + "' and '" + tPos +
-                    "', value = " + aVal
-                );
+
                 if (targetFrom < targetTo)
                 {
                     if (aVal > srcValue)
@@ -159,9 +145,11 @@ package nanosome.flow.easing
                     else
                         return cPos;
                 }
-                steps++;
             };
-            return cPos;
+
+            var fDiff:Number = Math.abs(srcValue - targetLine.getValue(fPos) / SWITCHING_PRECISION);
+            var tDiff:Number = Math.abs(srcValue - targetLine.getValue(tPos) / SWITCHING_PRECISION);
+            return fDiff < tDiff ? fPos : tPos;
         }
 
     }

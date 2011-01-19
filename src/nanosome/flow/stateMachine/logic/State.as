@@ -85,7 +85,7 @@ package nanosome.flow.stateMachine.logic
 		 *  
 		 *  @see Transition
 		 */		
-		public function addTransition(signal:Signal, targetState:State):Transition  //TODO: add namespace
+		public function addTransition(signal:Signal, targetState:State):Transition 
 		{
             var t:Transition = new Transition();
             defineTransition(t, signal, targetState);

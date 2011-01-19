@@ -37,7 +37,7 @@ package easing
         }
 
         [Test]
-        public function isSwitchingReversingEasingLines():void
+        public function isSwitchingReversingEasingLinesFromExpoToLinear():void
         {
             var runner:EasingLineRunner = new EasingLineRunner();
             // 10 steps, linear easing
@@ -66,14 +66,48 @@ package easing
 
             runner.switchToNewEasingLine(linearLine, true);
             Assert.assertEquals(
-                "runner value after switching",
-                50, runner.value
+                "runner value after switching with precision = " + precision,
+                50, Math.round(runner.value * precision) / precision
             ); // value should be the same
 
-
-            /*
             Assert.assertEquals(5, runner._position); // check correct position
-            */
+        }
+
+        [Test]
+        public function isSwitchingReversingEasingLinesFromLinearToExpo():void
+        {
+            var runner:EasingLineRunner = new EasingLineRunner();
+            // 10 steps, linear easing
+            var linearEasing:TimedEasing = new TimedEasing(Linear.easeIn, 10);
+
+            // 10 steps, linear easing
+            var expoEasing:TimedEasing = new TimedEasing(Exponential.easeIn, 10);
+
+            // changing values  from 0 to 100 in 10 steps, with linear easing
+            var linearLine:EasingLine = new EasingLine(linearEasing, 0, 100);
+
+            // changing values back from 100 to 0 in 10 steps, with exponential easing
+            var expoLine:EasingLine = new EasingLine(expoEasing, 100, 0);
+
+            // initiate runner with linear line...
+            runner.setEasingLine(linearLine);
+            // set position to 5
+            runner.setPosition(5);
+
+            // value should be equal 50
+            var precision:uint = 1000;
+            Assert.assertEquals(
+                "runner.value after rounding with precision = " + precision,
+                50, Math.round(runner.value * precision) / precision
+            );
+
+            runner.switchToNewEasingLine(expoLine, true);
+            Assert.assertEquals(
+                "runner value after switching with precision = " + precision,
+                50, Math.round(runner.value * precision) / precision
+            ); // value should be the same
+
+            Assert.assertEquals(9, runner._position); // check correct position
         }
     }
 }
