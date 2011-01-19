@@ -1,4 +1,4 @@
-package tests.utils
+package utils
 {
 	import net.antistatic.logging.LogFactory;
 	import net.antistatic.logging.ILogger;

@@ -1,11 +1,11 @@
-package tests.builder
+package builder
 {
     import nanosome.flow.stateMachine.StateMachine;
     import nanosome.flow.stateMachine.builder.StateMachineBuilder;
     import nanosome.flow.stateMachine.logic.State;
     import nanosome.flow.stateMachine.logic.Transition;
 
-    import tests.misc.ButtonSignals;
+    import misc.ButtonSignals;
 
     public class TestStateMachineBuilder extends StateMachineBuilder
 	{

@@ -1,4 +1,4 @@
-package tests.misc
+package misc
 {
     import flash.events.EventDispatcher;
 

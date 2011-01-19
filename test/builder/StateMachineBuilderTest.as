@@ -1,11 +1,11 @@
-package tests.builder
+package builder
 {
     import nanosome.flow.stateMachine.StateMachine;
     import nanosome.flow.stateMachine.controller.StateMachineController;
 
     import org.flexunit.Assert;
 
-    import tests.misc.ButtonSignals;
+    import misc.ButtonSignals;
 
     public class StateMachineBuilderTest
     {

@@ -1,4 +1,4 @@
-package tests.signals
+package signals
 {
     import nanosome.flow.signals.AbstractSignalSet;
     import nanosome.flow.signals.Signal;

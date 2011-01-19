@@ -1,9 +1,11 @@
 package
 {
-    import tests.signals.SignalsLayerTest;
-    import tests.stateMachine.StateMachineTest;
-    import tests.builder.StateMachineBuilderTest;
+    import signals.SignalsLayerTest;
+    import stateMachine.StateMachineTest;
+    import builder.StateMachineBuilderTest;
     import easing.EasingLinesTest;
+
+    import signals.SignalsLayerTest;
 
     [Suite]
     [RunWith("org.flexunit.runners.Suite")]

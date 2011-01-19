@@ -1,4 +1,4 @@
-package tests.builder
+package builder
 {
     import nanosome.flow.stateMachine.builder.StateMachineBuildersFactory;
 

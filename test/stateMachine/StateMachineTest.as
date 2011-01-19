@@ -1,4 +1,4 @@
-package tests.stateMachine
+package stateMachine
 {
     import nanosome.flow.stateMachine.StateMachine;
     import nanosome.flow.stateMachine.controller.StateMachineController;
@@ -9,7 +9,7 @@ package tests.stateMachine
 
     import org.flexunit.Assert;
 
-    import tests.misc.ButtonSignals;
+    import misc.ButtonSignals;
 
     public class StateMachineTest
     {
