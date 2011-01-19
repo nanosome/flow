@@ -5,11 +5,11 @@ package nanosome.flow.easing
         private static const SWITCHING_PRECISION:Number = .001;
 
         private var _line:EasingLine;
-        public var _position:Number;
+        private var _position:Number;
 
-        public function EasingLineRunner()
+        public function EasingLineRunner(initialPosition:uint = 0)
         {
-            setPosition(0);
+            setPosition(initialPosition);
         }
 
         public function setEasingLine(value:EasingLine):void
@@ -29,7 +29,7 @@ package nanosome.flow.easing
 
         public function get value():Number
         {
-            return _line.getValue(_position); // using normalized length
+            return _line.getValueForTest(_position);
         }
 
         /**
@@ -48,27 +48,21 @@ package nanosome.flow.easing
         public function switchToNewEasingLine(newLine:EasingLine, isReversing:Boolean):void
         {
 
-            var calculatedLine:EasingLine;
+            var calculatedStartValue:Number;
             var calculatedPosition:Number;
 
             if (!isReversing)
             {
-                calculatedLine = new EasingLine(
-                    newLine._easing, newLine._duration,
-                    this.value, newLine._endValue
-                );
+                calculatedStartValue = this.value;
                 calculatedPosition = 0; // start from 0
             }
             else
             {
-                calculatedLine = new EasingLine(
-                    newLine._easing, newLine._duration,
-                    newLine._startValue, newLine._endValue
-                );
+                calculatedStartValue = newLine._startValue;
 
                 if (!(_line._startValue == newLine._endValue && _line._endValue == newLine._startValue))
                     throw new Error(
-                        "Current easing line starting/ending values (" +_line._startValue + ".." + _line._endValue +
+                        "Current easing line starting/ending values (" + _line._startValue + ".." + _line._endValue +
                         ") should match to reversed starting/ending values of the new line " +
                         "(" + newLine._startValue + ".." + newLine._endValue + ")."
                     );
@@ -80,7 +74,9 @@ package nanosome.flow.easing
                     calculatedPosition = calculatePosition(newLine, this.value);
             }
 
-            setEasingLine(calculatedLine);
+            setEasingLine(
+                new EasingLine(newLine._easing, newLine._duration, calculatedStartValue, newLine._endValue)
+            );
             setPosition(calculatedPosition);
         }
 
@@ -125,7 +121,7 @@ package nanosome.flow.easing
             while (Math.abs(fPos - tPos) > 1)
             {
                 cPos = Math.round((fPos + tPos) / 2);
-                aVal = Math.round(targetLine.getValue(cPos) / SWITCHING_PRECISION);
+                aVal = Math.round(targetLine.getValueForTest(cPos) / SWITCHING_PRECISION);
 
                 if (targetFrom < targetTo)
                 {
@@ -147,9 +143,14 @@ package nanosome.flow.easing
                 }
             }
 
-            var fDiff:Number = Math.abs(srcValue - targetLine.getValue(fPos) / SWITCHING_PRECISION);
-            var tDiff:Number = Math.abs(srcValue - targetLine.getValue(tPos) / SWITCHING_PRECISION);
+            var fDiff:Number = Math.abs(srcValue - targetLine.getValueForTest(fPos) / SWITCHING_PRECISION);
+            var tDiff:Number = Math.abs(srcValue - targetLine.getValueForTest(tPos) / SWITCHING_PRECISION);
             return fDiff < tDiff ? fPos : tPos;
+        }
+
+        public function getPositionForTest():Number
+        {
+            return _position;            
         }
     }
 }

@@ -47,12 +47,12 @@ package visualizing
             visualizer.mapValue(_.overed, .9);
 
             var easingLine:EasingLine = visualizer.getEasingLineFor(_.normal, _.overed, _.fromNormalToOvered);
-            Assert.assertEquals(.5, easingLine.getValue(0));
-            Assert.assertEquals(.9, easingLine.getValue(100));
+            Assert.assertEquals(.5, easingLine.getValueForTest(0));
+            Assert.assertEquals(.9, easingLine.getValueForTest(100));
 
             easingLine = visualizer.getEasingLineFor(_.overed, _.normal, _.fromOveredToNormal);
-            Assert.assertEquals(.9, easingLine.getValue(0));
-            Assert.assertEquals(.5, easingLine.getValue(200));
+            Assert.assertEquals(.9, easingLine.getValueForTest(0));
+            Assert.assertEquals(.5, easingLine.getValueForTest(200));
         }
 
         [Test]

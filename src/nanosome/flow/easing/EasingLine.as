@@ -51,7 +51,7 @@ package nanosome.flow.easing
 		 *   
 		 *  @return Value of the easing function.
 		 */	
-		public function getValue(pos:Number):Number
+		private function getValue(pos:Number):Number
 		{
 			return _easing.apply(this, [pos, _startValue, _deltaValue, _duration]);
 		}
@@ -69,6 +69,11 @@ package nanosome.flow.easing
                     ", values: [" + _startValue + ".. " + _endValue +
                     ")]";
 		}
+
+        public function getValueForTest(pos:Number):Number
+        {
+            return getValue(pos);
+        }
 		
 	}
 

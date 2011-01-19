@@ -13,12 +13,9 @@ package easing
         [Test]
         public function areStepsWorking():void
         {
-            var runner:EasingLineRunner = new EasingLineRunner();
-
             // changing values from 0 to 100 in 10 steps, with linear easing
-            var line:EasingLine = new EasingLine(Linear.easeIn, 10, 0, 100);
-            runner.setEasingLine(line);
-
+            var runner:EasingLineRunner = new EasingLineRunner();
+            runner.setEasingLine(new EasingLine(Linear.easeIn, 10, 0, 100));
             runner.setPosition(0);
             Assert.assertEquals(0, runner.value);
 
@@ -62,7 +59,7 @@ package easing
             ); // value should be the same
 
             // unlike with switching reversing lines, position should be equal to 0
-            Assert.assertEquals(0, runner._position);
+            Assert.assertEquals(0, runner.getPositionForTest());
 
             runner.setPosition(10); // go to last step
 
@@ -101,7 +98,7 @@ package easing
                 50, Math.round(runner.value * precision) / precision
             ); // value should be the same
 
-            Assert.assertEquals(5, runner._position); // check correct position
+            Assert.assertEquals(5, runner.getPositionForTest()); // check correct position
         }
 
         [Test]
@@ -133,7 +130,7 @@ package easing
                 50, Math.round(runner.value * precision) / precision
             ); // value should be the same
 
-            Assert.assertEquals(9, runner._position); // check correct position
+            Assert.assertEquals(9, runner.getPositionForTest()); // check correct position
         }
     }
 }
