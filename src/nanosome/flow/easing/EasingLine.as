@@ -5,6 +5,11 @@ package nanosome.flow.easing
      */
 	public class EasingLine extends TimedEasing
 	{
+        public static function createWithTimedEasing(easing:TimedEasing, startValue:Number, endValue:Number):EasingLine
+        {
+            return new EasingLine(easing._easing, easing._duration, startValue, endValue);
+        }
+
 		/**
 		 *  @private
 		 *  Holds starting value for easing
@@ -31,9 +36,9 @@ package nanosome.flow.easing
 		/**
 		 *  Constructor 
 		 */
-		public function EasingLine(timedEasing:TimedEasing, startValue:Number, endValue:Number)
+		public function EasingLine(easing:Function, duration:uint, startValue:Number, endValue:Number)
 		{
-            super(timedEasing._easing, timedEasing._duration);
+            super(easing, duration);
 			_startValue = startValue;
             _endValue = endValue;
             _deltaValue = _endValue - _startValue;

@@ -1,9 +1,10 @@
-package legacyCode
+package nanosome.flow.visualizing
 {
     import flash.utils.Dictionary;
 
-    import nanosome.flow.easingLines.EasingLine;
-    import nanosome.flow.easingLines.EasingValuesLine;
+    import nanosome.flow.easing.EasingLine;
+    import nanosome.flow.easing.EasingLineRunner;
+    import nanosome.flow.easing.TimedEasing;
     import nanosome.flow.stateMachine.controller.StateMachineController;
     import nanosome.flow.stateMachine.controller.StateMachineControllerEvent;
     import nanosome.flow.stateMachine.logic.State;
@@ -17,9 +18,10 @@ package legacyCode
         private var _transform:IVisualizerTransform;
 
         private var _values:Dictionary;
-        private var _transitions:Dictionary;
+        private var _easings:Dictionary;
 
-        private var _easingRunner:EasingValuesLine;
+        private var _runner:EasingLineRunner;
+        private var _line:EasingLine;
 
         /**
          * Visualizer consists of single target + transformer pair
@@ -33,7 +35,8 @@ package legacyCode
         {
             _transform = transform;
             _values = new Dictionary();
-            _transitions = new Dictionary();
+            _easings = new Dictionary();
+            _runner = new EasingLineRunner();
         }
 
         public function mapValue(state:State, value:Number):void
@@ -41,9 +44,9 @@ package legacyCode
             _values[state] = value;
         }
 
-        public function mapTransition(transition:Transition, easingLine:EasingLine):void
+        public function mapTransition(transition:Transition, timedEasing:TimedEasing):void
         {
-            _values[transition] = easingLine;
+            _easings[transition] = timedEasing;
         }
 
 
@@ -61,14 +64,24 @@ package legacyCode
 
         }
 
+        public function getEasingLineFor(fromState:State, toState:State, transition:Transition):EasingLine
+        {
+            return EasingLine.createWithTimedEasing(_easings[transition], _values[fromState], _values[toState]);
+        }
+
+        public function setPosition(position:Number):void
+        {
+            _runner.setPosition(position);
+        }
+
         public function makeStep(delta:Number):void
         {
-            _easingRunner.makeStep(delta);
+            _runner.makeStep(delta);
         }
 
         public function applyTransform():void
         {
-            _transform.apply(_easingRunner.value);
+            _transform.apply(_runner.value);
         }
 
 

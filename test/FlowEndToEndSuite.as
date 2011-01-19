@@ -4,8 +4,7 @@ package
     import stateMachine.StateMachineTest;
     import builder.StateMachineBuilderTest;
     import easing.EasingLinesTest;
-
-    import signals.SignalsLayerTest;
+    import visualizing.VisualizerTest;
 
     [Suite]
     [RunWith("org.flexunit.runners.Suite")]
@@ -18,5 +17,6 @@ package
 
         // testing visualizing part
         public var t4:EasingLinesTest;
+        public var t5:VisualizerTest;
     }
 }

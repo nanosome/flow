@@ -4,7 +4,7 @@ package nanosome.flow.visualizing.controller
     import nanosome.flow.stateMachine.controller.*;
     import nanosome.flow.stateMachine.*;
     import nanosome.flow.signals.AbstractSignalSet;
-    import legacyCode.Visualizer;
+    import nanosome.flow.visualizing.Visualizer;
 
     public class VisualizerController extends StateMachineController
 	{

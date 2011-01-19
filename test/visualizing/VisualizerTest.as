@@ -1,28 +1,31 @@
-package tests.visualizing
+package visualizing
 {
     import flash.display.Sprite;
     import mx.effects.easing.Quadratic;
 
+    import nanosome.flow.easing.TimedEasing;
     import nanosome.flow.stateMachine.StateMachine;
 
     import nanosome.flow.easing.EasingLine;
-    import legacyCode.Visualizer;
+    import nanosome.flow.visualizing.Visualizer;
 
     import nanosome.flow.visualizing.controller.VisualizerController;
     import nanosome.flow.visualizing.transforms.AlphaTransform;
 
     import org.flexunit.Assert;
 
-    import tests.builder.TestStateMachineBuilder;
-    import tests.builder.TestStateMachineBuildersFactory;
-    import tests.misc.ButtonSignals;
+    import builder.TestStateMachineBuilder;
+    import builder.TestStateMachineBuildersFactory;
+    import misc.ButtonSignals;
+
+    import org.flexunit.flexui.patterns.AssertEqualsPattern;
 
     public class VisualizerTest
     {
         private var _:TestStateMachineBuilder;
 
         [Before]
-        public function configureStateMachine():void
+        public function configureStateMachineBuilder():void
         {
             var repository:TestStateMachineBuildersFactory; // you're free to do it via singleton/.getInstance
             repository = new TestStateMachineBuildersFactory();
@@ -30,32 +33,39 @@ package tests.visualizing
         }
 
         [Test]
-        public function mappingVisualizer():void
+        public function isVisualizerMappingEasingsAndValues():void
         {
-            var visualizerTarget:Sprite;
+            var visualizerTarget:Sprite = new Sprite();
             var visualizer:Visualizer = new Visualizer(new AlphaTransform(visualizerTarget));
 
-            var inEasingLine:EasingLine = new EasingLine(Quadratic.easeIn, 100);
-            var outEasingLine:EasingLine = new EasingLine(Quadratic.easeOut, 200);
+            var inEasing:TimedEasing = new TimedEasing(Quadratic.easeIn, 100);
+            var outEasing:TimedEasing = new TimedEasing(Quadratic.easeOut, 200);
 
-            visualizer.mapTransition(_.fromNormalToOvered, inEasingLine);
-            visualizer.mapTransition(_.fromOveredToNormal, outEasingLine);
+            visualizer.mapTransition(_.fromNormalToOvered, inEasing);
+            visualizer.mapTransition(_.fromOveredToNormal, outEasing);
             visualizer.mapValue(_.normal, .5);
             visualizer.mapValue(_.overed, .9);
 
+            var easingLine:EasingLine = visualizer.getEasingLineFor(_.normal, _.overed, _.fromNormalToOvered);
+            Assert.assertEquals(.5, easingLine.getValue(0));
+            Assert.assertEquals(.9, easingLine.getValue(100));
+
+            easingLine = visualizer.getEasingLineFor(_.overed, _.normal, _.fromOveredToNormal);
+            Assert.assertEquals(.9, easingLine.getValue(0));
+            Assert.assertEquals(.5, easingLine.getValue(200));
         }
 
         [Test]
         public function inProgress():void
         {
-            var visualizerTarget:Sprite;
+            var visualizerTarget:Sprite = new Sprite();
             var visualizer:Visualizer = new Visualizer(new AlphaTransform(visualizerTarget));
 
-            var inEasingLine:EasingLine = new EasingLine(Quadratic.easeIn, 100);
-            var outEasingLine:EasingLine = new EasingLine(Quadratic.easeOut, 200);
+            var inEasing:TimedEasing = new TimedEasing(Quadratic.easeIn, 100);
+            var outEasing:TimedEasing = new TimedEasing(Quadratic.easeOut, 200);
 
-            visualizer.mapTransition(_.fromNormalToOvered, inEasingLine);
-            visualizer.mapTransition(_.fromOveredToNormal, outEasingLine);
+            visualizer.mapTransition(_.fromNormalToOvered, inEasing);
+            visualizer.mapTransition(_.fromOveredToNormal, outEasing);
             visualizer.mapValue(_.normal, .5);
             visualizer.mapValue(_.overed, .9);
             // TODO: Add throwing an exception if not all fields are filled

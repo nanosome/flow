@@ -54,7 +54,7 @@ package nanosome.flow.easing
             if (!isReversing)
             {
                 calculatedLine = new EasingLine(
-                    new TimedEasing(newLine._easing, newLine._duration),
+                    newLine._easing, newLine._duration,
                     this.value, newLine._endValue
                 );
                 calculatedPosition = 0; // start from 0
@@ -62,7 +62,7 @@ package nanosome.flow.easing
             else
             {
                 calculatedLine = new EasingLine(
-                    new TimedEasing(newLine._easing, newLine._duration),
+                    newLine._easing, newLine._duration,
                     newLine._startValue, newLine._endValue
                 );
 
@@ -145,12 +145,11 @@ package nanosome.flow.easing
                     else
                         return cPos;
                 }
-            };
+            }
 
             var fDiff:Number = Math.abs(srcValue - targetLine.getValue(fPos) / SWITCHING_PRECISION);
             var tDiff:Number = Math.abs(srcValue - targetLine.getValue(tPos) / SWITCHING_PRECISION);
             return fDiff < tDiff ? fPos : tPos;
         }
-
     }
 }
