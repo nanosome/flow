@@ -20,6 +20,8 @@ package visualizing
 
     import org.flexunit.flexui.patterns.AssertEqualsPattern;
 
+    import visualizing.MockSprite;
+
     public class VisualizerTest
     {
         private var _:TestStateMachineBuilder;
@@ -35,8 +37,8 @@ package visualizing
         [Test]
         public function isVisualizerMappingEasingsAndValues():void
         {
-            var visualizerTarget:Sprite = new Sprite();
-            var visualizer:Visualizer = new Visualizer(new AlphaTransform(visualizerTarget));
+            var visualizerTarget:MockSprite = new MockSprite();
+            var visualizer:Visualizer = new Visualizer(new MockAlphaTransform(visualizerTarget));
 
             var inEasing:TimedEasing = new TimedEasing(Quadratic.easeIn, 100);
             var outEasing:TimedEasing = new TimedEasing(Quadratic.easeOut, 200);
@@ -46,13 +48,17 @@ package visualizing
             visualizer.mapValue(_.normal, .5);
             visualizer.mapValue(_.overed, .9);
 
-            var easingLine:EasingLine = visualizer.getEasingLineFor(_.normal, _.overed, _.fromNormalToOvered);
-            Assert.assertEquals(.5, easingLine.getValueForTest(0));
-            Assert.assertEquals(.9, easingLine.getValueForTest(100));
+            visualizer.setTransition(_.fromNormalToOvered);
+            visualizer.setPosition(0);
+            Assert.assertEquals(.5, visualizerTarget.alpha);
+            visualizer.setPosition(100);
+            Assert.assertEquals(.9, visualizerTarget.alpha);
 
-            easingLine = visualizer.getEasingLineFor(_.overed, _.normal, _.fromOveredToNormal);
-            Assert.assertEquals(.9, easingLine.getValueForTest(0));
-            Assert.assertEquals(.5, easingLine.getValueForTest(200));
+            visualizer.setTransition(_.fromOveredToNormal);
+            visualizer.setPosition(0);
+            Assert.assertEquals(.9, visualizerTarget.alpha);
+            visualizer.setPosition(200);
+            Assert.assertEquals(.5, visualizerTarget.alpha);
         }
 
         [Test]
@@ -68,7 +74,6 @@ package visualizing
             visualizer.mapTransition(_.fromOveredToNormal, outEasing);
             visualizer.mapValue(_.normal, .5);
             visualizer.mapValue(_.overed, .9);
-            // TODO: Add throwing an exception if not all fields are filled
 
             var signals:ButtonSignals = _.getNewSignalsSet();
             var sm:StateMachine = _.getStateMachine();

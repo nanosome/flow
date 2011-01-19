@@ -11,7 +11,7 @@ package nanosome.flow.visualizing
     import nanosome.flow.stateMachine.logic.Transition;
     import nanosome.flow.visualizing.transforms.IVisualizerTransform;
 
-    public class Visualizer
+    public class Visualizer extends EasingLineRunner
     {
         private var _controller:StateMachineController;
 
@@ -19,9 +19,6 @@ package nanosome.flow.visualizing
 
         private var _values:Dictionary;
         private var _easings:Dictionary;
-
-        private var _runner:EasingLineRunner;
-        private var _line:EasingLine;
 
         /**
          * Visualizer consists of single target + transformer pair
@@ -36,7 +33,7 @@ package nanosome.flow.visualizing
             _transform = transform;
             _values = new Dictionary();
             _easings = new Dictionary();
-            _runner = new EasingLineRunner();
+            super();
         }
 
         public function mapValue(state:State, value:Number):void
@@ -49,11 +46,33 @@ package nanosome.flow.visualizing
             _easings[transition] = timedEasing;
         }
 
+        public function setTransition(transition:Transition):void
+        {
+            setEasingLine(EasingLine.createWithTimedEasing(
+                _easings[transition],
+                _values[transition.source], _values[transition.target])
+            );
+        }
+
+        override public function setPosition(value:Number):void
+        {
+            super.setPosition(value);
+            applyTransform();
+        }
+
+        public function applyTransform():void
+        {
+            _transform.apply(value);
+        }
+
+        // --- Handling with controller
 
         public function setController(controller:StateMachineController):void
         {
             _controller = controller;
             _controller.addEventListener(StateMachineControllerEvent.STATE_CHANGED, onControllerChangedState);
+
+            // TODO: Add checking against state machine and throwing an exception if not all fields are mapped
 
             // applying default values
             _transform.apply(_values[_controller.getCurrentState()]);
@@ -63,27 +82,5 @@ package nanosome.flow.visualizing
         {
 
         }
-
-        public function getEasingLineFor(fromState:State, toState:State, transition:Transition):EasingLine
-        {
-            return EasingLine.createWithTimedEasing(_easings[transition], _values[fromState], _values[toState]);
-        }
-
-        public function setPosition(position:Number):void
-        {
-            _runner.setPosition(position);
-        }
-
-        public function makeStep(delta:Number):void
-        {
-            _runner.makeStep(delta);
-        }
-
-        public function applyTransform():void
-        {
-            _transform.apply(_runner.value);
-        }
-
-
     }
 }

@@ -7,9 +7,8 @@ package nanosome.flow.easing
         private var _line:EasingLine;
         private var _position:Number;
 
-        public function EasingLineRunner(initialPosition:uint = 0)
+        public function EasingLineRunner()
         {
-            setPosition(initialPosition);
         }
 
         public function setEasingLine(value:EasingLine):void
@@ -29,7 +28,7 @@ package nanosome.flow.easing
 
         public function get value():Number
         {
-            return _line.getValueForTest(_position);
+            return _line.getValue(_position);
         }
 
         /**
