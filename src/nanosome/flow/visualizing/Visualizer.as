@@ -65,7 +65,11 @@ package nanosome.flow.visualizing
             _transform.apply(value);
         }
 
-        // --- Handling with controller
+        //--------------------------------------------------------------------------
+        //
+        //  Operations with controller
+        //
+        //--------------------------------------------------------------------------
 
         public function setController(controller:StateMachineController):void
         {

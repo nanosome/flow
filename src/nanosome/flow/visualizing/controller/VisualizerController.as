@@ -6,6 +6,9 @@ package nanosome.flow.visualizing.controller
     import nanosome.flow.signals.AbstractSignalSet;
     import nanosome.flow.visualizing.Visualizer;
 
+    /**
+     *
+     */
     public class VisualizerController extends StateMachineController
 	{
 

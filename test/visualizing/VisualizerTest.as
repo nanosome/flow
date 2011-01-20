@@ -43,20 +43,31 @@ package visualizing
             var inEasing:TimedEasing = new TimedEasing(Quadratic.easeIn, 100);
             var outEasing:TimedEasing = new TimedEasing(Quadratic.easeOut, 200);
 
+            // '_' should be an already built state machine, with states and transitions
             visualizer.mapTransition(_.fromNormalToOvered, inEasing);
             visualizer.mapTransition(_.fromOveredToNormal, outEasing);
             visualizer.mapValue(_.normal, .5);
             visualizer.mapValue(_.overed, .9);
 
+            // trying fromNormalToOvered transition
             visualizer.setTransition(_.fromNormalToOvered);
+
+            // at its starting point, value should be equal to mapped value for _normal state
             visualizer.setPosition(0);
             Assert.assertEquals(.5, visualizerTarget.alpha);
+
+            // at its ending point, value should be equal to mapped value for _overed state
             visualizer.setPosition(100);
             Assert.assertEquals(.9, visualizerTarget.alpha);
 
+            // now let's check fromOveredToNormal transition
             visualizer.setTransition(_.fromOveredToNormal);
+            
+            // at its starting point, value should be equal to mapped value for _overed state
             visualizer.setPosition(0);
             Assert.assertEquals(.9, visualizerTarget.alpha);
+
+            // at its ending point, value should be equal to mapped value for _normal state
             visualizer.setPosition(200);
             Assert.assertEquals(.5, visualizerTarget.alpha);
         }
@@ -64,32 +75,7 @@ package visualizing
         [Test]
         public function inProgress():void
         {
-            var visualizerTarget:Sprite = new Sprite();
-            var visualizer:Visualizer = new Visualizer(new AlphaTransform(visualizerTarget));
 
-            var inEasing:TimedEasing = new TimedEasing(Quadratic.easeIn, 100);
-            var outEasing:TimedEasing = new TimedEasing(Quadratic.easeOut, 200);
-
-            visualizer.mapTransition(_.fromNormalToOvered, inEasing);
-            visualizer.mapTransition(_.fromOveredToNormal, outEasing);
-            visualizer.mapValue(_.normal, .5);
-            visualizer.mapValue(_.overed, .9);
-
-            var signals:ButtonSignals = _.getNewSignalsSet();
-            var sm:StateMachine = _.getStateMachine();
-
-            var c:VisualizerController = new VisualizerController(sm, signals);
-            c.addVisualizer(visualizer);
-
-            Assert.assertNotNull(signals);
-            Assert.assertNotNull(sm);
-            Assert.assertNotNull(c);
-
-            Assert.assertEquals(_.normal.id, c.getCurrentState().id);
-            signals.mouseOver.fire();
-            Assert.assertEquals(_.overed.id, c.getCurrentState().id);
-            signals.mouseDown.fire();
-            Assert.assertEquals(_.pressed.id, c.getCurrentState().id);
         }
     }
 }
