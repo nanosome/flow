@@ -19,6 +19,7 @@ package nanosome.flow.visualizing
 
         private var _prevTransition:Transition;
         private var _initialValue:Number;
+        private var _isEndValueApplied:Boolean;
         private var _runner:EasingLineRunner;
 
         /**
@@ -38,12 +39,14 @@ package nanosome.flow.visualizing
 
         public function makeStep(delta:Number):Boolean
         {
-            if (_runner && _runner.makeStep(delta))
-            {
-                applyTransform();
-                return true;
-            }
-            return false;
+            if (!_runner || _isEndValueApplied)
+                return false;
+
+            if (!_runner.makeStep(delta))
+                _isEndValueApplied = true;
+
+            applyTransform();
+            return !_isEndValueApplied;
         }
 
         public function get value():Number
@@ -80,6 +83,7 @@ package nanosome.flow.visualizing
                 _runner.switchToNewEasingLine(newEasingLine, isReversing);
             }
             _prevTransition = transition;
+            _isEndValueApplied = false;
             applyTransform();
         }
 

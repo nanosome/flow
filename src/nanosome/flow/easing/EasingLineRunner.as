@@ -6,7 +6,6 @@ package nanosome.flow.easing
 
         protected var _line:EasingLine;
         protected var _position:Number;
-        protected var _isEndReached:Boolean;
 
         public function EasingLineRunner(startingLine:EasingLine, startingPosition:Number = 0)
         {
@@ -14,27 +13,24 @@ package nanosome.flow.easing
             setPosition(startingPosition);
         }
 
-        public function setPosition(value:Number):void
+        public function setPosition(value:Number):Boolean
         {
-            _position = value;
-            _isEndReached = false;
+            // NOTE - we're not checking position to be positive value
+            if (value < _line._duration)
+            {
+                _position = value;
+                return true;
+            }
+            else
+            {
+                _position = _line._duration;
+                return false;
+            }
         }
 
         public function makeStep(delta:Number):Boolean
         {
-            _position += delta;
-
-            if (_position <= _line._duration)
-                return true;
-
-            _position = _line._duration;
-
-            if (!_isEndReached)
-            {
-                _isEndReached = true;
-                return true;
-            }
-            return false;
+            return setPosition(_position + delta);
         }
 
         public function get value():Number

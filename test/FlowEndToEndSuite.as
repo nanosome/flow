@@ -1,9 +1,10 @@
 package
 {
+    import easing.EasingLineRunnerTest;
+
     import signals.SignalsLayerTest;
     import stateMachine.StateMachineTest;
     import stateMachine.builder.StateMachineBuilderTest;
-    import easing.EasingLinesTest;
     import visualizing.VisualizerTest;
 
     [Suite]
@@ -16,7 +17,7 @@ package
         public var t3:StateMachineBuilderTest;
 
         // testing visualizing part
-        public var t4:EasingLinesTest;
+        public var t4:EasingLineRunnerTest;
         public var t5:VisualizerTest;
     }
 }
