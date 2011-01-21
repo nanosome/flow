@@ -2,7 +2,7 @@ package
 {
     import signals.SignalsLayerTest;
     import stateMachine.StateMachineTest;
-    import builder.StateMachineBuilderTest;
+    import stateMachine.builder.StateMachineBuilderTest;
     import easing.EasingLinesTest;
     import visualizing.VisualizerTest;
 

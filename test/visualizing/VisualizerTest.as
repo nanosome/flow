@@ -4,24 +4,15 @@ package visualizing
     import mx.effects.easing.Quadratic;
 
     import nanosome.flow.easing.TimedEasing;
-    import nanosome.flow.stateMachine.StateMachine;
-
-    import nanosome.flow.easing.EasingLine;
-    import nanosome.flow.visualizing.ITickGenerator;
     import nanosome.flow.visualizing.Visualizer;
 
     import nanosome.flow.visualizing.controller.VisualizerController;
-    import nanosome.flow.visualizing.transforms.AlphaTransform;
 
     import org.flexunit.Assert;
 
-    import builder.TestStateMachineBuilder;
-    import builder.TestStateMachineBuildersFactory;
+    import stateMachine.builder.TestStateMachineBuilder;
+    import stateMachine.builder.TestStateMachineBuildersFactory;
     import misc.ButtonSignals;
-
-    import org.flexunit.flexui.patterns.AssertEqualsPattern;
-
-    import visualizing.MockSprite;
 
     public class VisualizerTest
     {
@@ -119,6 +110,13 @@ package visualizing
             signals.mouseOver.fire();
             tickGenerator.makeTicks(50);
             Assert.assertEquals(.7, visualizerTarget.alpha);
+
+            tickGenerator.makeTicks(50);
+            Assert.assertEquals(.9, visualizerTarget.alpha);
+
+            tickGenerator.makeTicks(10);
+            Assert.assertEquals(.9, visualizerTarget.alpha);
+
         }
     }
 }

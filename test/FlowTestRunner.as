@@ -1,17 +1,14 @@
 // @license@
-package tests
+package
 {
     import org.flexunit.listeners.CIListener;
-
-    import org.flexunit.listeners.UIListener;
-
-    import tests.FlowEndToEndSuite;
+    import FlowEndToEndSuite;
 
 	import org.flexunit.runner.FlexUnitCore;
 
 	import flash.display.Sprite;
 
-    import tests.utils.SOSRunListener;
+    import utils.SOSRunListener;
 
     [SWF(backgroundColor="#FFFFFF", frameRate="31", width="640", height="480")]
 
@@ -21,7 +18,6 @@ package tests
 	public class FlowTestRunner extends Sprite
 	{
 		private var _core:FlexUnitCore;
-		private var _tests : Array;
 		
 		public function FlowTestRunner()
 		{
@@ -29,7 +25,6 @@ package tests
 			_core = new FlexUnitCore();
             _core.addListener(new SOSRunListener());
             _core.run( FlowEndToEndSuite );
-	
 		}
 	}
 }
