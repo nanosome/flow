@@ -28,7 +28,7 @@ package stateMachine
 
         private var _stateMachine:StateMachine;
 
-        [Before]
+        [BeforeClass]
         public function configureStateMachine():void
         {
             var s:ButtonSignals = new ButtonSignals();

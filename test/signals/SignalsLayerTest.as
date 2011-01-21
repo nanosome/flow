@@ -9,7 +9,7 @@ package signals
         private var _signalsSet:TestSignalsSet;
         private var _firedSignals:Array;
 
-        [Before]
+        [BeforeClass]
         public function setUpTestSignalsSet():void
         {
             _signalsSet =  new TestSignalsSet();

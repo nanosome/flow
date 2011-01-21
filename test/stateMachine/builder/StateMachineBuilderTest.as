@@ -11,7 +11,7 @@ package stateMachine.builder
     {
         private var _smc:TestStateMachineBuilder;
 
-        [Before]
+        [BeforeClass]
         public function CreateBuildersAndStateMachines():void
         {
             var repository:TestStateMachineBuildersFactory; // you're free to do it via singleton/.getInstance

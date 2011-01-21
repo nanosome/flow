@@ -18,7 +18,7 @@ package visualizing
     {
         private var _:TestStateMachineBuilder;
 
-        [Before]
+        [BeforeClass]
         public function configureStateMachineBuilder():void
         {
             var repository:TestStateMachineBuildersFactory; // you're free to do it via singleton/.getInstance
@@ -58,9 +58,9 @@ package visualizing
                 .7, visualizerTarget.alpha
             );
 
-            visualizer.setPosition(100);
+            visualizer.setPosition(110);
             Assert.assertEquals(
-                "value at point 100 (overall duration 100), value range [.5.. .9] (fromNormalToOvered)",
+                "value at point 110 (overall duration 100), value range [.5.. .9] (fromNormalToOvered)",
                 .9, visualizerTarget.alpha
             );
 
