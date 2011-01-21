@@ -49,7 +49,7 @@ package nanosome.flow.utils
         public static function isClassSameOrInheritedFrom(targetClass:Class, requiredType:Class):Boolean
         {
             // we could describeType function here, but Adobe recommends to use
-            // getQualifiedClassName and getQualifiedSuperclassName for traversing hierarchy
+            // getQualifiedClassName and getQualifiedSuperClassName for traversing hierarchy
             if (getQualifiedClassName(targetClass) == getQualifiedClassName(requiredType))
                 return true;
             else if (getQualifiedSuperclassName(targetClass) == null)

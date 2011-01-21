@@ -1,10 +1,3 @@
-/**
- * Created by ${PRODUCT_NAME}.
- * User: Dmitry
- * Date: 16.11.10
- * Time: 18:09
- * To change this template use File | Settings | File Templates.
- */
 package nanosome.flow.stateMachine.builder
 {
     import nanosome.flow.utils.ClassUtils;

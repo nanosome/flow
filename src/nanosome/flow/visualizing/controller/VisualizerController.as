@@ -24,8 +24,6 @@ package nanosome.flow.visualizing.controller
 
 		/**
 		 *  Constructor
-		 *  
-		 *  @param initialState Initial state to start with
 		 */			
 		public function VisualizerController(stateMachine:StateMachine, signals:AbstractSignalSet)
 		{

@@ -1,10 +1,3 @@
-/**
- * Created by ${PRODUCT_NAME}.
- * User: Dmitry
- * Date: 01.11.10
- * Time: 18:43
- * To change this template use File | Settings | File Templates.
- */
 package nanosome.flow.signals
 {
     import flash.events.EventDispatcher;
@@ -15,10 +8,10 @@ package nanosome.flow.signals
      * There is some concerns regarding signals:
      * 1) circular referencing (passing to each signal its parent)
      * 2) Necessity to instantiate a set of signals for each state machine
-     * processor may lead to excessive memory consumation.
+     * processor may lead to excessive memory consuming.
      *
      * First issue seems to be minor one, as signals now are handled together
-     * with their parent sets, and should be GC'ed properly even with flash
+     * with their parent sets, and should be garbage collected properly even with flash
      * garbage collector.
      *
      * Second issue may be serious enough, although it require testing,

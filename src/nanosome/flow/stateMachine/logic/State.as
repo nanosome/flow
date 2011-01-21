@@ -34,8 +34,6 @@ package nanosome.flow.stateMachine.logic
 		
 		/**
 		 *  Constructor
-		 *  
-		 *  @param value Value of this state.
 		 */	
 		public function State(id:String)
 		{
@@ -80,10 +78,6 @@ package nanosome.flow.stateMachine.logic
 		
 		/**
 		 *  Adds Transition for this State.
-		 *  
-		 *  @param Transition object to be added.
-		 *  
-		 *  @see Transition
 		 */		
 		public function addTransition(signal:Signal, targetState:State):Transition 
 		{

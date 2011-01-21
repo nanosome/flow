@@ -41,8 +41,6 @@ package nanosome.flow.stateMachine.processor
 		
 		/**
 		 *  Constructor
-		 *  
-		 *  @param initialState Initial state to start with
 		 */			
 		public function StateMachineProcessor(stateMachine:StateMachine, signals:AbstractSignalSet)
 		{
@@ -79,9 +77,7 @@ package nanosome.flow.stateMachine.processor
 		}
 		
 		/**
-	 	 *  Sets new state. 
-	 	 *  
-	 	 *  @param newState State to set
+	 	 *  Sets new state.
 	 	 */			
 		protected function handleTransition(transition:Transition):void
 		{

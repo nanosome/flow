@@ -94,7 +94,7 @@ package nanosome.flow.easing
          *  @param targetLine New line to be switched to.
          *  @param sourceValue Current value, we're about to keep new one as close to it as we can.
          *
-         *  @return Position of the playhead in the current easingLine
+         *  @return Current position on the current easingLine
          */
         protected function calculatePosition(targetLine:EasingLine, sourceValue:Number):uint
         {

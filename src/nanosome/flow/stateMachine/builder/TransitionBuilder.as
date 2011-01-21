@@ -10,12 +10,7 @@ package nanosome.flow.stateMachine.builder
 		private var _signal:Signal;
 		private var _targetState:State;
 
-        private var _backTransition:Transition;
-		private var _backSignal:Signal;
-
-        public function TransitionBuilder()
-        {
-        }
+        public function TransitionBuilder() {}
 
         public function get _():Transition
         {

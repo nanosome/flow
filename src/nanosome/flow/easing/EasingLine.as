@@ -64,7 +64,7 @@ package nanosome.flow.easing
 		public function toString():String
 		{
 			return "[object EasingLine (" +
-                    "easing: " + ((_easing is Function) ? "<Function>" : "NULL OR WRONG TYPE") +
+                    "easing: " + ((_easing is Function) ? "[Function]" : "NULL OR WRONG TYPE") +
                     ", duration: " + _duration +
                     ", values: [" + _startValue + ".. " + _endValue +
                     ")]";
