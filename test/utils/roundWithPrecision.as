@@ -8,6 +8,7 @@ package utils
         if (precision < 0)
             throw new Error("Precision parameter should be positive!");
 
-        return Math.round(value / precision) * precision;
+        var inversePrecision:int = Math.round(1 / precision); // trick to cheat flash rounding error
+        return Math.round(value * inversePrecision) / inversePrecision;
     }
 }

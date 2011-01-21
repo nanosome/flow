@@ -116,7 +116,7 @@ package easing
                 5, runner.getPositionForTest()
             );
 
-            var precision:Number = .001;
+            var precision:Number = EasingLineRunner.SWITCHING_PRECISION;
             Assert.assertEquals(
                 "value BEFORE switching reversing line, precision = " + precision,
                 65, roundWithPrecision(runner.value, precision)
@@ -159,7 +159,7 @@ package easing
             // initiate runner with exponential line, starting position to 9
             var runner:EasingLineRunner = new EasingLineRunner(inEasingLine, 9);
 
-            var precision:Number = .001;
+            var precision:Number = EasingLineRunner.SWITCHING_PRECISION;
             Assert.assertEquals(
                 "value BEFORE switching with position 9 on expo line, precision = " + precision,
                 65, roundWithPrecision(runner.value, precision)

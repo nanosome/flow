@@ -2,7 +2,8 @@ package nanosome.flow.easing
 {
     public class EasingLineRunner
     {
-        private static const SWITCHING_PRECISION:Number = .001;
+        public static const SWITCHING_PRECISION:Number = .001;
+        public static const ITERATIONS_LIMIT:uint = 40;
 
         protected var _line:EasingLine;
         protected var _position:Number;
@@ -53,7 +54,6 @@ package nanosome.flow.easing
          */
         public function switchToNewEasingLine(newLine:EasingLine, isReversing:Boolean):void
         {
-
             var calculatedStartValue:Number;
             var calculatedPosition:Number;
 
@@ -85,25 +85,30 @@ package nanosome.flow.easing
         }
 
         /**
-         *  Calculates position at in the current <code>sourceLine</code> required to seamlessly switch to <code>targetLine</code>.
+         * Calculates position in the <code>targetLine</code>, so value of <code>targetLine</code> at this position
+         * is close to <code>sourceValue</code>. This is required for seamless switching.
+         *
+         * Please note  that returned position is integer. This is required to keep number of iterations
+         * for bisection method not that high. (You can increase duration of target line to raise precision).
          *
          *  @param targetLine New line to be switched to.
          *  @param sourceValue Current value, we're about to keep new one as close to it as we can.
          *
-         *  @return Current position on the current easingLine
+         *  @return Required position on the <code>targetLine</code>.
          */
-        protected function calculatePosition(targetLine:EasingLine, sourceValue:Number):uint
+        protected function calculatePosition(targetLine:EasingLine, sourceValue:Number):Number
         {
-            // sourceValue is the value required to catch
+            var _iterations:int = 0;
 
-            // actual value during seeking
-            var aVal:Number;
-
-            // current position during seeking
-            var cPos:int;
 
             // 'from' position during seeking
-            var fPos:int = 0;
+            var fPos:Number = 0;
+
+            // current position during seeking
+            var cPos:Number = 0;
+
+            // actual value during seeking
+            var aVal:Number = targetLine._startValue;
 
             // 'to' position during seeking
             var tPos:Number = targetLine._duration;
@@ -112,7 +117,7 @@ package nanosome.flow.easing
 
             var targetTo:Number = targetLine._startValue + targetLine._deltaValue;
 
-            var srcValue:Number = Math.round(sourceValue / SWITCHING_PRECISION);
+            var srcValue:Number = sourceValue;
 
             /*
              * This algorithm is using bisection to find in the new easing line
@@ -122,10 +127,10 @@ package nanosome.flow.easing
              * 2. This approach won't work well, if new easing line is too far from current value.
              *    although it should work good enough for alike transitions.
              */
-            while (Math.abs(fPos - tPos) > 1)
+            while (Math.abs(sourceValue - aVal) > SWITCHING_PRECISION && _iterations++ < ITERATIONS_LIMIT)
             {
-                cPos = Math.round((fPos + tPos) / 2);
-                aVal = Math.round(targetLine.getValueForTest(cPos) / SWITCHING_PRECISION);
+                cPos = (fPos + tPos) / 2;
+                aVal = targetLine.getValueForTest(cPos);
 
                 if (targetFrom < targetTo)
                 {
@@ -147,9 +152,7 @@ package nanosome.flow.easing
                 }
             }
 
-            var fDiff:Number = Math.abs(srcValue - targetLine.getValueForTest(fPos) / SWITCHING_PRECISION);
-            var tDiff:Number = Math.abs(srcValue - targetLine.getValueForTest(tPos) / SWITCHING_PRECISION);
-            return fDiff < tDiff ? fPos : tPos;
+            return cPos;
         }
 
         public function getPositionForTest():Number

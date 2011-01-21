@@ -3,6 +3,7 @@ package visualizing
     import mx.effects.easing.Linear;
     import mx.effects.easing.Quadratic;
 
+    import nanosome.flow.easing.EasingLineRunner;
     import nanosome.flow.easing.TimedEasing;
     import nanosome.flow.visualizing.Visualizer;
 
@@ -13,6 +14,8 @@ package visualizing
     import stateMachine.builder.TestStateMachineBuilder;
     import stateMachine.builder.TestStateMachineBuildersFactory;
     import misc.ButtonSignals;
+
+    import utils.roundWithPrecision;
 
     public class VisualizerTest
     {
@@ -148,6 +151,7 @@ package visualizing
 
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
 
+            var precision:Number = EasingLineRunner.SWITCHING_PRECISION;
 
             visualizerController.setCustomTickGenerator(tickGenerator);
             visualizerController.addVisualizer(_visualizer);
@@ -155,16 +159,18 @@ package visualizing
             signals.mouseOver.fire();
 
             tickGenerator.makeTicks(50);
+
+
             Assert.assertEquals(
-                "alpha value, 50 out of 100 ticks, range (.5.. .9), after MOUSE_OVER event",
-                .7, _visualizerTarget.alpha
+                "alpha value, 50 out of 100 ticks, range (.5.. .9), after MOUSE_OVER event, precision = " + precision,
+                .7, roundWithPrecision(_visualizerTarget.alpha, precision)
             );
-            trace(" ---=== START ===---");
+
             signals.mouseOut.fire();
-            trace(" ---=== END ===---");
+
             Assert.assertEquals(
-                "alpha value, 50 out of 100 ticks, range (.5.. .9), after MOUSE_OUT event",
-                .7, _visualizerTarget.alpha
+                "alpha value, 50 out of 100 ticks, range (.5.. .9), after MOUSE_OUT event, precision = " + precision,
+                .7, roundWithPrecision(_visualizerTarget.alpha, precision)
             );
 
             tickGenerator.makeTicks(150);
