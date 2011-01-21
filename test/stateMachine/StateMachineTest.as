@@ -13,23 +13,23 @@ package stateMachine
 
     public class StateMachineTest
     {
-        private var _normalState:State;
-        private var _overedState:State;
-        private var _overedAndPressedState:State;
-        private var _pressedOutsideState:State;
+        private static var _normalState:State;
+        private static var _overedState:State;
+        private static var _overedAndPressedState:State;
+        private static var _pressedOutsideState:State;
 
-        private var _normalToOveredTransition:Transition;
-        private var _overedToNormalTransition:Transition;
-        private var _overedToPressedTransition:Transition;
-        private var _pressedToOveredTransition:Transition;
-        private var _pressedToPressedOutsideTransition:Transition;
-        private var _pressedOutsideToPressedTransition:Transition;
-        private var _pressedOutsideToNormalTransition:Transition;
+        private static var _normalToOveredTransition:Transition;
+        private static var _overedToNormalTransition:Transition;
+        private static var _overedToPressedTransition:Transition;
+        private static var _pressedToOveredTransition:Transition;
+        private static var _pressedToPressedOutsideTransition:Transition;
+        private static var _pressedOutsideToPressedTransition:Transition;
+        private static var _pressedOutsideToNormalTransition:Transition;
 
-        private var _stateMachine:StateMachine;
+        private static var _stateMachine:StateMachine;
 
         [BeforeClass]
-        public function configureStateMachine():void
+        public static function configureStateMachine():void
         {
             var s:ButtonSignals = new ButtonSignals();
 

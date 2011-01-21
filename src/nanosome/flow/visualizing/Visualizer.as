@@ -5,7 +5,6 @@ package nanosome.flow.visualizing
     import nanosome.flow.easing.EasingLine;
     import nanosome.flow.easing.EasingLineRunner;
     import nanosome.flow.easing.TimedEasing;
-    import nanosome.flow.stateMachine.processor.StateMachineProcessor;
     import nanosome.flow.stateMachine.logic.State;
     import nanosome.flow.stateMachine.logic.Transition;
     import nanosome.flow.visualizing.transforms.IVisualizerTransform;
@@ -21,6 +20,7 @@ package nanosome.flow.visualizing
         private var _initialValue:Number;
         private var _isEndValueApplied:Boolean;
         private var _runner:EasingLineRunner;
+
 
         /**
          * Visualizer consists of single target + transformer pair
@@ -104,6 +104,7 @@ package nanosome.flow.visualizing
 
         public function applyTransform():void
         {
+            trace("applying value: " + value);
             _transform.apply(value);
         }
     }

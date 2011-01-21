@@ -9,10 +9,10 @@ package stateMachine.builder
 
     public class StateMachineBuilderTest
     {
-        private var _smc:TestStateMachineBuilder;
+        private static var _smc:TestStateMachineBuilder;
 
         [BeforeClass]
-        public function CreateBuildersAndStateMachines():void
+        public static function CreateBuildersAndStateMachines():void
         {
             var repository:TestStateMachineBuildersFactory; // you're free to do it via singleton/.getInstance
             repository = new TestStateMachineBuildersFactory();

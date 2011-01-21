@@ -6,11 +6,10 @@ package signals
 
     public class SignalsLayerTest
     {
-        private var _signalsSet:TestSignalsSet;
-        private var _firedSignals:Array;
+        private static var _signalsSet:TestSignalsSet;
 
         [BeforeClass]
-        public function setUpTestSignalsSet():void
+        public static function setUpTestSignalsSet():void
         {
             _signalsSet =  new TestSignalsSet();
         }
@@ -21,6 +20,8 @@ package signals
             Assert.assertNotNull(_signalsSet.signalA);
             Assert.assertNotNull(_signalsSet.signalB);
         }
+
+        private var _firedSignals:Array;
 
         [Test]
         public function eventsFiring():void

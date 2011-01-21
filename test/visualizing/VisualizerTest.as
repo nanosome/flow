@@ -7,7 +7,7 @@ package visualizing
     import nanosome.flow.visualizing.Visualizer;
 
     import nanosome.flow.visualizing.controller.VisualizerController;
-
+    
     import org.flexunit.Assert;
 
     import stateMachine.builder.TestStateMachineBuilder;
@@ -16,106 +16,180 @@ package visualizing
 
     public class VisualizerTest
     {
-        private var _:TestStateMachineBuilder;
+        private static var _:TestStateMachineBuilder;
 
         [BeforeClass]
-        public function configureStateMachineBuilder():void
+        public static function configureStateMachineBuilder():void
         {
             var repository:TestStateMachineBuildersFactory; // you're free to do it via singleton/.getInstance
             repository = new TestStateMachineBuildersFactory();
             _ = repository.testStateMachineBuilder;
         }
 
-        [Test]
-        public function isVisualizerMappingAndEasingsAndValues():void
+
+        private var _visualizer:Visualizer;
+        private var _visualizerTarget:MockSprite;
+
+        [Before]
+        public function configureVisualizerAndTarget():void
         {
-            var visualizerTarget:MockSprite = new MockSprite();
-            var visualizer:Visualizer = new Visualizer(new MockAlphaTransform(visualizerTarget));
+            _visualizerTarget = new MockSprite();
+            _visualizer = new Visualizer(new MockAlphaTransform(_visualizerTarget));
 
             var inEasing:TimedEasing = new TimedEasing(Linear.easeIn, 100);
             var outEasing:TimedEasing = new TimedEasing(Quadratic.easeOut, 200);
 
-            visualizer.mapTransition(_.fromNormalToOvered, inEasing);
-            visualizer.mapTransition(_.fromOveredToNormal, outEasing);
-            visualizer.mapValue(_.normal, .5);
-            visualizer.mapValue(_.overed, .9);
+            _visualizer.mapTransition(_.fromNormalToOvered, inEasing);
+            _visualizer.mapTransition(_.fromOveredToNormal, outEasing);
+            _visualizer.mapValue(_.normal, .5);
+            _visualizer.mapValue(_.overed, .9);
+        }
 
-            visualizer.setTransition(_.fromNormalToOvered);
+        [After]
+        public function destroyVisualizerAndTarget():void
+        {
+            // just in case
+            _visualizer = null;
+            _visualizerTarget = null;
+        }
+
+
+        [Test]
+        public function isVisualizerMappingEasingsAndValues():void
+        {
+            _visualizer.setTransition(_.fromNormalToOvered);
             Assert.assertEquals(
                 "value at starting point before setting position, value range [.5.. 9] (fromNormalToOvered)",
-                .5, visualizerTarget.alpha
+                .5, _visualizerTarget.alpha
             );
 
-            visualizer.setPosition(0);
+            _visualizer.setPosition(0);
             Assert.assertEquals(
                 "value at point 0, value range [.5.. 9] (fromNormalToOvered)",
-                .5, visualizerTarget.alpha
+                .5, _visualizerTarget.alpha
             );
 
-            visualizer.setPosition(50);
+            _visualizer.setPosition(50);
             Assert.assertEquals(
                  "value at point 50 (overall duration 100), value range [.5.. .9] (fromNormalToOvered)",
-                .7, visualizerTarget.alpha
+                .7, _visualizerTarget.alpha
             );
 
-            visualizer.setPosition(110);
+            _visualizer.setPosition(110);
             Assert.assertEquals(
                 "value at point 110 (overall duration 100), value range [.5.. .9] (fromNormalToOvered)",
-                .9, visualizerTarget.alpha
+                .9, _visualizerTarget.alpha
             );
 
-            visualizer.setTransition(_.fromOveredToNormal);
+            _visualizer.setTransition(_.fromOveredToNormal);
             
             Assert.assertEquals(
                 "value at starting point before setting position, value range [.9.. .5]",
-                .9, visualizerTarget.alpha
+                .9, _visualizerTarget.alpha
             );
 
-            // at its ending point, value should be equal to mapped value for _normal state
-            visualizer.setPosition(200);
-            Assert.assertEquals("value at ending point from overed to normal", .5, visualizerTarget.alpha);
+            _visualizer.setPosition(200);
+            Assert.assertEquals(
+                "value at ending point from overed to normal",
+                .5, _visualizerTarget.alpha
+            );
         }
 
+        
         [Test]
-        public function isVisualizerControllerWorking():void
+        public function areValuesChangingOnTicking():void
         {
-            // Testing visualizing parameter changes without controlling visualizer directly,
-            // but via StateMachineController
-
-            var visualizerTarget:MockSprite = new MockSprite();
-            var visualizer:Visualizer = new Visualizer(new MockAlphaTransform(visualizerTarget));
-
-            var inEasing:TimedEasing = new TimedEasing(Linear.easeIn, 100);
-            var outEasing:TimedEasing = new TimedEasing(Linear.easeOut, 200);
-
-            visualizer.mapTransition(_.fromNormalToOvered, inEasing);
-            visualizer.mapTransition(_.fromOveredToNormal, outEasing);
-            visualizer.mapValue(_.normal, .5);
-            visualizer.mapValue(_.overed, .9);
-
             var signals:ButtonSignals = _.getNewSignalsSet();
             var visualizerController:VisualizerController = new VisualizerController(_.getStateMachine(), signals);
 
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
 
             visualizerController.setCustomTickGenerator(tickGenerator);
-            visualizerController.addVisualizer(visualizer);
+            visualizerController.addVisualizer(_visualizer);
 
-            Assert.assertEquals(.5, visualizerTarget.alpha);
+            Assert.assertEquals(
+                "alpha value, 0 out of 100  ticks, range (.5.. .9), BEFORE event fired",
+                .5, _visualizerTarget.alpha
+            );
 
-            // alpha should be still .5, because state has not changed
             tickGenerator.makeTicks(50);
-            Assert.assertEquals(.5, visualizerTarget.alpha);
+            Assert.assertEquals(
+                "alpha value, 50 out of 100  ticks, range (.5.. .9), BEFORE event fired",
+                .5, _visualizerTarget.alpha
+            );
 
             signals.mouseOver.fire();
-            tickGenerator.makeTicks(50);
-            Assert.assertEquals(.7, visualizerTarget.alpha);
 
             tickGenerator.makeTicks(50);
-            Assert.assertEquals(.9, visualizerTarget.alpha);
+            Assert.assertEquals(
+                "alpha value, 50 out of 100 ticks, range (.5.. .9), AFTER event fired",
+                .7, _visualizerTarget.alpha
+            );
+
+            tickGenerator.makeTicks(50);
+            Assert.assertEquals(
+                "alpha value, 100 out of 100 ticks, range (.5.. .9), AFTER event fired",
+                .9, _visualizerTarget.alpha
+              );
 
             tickGenerator.makeTicks(10);
-            Assert.assertEquals(.9, visualizerTarget.alpha);
+            Assert.assertEquals(
+                "alpha value, 110 out of 100 ticks, range (.5.. .9), AFTER event fired",
+                .9, _visualizerTarget.alpha
+            );
+        }
+
+
+        [Test]
+        public function isReversingSwitchingPerformingSmoothly():void
+        {
+            var signals:ButtonSignals = _.getNewSignalsSet();
+            var visualizerController:VisualizerController = new VisualizerController(_.getStateMachine(), signals);
+
+            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
+
+
+            visualizerController.setCustomTickGenerator(tickGenerator);
+            visualizerController.addVisualizer(_visualizer);
+
+            signals.mouseOver.fire();
+
+            tickGenerator.makeTicks(50);
+            Assert.assertEquals(
+                "alpha value, 50 out of 100 ticks, range (.5.. .9), after MOUSE_OVER event",
+                .7, _visualizerTarget.alpha
+            );
+            trace(" ---=== START ===---");
+            signals.mouseOut.fire();
+            trace(" ---=== END ===---");
+            Assert.assertEquals(
+                "alpha value, 50 out of 100 ticks, range (.5.. .9), after MOUSE_OUT event",
+                .7, _visualizerTarget.alpha
+            );
+
+            tickGenerator.makeTicks(150);
+            Assert.assertEquals(
+                "alpha value",
+                .5, _visualizerTarget.alpha
+              );
+        }
+
+        [Test]
+        public function isNormalSwitchingPerformingSmoothly():void
+        {
+
+        }
+
+        [Test]
+        public function severalVisualizersWithOneController():void
+        {
+
+        }
+
+        
+        [Test]
+        public function severalVisualizerControllersWithOneStateMachine():void
+        {
 
         }
     }
