@@ -156,7 +156,7 @@ package easing
             // changing values with linear easing in 20 steps, back from 115 to 15
             var outEasingLine:EasingLine = new EasingLine(Linear.easeIn, 20, 115, 15);
 
-            // initiate runner with linear line, starting position to 9
+            // initiate runner with exponential line, starting position to 9
             var runner:EasingLineRunner = new EasingLineRunner(inEasingLine, 9);
 
             var precision:Number = .001;
