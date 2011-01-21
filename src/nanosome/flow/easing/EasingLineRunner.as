@@ -4,26 +4,37 @@ package nanosome.flow.easing
     {
         private static const SWITCHING_PRECISION:Number = .001;
 
-        private var _line:EasingLine;
-        private var _position:Number;
+        protected var _line:EasingLine;
+        protected var _position:Number;
+        protected var _isEndReached:Boolean;
 
-        public function EasingLineRunner()
+        public function EasingLineRunner(startingLine:EasingLine, startingPosition:Number = 0)
         {
-        }
-
-        public function setEasingLine(value:EasingLine):void
-        {
-            _line = value;
+            _line = startingLine;
+            setPosition(startingPosition);
         }
 
         public function setPosition(value:Number):void
         {
             _position = value;
+            _isEndReached = false;
         }
 
-        public function makeStep(delta:Number):void
+        public function makeStep(delta:Number):Boolean
         {
             _position += delta;
+
+            if (_position <= _line._duration)
+                return true;
+
+            _position = _line._duration;
+
+            if (!_isEndReached)
+            {
+                _isEndReached = true;
+                return true;
+            }
+            return false;
         }
 
         public function get value():Number
@@ -73,9 +84,7 @@ package nanosome.flow.easing
                     calculatedPosition = calculatePosition(newLine, this.value);
             }
 
-            setEasingLine(
-                new EasingLine(newLine._easing, newLine._duration, calculatedStartValue, newLine._endValue)
-            );
+            _line = new EasingLine(newLine._easing, newLine._duration, calculatedStartValue, newLine._endValue);
             setPosition(calculatedPosition);
         }
 

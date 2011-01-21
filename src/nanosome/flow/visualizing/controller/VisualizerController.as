@@ -1,23 +1,27 @@
 // @license@
 package nanosome.flow.visualizing.controller
 {
-    import nanosome.flow.stateMachine.controller.*;
-    import nanosome.flow.stateMachine.*;
     import nanosome.flow.signals.AbstractSignalSet;
+    import nanosome.flow.stateMachine.StateMachine;
+    import nanosome.flow.stateMachine.processor.StateMachineProcessor;
+    import nanosome.flow.stateMachine.processor.StateMachineProcessorEvent;
+    import nanosome.flow.visualizing.ITickGenerator;
+    import nanosome.flow.visualizing.TickGenerator;
+    import nanosome.flow.visualizing.TickGeneratorEvent;
     import nanosome.flow.visualizing.Visualizer;
 
     /**
-     *
+     * This class is meant to control visualizers, based on StateMachine behavior.
+     * Difference between visualizer and StateMachine is that state machine reacts
+     * to signals by immediately switching states (transitions has zero duration),
+     * and visualizer performs switching in steps (whatever time or frame based).
      */
-    public class VisualizerController extends StateMachineController
+    public class VisualizerController extends StateMachineProcessor
 	{
 
-		//--------------------------------------------------------------------------
-		//
-		//  Constructor
-		//
-		//--------------------------------------------------------------------------
-		
+        private var _visualizers:Array;
+        private var _tickGenerator:ITickGenerator;
+
 		/**
 		 *  Constructor
 		 *  
@@ -26,11 +30,50 @@ package nanosome.flow.visualizing.controller
 		public function VisualizerController(stateMachine:StateMachine, signals:AbstractSignalSet)
 		{
             super(stateMachine, signals);
+            _visualizers = [];
+            _tickGenerator = new TickGenerator();
+            _tickGenerator.addEventListener(TickGeneratorEvent.TICK_UPDATE, onTickUpdate);
+
+            // instead of overriding protected method handling transitions, just add
+            // event listener to ourselves - it will allow us easily decouple (if needed)
+            // from StateMachineProcessor
+            addEventListener(StateMachineProcessorEvent.STATE_CHANGED, onStateChanged);
 		}
+
+        public function setCustomTickGenerator(tickGenerator:ITickGenerator):void
+        {
+            _tickGenerator.removeEventListener(TickGeneratorEvent.TICK_UPDATE, onTickUpdate);
+            _tickGenerator = tickGenerator;
+            _tickGenerator.addEventListener(TickGeneratorEvent.TICK_UPDATE, onTickUpdate);
+        }
 
         public function addVisualizer(visualizer:Visualizer):void
         {
+            _visualizers.push(visualizer);
+            visualizer.setInitialState(_currentState);
+            _tickGenerator.start();
+        }
 
+        private function onTickUpdate(event:TickGeneratorEvent):void
+        {
+            var v:Visualizer;
+            var _isEveryoneDone:Boolean = true;
+            for each (v in _visualizers)
+            {
+                _isEveryoneDone = _isEveryoneDone && !v.makeStep(event.delta);
+            }
+            if (_isEveryoneDone)
+                _tickGenerator.stop();
+        }
+
+        private function onStateChanged(event:StateMachineProcessorEvent):void
+        {
+            var v:Visualizer;
+            for each (v in _visualizers)
+            {
+                v.setTransition(event.transition);
+            }
+            _tickGenerator.start();
         }
 	}
 }

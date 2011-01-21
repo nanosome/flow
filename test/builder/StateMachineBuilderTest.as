@@ -1,7 +1,7 @@
 package builder
 {
     import nanosome.flow.stateMachine.StateMachine;
-    import nanosome.flow.stateMachine.controller.StateMachineController;
+    import nanosome.flow.stateMachine.processor.StateMachineProcessor;
 
     import org.flexunit.Assert;
 
@@ -33,7 +33,7 @@ package builder
             var signals:ButtonSignals = _smc.getNewSignalsSet();
             var sm:StateMachine = _smc.getStateMachine();
 
-            var c:StateMachineController = new StateMachineController(sm, signals);
+            var c:StateMachineProcessor = new StateMachineProcessor(sm, signals);
 
             Assert.assertNotNull(signals);
             Assert.assertNotNull(sm);

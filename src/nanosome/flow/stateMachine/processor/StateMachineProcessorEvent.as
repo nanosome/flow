@@ -1,11 +1,11 @@
-package nanosome.flow.stateMachine.controller
+package nanosome.flow.stateMachine.processor
 {
     import flash.events.Event;
 
     import nanosome.flow.stateMachine.logic.State;
     import nanosome.flow.stateMachine.logic.Transition;
 
-    public class StateMachineControllerEvent extends Event
+    public class StateMachineProcessorEvent extends Event
     {
 		// Messages constants for events
 		public static const STATE_CHANGED:String 	= "stateChanged";
@@ -13,7 +13,7 @@ package nanosome.flow.stateMachine.controller
         private var _oldState:State;
         private var _transition:Transition;
 
-        public function StateMachineControllerEvent(oldState:State, transition:Transition)
+        public function StateMachineProcessorEvent(oldState:State, transition:Transition)
         {
             _oldState = oldState;
             _transition = transition;

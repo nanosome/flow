@@ -1,5 +1,5 @@
 // @license@
-package nanosome.flow.stateMachine.controller
+package nanosome.flow.stateMachine.processor
 {
     import nanosome.flow.stateMachine.*;
 	import flash.events.Event;
@@ -13,7 +13,7 @@ package nanosome.flow.stateMachine.controller
     /**
 	 * 
 	 */
-	public class StateMachineController extends EventDispatcher 
+	public class StateMachineProcessor extends EventDispatcher
 	{
 		/**
 		 * @private
@@ -44,7 +44,7 @@ package nanosome.flow.stateMachine.controller
 		 *  
 		 *  @param initialState Initial state to start with
 		 */			
-		public function StateMachineController(stateMachine:StateMachine, signals:AbstractSignalSet)
+		public function StateMachineProcessor(stateMachine:StateMachine, signals:AbstractSignalSet)
 		{
 			_stateMachine = stateMachine;
             _currentState = stateMachine.getInitialState();
@@ -68,7 +68,7 @@ package nanosome.flow.stateMachine.controller
 		 *  
 		 *  @return True, if conditions are met.
 		 */		
-		private function handle(eventCode:String):Boolean
+		protected function handle(eventCode:String):Boolean
 		{
 		    if(_currentState.hasTransitionForEvent(eventCode))
 		    {
@@ -83,11 +83,11 @@ package nanosome.flow.stateMachine.controller
 	 	 *  
 	 	 *  @param newState State to set
 	 	 */			
-		private function handleTransition(transition:Transition):void
+		protected function handleTransition(transition:Transition):void
 		{
             var oldState:State = _currentState;
 			_currentState = transition.target;
-			dispatchEvent(new StateMachineControllerEvent(oldState, transition));
+			dispatchEvent(new StateMachineProcessorEvent(oldState, transition));
 		}
 
         public function getCurrentState():State

@@ -44,7 +44,7 @@ package samples
             // and this one - its toggling on/off
             var tg:BinaryStateMachine = new BinaryStateMachine();
 
-            // defining state machine controller and wiring it to signals channel
+            // defining state machine processor and wiring it to signals channel
             var smController = new VSMController(sm, signals);
 
             // preparing visualizers

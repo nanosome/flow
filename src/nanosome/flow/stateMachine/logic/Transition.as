@@ -56,5 +56,10 @@ package nanosome.flow.stateMachine.logic
             return _source != null;
         }
 
+        public function toString():String
+        {
+            return "[object Transition: (sourceState: " + _source + ", targetState: " + _target + ")]";
+        }
+
 	}
 }

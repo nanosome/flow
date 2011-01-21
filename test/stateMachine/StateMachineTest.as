@@ -1,9 +1,9 @@
 package stateMachine
 {
     import nanosome.flow.stateMachine.StateMachine;
-    import nanosome.flow.stateMachine.controller.StateMachineController;
+    import nanosome.flow.stateMachine.processor.StateMachineProcessor;
 
-    import nanosome.flow.stateMachine.controller.StateMachineControllerEvent;
+    import nanosome.flow.stateMachine.processor.StateMachineProcessorEvent;
     import nanosome.flow.stateMachine.logic.State;
     import nanosome.flow.stateMachine.logic.Transition;
 
@@ -66,7 +66,7 @@ package stateMachine
         public function consequentStateTriggering():void
         {
             var s:ButtonSignals = new ButtonSignals();
-            var controller:StateMachineController = new StateMachineController(_stateMachine, s);
+            var controller:StateMachineProcessor = new StateMachineProcessor(_stateMachine, s);
             s.mouseOver.fire();
             s.mouseDown.fire();
             s.mouseOver.fire();
@@ -74,15 +74,15 @@ package stateMachine
             Assert.assertEquals(_overedAndPressedState, controller.getCurrentState());
         }
 
-        private var _event:StateMachineControllerEvent;
+        private var _event:StateMachineProcessorEvent;
 
         [Test]
         public function consequentTransitionEvents():void
         {
             var s:ButtonSignals = new ButtonSignals();
-            var controller:StateMachineController = new StateMachineController(_stateMachine, s);
+            var processor:StateMachineProcessor = new StateMachineProcessor(_stateMachine, s);
 
-            controller.addEventListener(StateMachineControllerEvent.STATE_CHANGED, onSMControllerEvent);
+            processor.addEventListener(StateMachineProcessorEvent.STATE_CHANGED, onSMControllerEvent);
             s.mouseOver.fire();
 
             Assert.assertEquals(_normalToOveredTransition, _event.transition);
@@ -94,7 +94,7 @@ package stateMachine
             Assert.assertEquals(_overedState, _event.oldState);
         }
 
-        private function onSMControllerEvent(event:StateMachineControllerEvent):void
+        private function onSMControllerEvent(event:StateMachineProcessorEvent):void
         {
             _event = event;
         }
@@ -103,13 +103,13 @@ package stateMachine
         public function twoControllersWithSameLogicAndSignalLayers():void
         {
             var s:ButtonSignals = new ButtonSignals();
-            var controllerOne:StateMachineController = new StateMachineController(_stateMachine, s);
-            var controllerTwo:StateMachineController = new StateMachineController(_stateMachine, s);
+            var processorOne:StateMachineProcessor = new StateMachineProcessor(_stateMachine, s);
+            var processorTwo:StateMachineProcessor = new StateMachineProcessor(_stateMachine, s);
 
             s.mouseOver.fire();
 
-            Assert.assertEquals(_overedState, controllerOne.getCurrentState());
-            Assert.assertEquals(_overedState, controllerTwo.getCurrentState());
+            Assert.assertEquals(_overedState, processorOne.getCurrentState());
+            Assert.assertEquals(_overedState, processorTwo.getCurrentState());
         }
 
         [Test]
@@ -117,8 +117,8 @@ package stateMachine
         {
             var sOne:ButtonSignals = new ButtonSignals();
             var sTwo:ButtonSignals = new ButtonSignals();
-            var controllerOne:StateMachineController = new StateMachineController(_stateMachine, sOne);
-            var controllerTwo:StateMachineController = new StateMachineController(_stateMachine, sTwo);
+            var controllerOne:StateMachineProcessor = new StateMachineProcessor(_stateMachine, sOne);
+            var controllerTwo:StateMachineProcessor = new StateMachineProcessor(_stateMachine, sTwo);
 
             sOne.mouseOver.fire();
             sTwo.mouseOver.fire();

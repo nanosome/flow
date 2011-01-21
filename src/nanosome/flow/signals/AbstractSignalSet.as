@@ -15,7 +15,7 @@ package nanosome.flow.signals
      * There is some concerns regarding signals:
      * 1) circular referencing (passing to each signal its parent)
      * 2) Necessity to instantiate a set of signals for each state machine
-     * controller may lead to excessive memory consumation.
+     * processor may lead to excessive memory consumation.
      *
      * First issue seems to be minor one, as signals now are handled together
      * with their parent sets, and should be GC'ed properly even with flash
