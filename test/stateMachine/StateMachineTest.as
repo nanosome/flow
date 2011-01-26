@@ -71,7 +71,10 @@ package stateMachine
             s.mouseDown.fire();
             s.mouseOver.fire();
 
-            Assert.assertEquals(_overedAndPressedState, controller.getCurrentState());
+            Assert.assertEquals(
+                "State after MOUSE_OVER and MOUSE_DOWN events",
+                _overedAndPressedState, controller.getCurrentState()
+            );
         }
 
         private var _event:StateMachineProcessorEvent;
@@ -85,13 +88,27 @@ package stateMachine
             processor.addEventListener(StateMachineProcessorEvent.STATE_CHANGED, onSMControllerEvent);
             s.mouseOver.fire();
 
-            Assert.assertEquals(_normalToOveredTransition, _event.transition);
-            Assert.assertEquals(_normalState, _event.oldState);
+            Assert.assertEquals(
+                "Transition in StateMachineProcessor event after MOUSE_OVER event",
+                _normalToOveredTransition, _event.transition
+            );
+
+            Assert.assertEquals(
+                "Old state in StateMachineProcessor event after MOUSE_OVER event",
+                _normalState, _event.oldState
+            );
 
             s.mouseDown.fire();
 
-            Assert.assertEquals(_overedToPressedTransition, _event.transition);
-            Assert.assertEquals(_overedState, _event.oldState);
+            Assert.assertEquals(
+                "Transition in StateMachineProcessor event after MOUSE_OVER and MOUSE_DOWN events",
+                _overedToPressedTransition, _event.transition
+            );
+
+            Assert.assertEquals(
+                "Old state in StateMachineProcessor event after MOUSE_OVER and MOUSE_DOWN events",
+                _overedState, _event.oldState
+            );
         }
 
         private function onSMControllerEvent(event:StateMachineProcessorEvent):void
@@ -108,8 +125,15 @@ package stateMachine
 
             s.mouseOver.fire();
 
-            Assert.assertEquals(_overedState, processorOne.getCurrentState());
-            Assert.assertEquals(_overedState, processorTwo.getCurrentState());
+            Assert.assertEquals(
+                "State of the first StateMachineProcessor after MOUSE_OVER event",
+                _overedState, processorOne.getCurrentState()
+            );
+
+            Assert.assertEquals(
+                "State of the second StateMachineProcessor after MOUSE_OVER event",
+                _overedState, processorTwo.getCurrentState()
+            );
         }
 
         [Test]
@@ -124,8 +148,15 @@ package stateMachine
             sTwo.mouseOver.fire();
             sTwo.mouseDown.fire();
 
-            Assert.assertEquals(_overedState, controllerOne.getCurrentState());
-            Assert.assertEquals(_overedAndPressedState, controllerTwo.getCurrentState());
+            Assert.assertEquals(
+                "State of the first controller after MOUSE_OVER event",
+                _overedState, controllerOne.getCurrentState()
+            );
+
+            Assert.assertEquals(
+                "State of the second after MOUSE_OVER event",
+                _overedAndPressedState, controllerTwo.getCurrentState()
+            );
         }
 
     }
