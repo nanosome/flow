@@ -5,6 +5,7 @@ package nanosome.flow.visualizing
     import nanosome.flow.easing.EasingLine;
     import nanosome.flow.easing.EasingLineRunner;
     import nanosome.flow.easing.TimedEasing;
+    import nanosome.flow.stateMachine.StateMachine;
     import nanosome.flow.stateMachine.logic.State;
     import nanosome.flow.stateMachine.logic.Transition;
     import nanosome.flow.visualizing.transforms.IVisualizerTransform;
@@ -20,16 +21,8 @@ package nanosome.flow.visualizing
         private var _initialValue:Number;
         private var _isEndValueApplied:Boolean;
         private var _runner:EasingLineRunner;
-
-
-        /**
-         * Visualizer consists of single target + transformer pair
-         * and two hashmaps - one for values at StateMachine states
-         * and one for easing lines.
-         *
-         * Visualizer captures CHANGE_STATE events of its parental state machine processor,
-         * getting old state and transition from it, and ...
-         */
+        
+        
         public function Visualizer(transform:IVisualizerTransform)
         {
             _transform = transform;
@@ -107,5 +100,20 @@ package nanosome.flow.visualizing
             trace("applying value: " + value);
             _transform.apply(value);
         }
+
+        public function checkMissingStates(stateMachine:StateMachine):Array
+        {
+            var res:Array = [];
+
+            return res;
+        }
+
+        public function checkMissingTransiitions(stateMachine:StateMachine):Array
+        {
+            var res:Array = [];
+
+            return res;
+        }
+
     }
 }

@@ -63,19 +63,64 @@ package stateMachine
         }
 
         [Test]
-        public function consequentStateTriggering():void
+        public function areAllStatesAdded():void
+        {
+            var states:Array = _stateMachine.getStates();
+
+            Assert.assertEquals(
+                "Number of states",
+                4, states.length
+            );
+
+            Assert.assertTrue(
+                "Has _normalState",
+                states.indexOf(_normalState) >= 0
+            );
+
+            Assert.assertTrue(
+                "Has _overedState",
+                states.indexOf(_overedState) >= 0
+            );
+
+            Assert.assertTrue(
+                "Has _overedAndPressedState",
+                states.indexOf(_overedAndPressedState) >= 0
+            );
+
+            Assert.assertTrue(
+                "Has _pressedOutsideState",
+                states.indexOf(_pressedOutsideState) >= 0
+            );
+        }
+
+
+        [Test]
+        public function isEventCausesTransition():void
         {
             var s:ButtonSignals = new ButtonSignals();
             var controller:StateMachineProcessor = new StateMachineProcessor(_stateMachine, s);
             s.mouseOver.fire();
-            s.mouseDown.fire();
-            s.mouseOver.fire();
 
             Assert.assertEquals(
-                "State after MOUSE_OVER and MOUSE_DOWN events",
-                _overedAndPressedState, controller.getCurrentState()
+                "State after MOUSE_OVER event",
+                _overedState, controller.getCurrentState()
             );
         }
+
+
+        [Test]
+        public function isEventWithoutTransitionIgnored():void
+        {
+            var s:ButtonSignals = new ButtonSignals();
+            var controller:StateMachineProcessor = new StateMachineProcessor(_stateMachine, s);
+            s.mouseDown.fire();
+
+            Assert.assertEquals(
+                "State after MOUSE_DOWN event",
+                _normalState, controller.getCurrentState()
+            );
+        }
+
 
         private var _event:StateMachineProcessorEvent;
 

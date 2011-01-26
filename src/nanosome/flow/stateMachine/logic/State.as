@@ -101,6 +101,29 @@ package nanosome.flow.stateMachine.logic
 		{
 			return "[object State (" + id + ")]";
 		}
+
+        /**
+         * Utility method, sweeps all transitions and collects all related targets.
+         * 
+         * @return Array of State objects
+         */
+        public function getAllTargets():Array
+        {
+            var result:Array = [];
+            var foundTargets:Dictionary = new Dictionary();
+            var target:State;
+            for each (var transition:Transition in _transitions)
+            {
+                target = transition.target;
+                if (foundTargets[target] != true)
+                {
+                    result.push(target);
+                    foundTargets[target] = true;
+                }
+            }
+
+            return result;
+        }
 	
 	}
 }
