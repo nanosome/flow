@@ -55,12 +55,12 @@ package nanosome.flow.visualizing.controller
         private function onTickUpdate(event:TickGeneratorEvent):void
         {
             var v:Visualizer;
-            var _isEveryoneDone:Boolean = true;
+            var areStepsLeft:Boolean = false;
             for each (v in _visualizers)
             {
-                _isEveryoneDone = _isEveryoneDone && !v.makeStep(event.delta);
+                areStepsLeft = v.makeStep(event.delta) || areStepsLeft;
             }
-            if (_isEveryoneDone)
+            if (!areStepsLeft)
                 _tickGenerator.stop();
         }
 

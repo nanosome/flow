@@ -3,7 +3,7 @@ package nanosome.flow.easing
     public class EasingLineRunner
     {
         public static const SWITCHING_PRECISION:Number = .001;
-        public static const ITERATIONS_LIMIT:uint = 40;
+        public static const SWITCHING_ITERATIONS_LIMIT:uint = 40;
 
         protected var _line:EasingLine;
         protected var _position:Number;
@@ -68,8 +68,9 @@ package nanosome.flow.easing
 
                 if (!(_line._startValue == newLine._endValue && _line._endValue == newLine._startValue))
                     throw new Error(
-                        "Current easing line starting/ending values (" + _line._startValue + ".." + _line._endValue +
-                        ") should match to reversed starting/ending values of the new line " +
+                        "Current easing line starting/ending values " +
+                        "(" + _line._startValue + ".." + _line._endValue + ") " +
+                        "should match to reversed starting/ending values of the new line " +
                         "(" + newLine._startValue + ".." + newLine._endValue + ")."
                     );
 
@@ -117,8 +118,6 @@ package nanosome.flow.easing
 
             var targetTo:Number = targetLine._startValue + targetLine._deltaValue;
 
-            var srcValue:Number = sourceValue;
-
             /*
              * This algorithm is using bisection to find in the new easing line
              * a position, closest to current position.
@@ -127,25 +126,25 @@ package nanosome.flow.easing
              * 2. This approach won't work well, if new easing line is too far from current value.
              *    although it should work good enough for alike transitions.
              */
-            while (Math.abs(sourceValue - aVal) > SWITCHING_PRECISION && _iterations++ < ITERATIONS_LIMIT)
+            while (Math.abs(sourceValue - aVal) > SWITCHING_PRECISION && _iterations++ < SWITCHING_ITERATIONS_LIMIT)
             {
                 cPos = (fPos + tPos) / 2;
                 aVal = targetLine.getValueForTest(cPos);
 
                 if (targetFrom < targetTo)
                 {
-                    if (aVal > srcValue)
+                    if (aVal > sourceValue)
                         tPos = cPos;
-                    else if (aVal < srcValue)
+                    else if (aVal < sourceValue)
                         fPos = cPos;
                     else
                         return cPos;
                 }
                 else
                 {
-                    if (aVal < srcValue)
+                    if (aVal < sourceValue)
                         tPos = cPos;
-                    else if(aVal > srcValue)
+                    else if(aVal > sourceValue)
                         fPos = cPos;
                     else
                         return cPos;

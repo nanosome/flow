@@ -114,7 +114,7 @@ package net.antistatic.fluid.mutations
 			 * 
 			 * 1. Maybe we should limit a number of iterations instead of limiting range.
 			 * 2. This approach won't work well, if new easing line is too far from current value.
-			 *    although it should work good enough for adjacent states. (TODO: describe it in the wiki) 
+			 *    although it should work good enough for adjacent states. 
 			 */
 			while (Math.abs(fPos - tPos) > 1)
 			{
