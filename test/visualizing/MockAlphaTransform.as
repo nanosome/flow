@@ -6,16 +6,26 @@ package visualizing
 
     public class MockAlphaTransform implements IVisualizerTransform
     {
-        private var _target:MockSprite;
+        private var _targets:Array;
 
         public function MockAlphaTransform(target:MockSprite)
         {
-            _target = target;
+            _targets = [target];
+        }
+
+        public function and(target:MockSprite):MockAlphaTransform
+        {
+            _targets.push(target);
+            return this;
         }
 
         public function apply(value:Number):void
         {
-            _target.alpha = value;
+            var target:MockSprite;
+            for each (target in _targets)
+            {
+                target.alpha = value;
+            }
         }
     }
 }

@@ -24,7 +24,7 @@ package visualizing
         [BeforeClass]
         public static function configureStateMachineBuilder():void
         {
-            var repository:TestStateMachineBuildersFactory; // you're free to do it via singleton/.getInstance
+            var repository:TestStateMachineBuildersFactory; 
             repository = new TestStateMachineBuildersFactory();
             _ = repository.testStateMachineBuilder;
         }
