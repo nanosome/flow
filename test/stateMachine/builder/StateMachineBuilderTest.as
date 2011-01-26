@@ -35,15 +35,27 @@ package stateMachine.builder
 
             var c:StateMachineProcessor = new StateMachineProcessor(sm, signals);
 
-            Assert.assertNotNull(signals);
-            Assert.assertNotNull(sm);
-            Assert.assertNotNull(c);
+            Assert.assertNotNull("Signals set obtained via StateMachineBuilder", signals);
+            Assert.assertNotNull("StateMachine obtained via StateMachineBuilder", sm);
 
-            Assert.assertEquals(_smc.normal.id, c.getCurrentState().id);
+            Assert.assertEquals(
+                "State of StateMachineProcessor after initialization",
+                _smc.normal.id, c.getCurrentState().id
+            );
+
             signals.mouseOver.fire();
-            Assert.assertEquals(_smc.overed.id, c.getCurrentState().id);
+
+            Assert.assertEquals(
+                "State of StateMachineProcessor after MOUSE_OVER event",
+                _smc.overed.id, c.getCurrentState().id
+            );
+
             signals.mouseDown.fire();
-            Assert.assertEquals(_smc.pressed.id, c.getCurrentState().id);
+
+            Assert.assertEquals(
+                "State of StateMachineProcessor after MOUSE_OVER and MOUSE_DOWN events",
+                _smc.pressed.id, c.getCurrentState().id
+            );
         }
     }
 }
