@@ -24,17 +24,33 @@ package signals
         private var _firedSignals:Array;
 
         [Test]
-        public function eventsFiring():void
+        public function areEventsFiring():void
         {
             _firedSignals = [];
             _signalsSet.addEventListener(SignalEvent.SIGNAL_FIRED, onSignalFired);
             _signalsSet.signalB.fire();
             _signalsSet.signalA.fire();
             _signalsSet.signalA.fire();
-            Assert.assertEquals(3, _firedSignals.length);
-            Assert.assertEquals(_signalsSet.signalB.id, _firedSignals[0]);
-            Assert.assertEquals(_signalsSet.signalA.id, _firedSignals[1]);
-            Assert.assertEquals(_signalsSet.signalA.id, _firedSignals[2]);
+
+            Assert.assertEquals(
+                "Number of fired signals",
+                3, _firedSignals.length
+            );
+
+            Assert.assertEquals(
+                "First fired signal",
+                _signalsSet.signalB.id, _firedSignals[0]
+            );
+
+            Assert.assertEquals(
+                "Second fired signal",
+                _signalsSet.signalA.id, _firedSignals[1]
+            );
+
+            Assert.assertEquals(
+                "Third fired signal",
+                _signalsSet.signalA.id, _firedSignals[2]
+            );
         }
 
         private function onSignalFired(event:SignalEvent):void
