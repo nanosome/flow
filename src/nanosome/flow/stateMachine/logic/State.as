@@ -107,9 +107,9 @@ package nanosome.flow.stateMachine.logic
          * 
          * @return Array of State objects
          */
-        public function getAllTargets():Array
+        public function getAllTargets():Vector.<State>
         {
-            var result:Array = [];
+            var result:Vector.<State> = new Vector.<State>();
             var foundTargets:Dictionary = new Dictionary();
             var target:State;
             for each (var transition:Transition in _transitions)
@@ -121,9 +121,23 @@ package nanosome.flow.stateMachine.logic
                     foundTargets[target] = true;
                 }
             }
-
             return result;
         }
-	
+
+        /**
+         * Utility method, returns all transitions in array.
+         *
+         * @return Array of State objects
+         */
+        public function getAllTransitions():Vector.<Transition>
+        {
+            var result:Vector.<Transition> = new Vector.<Transition>();
+            for each (var transition:Transition in _transitions)
+            {
+                if (result.indexOf(transition) < 0)
+                    result.push(transition)
+            }
+            return result;
+        }
 	}
 }

@@ -65,7 +65,7 @@ package stateMachine
         [Test]
         public function areAllStatesAdded():void
         {
-            var states:Array = _stateMachine.getStates();
+            var states:Vector.<State> = _stateMachine.getStates();
 
             Assert.assertEquals(
                 "Number of states",
@@ -93,6 +93,50 @@ package stateMachine
             );
         }
 
+        [Test]
+        public function areAllTransitionsAdded():void
+        {
+            var transitions:Vector.<Transition> = _stateMachine.getTransitions();
+
+            Assert.assertEquals(
+                "Number of transitions",
+                7, transitions.length
+            );
+
+            Assert.assertTrue(
+                "Has _normalToOveredTransition",
+                transitions.indexOf(_normalToOveredTransition) >= 0
+            );
+
+            Assert.assertTrue(
+                "Has _overedToNormalTransition",
+                transitions.indexOf(_overedToNormalTransition) >= 0
+            );
+
+            Assert.assertTrue(
+                "Has _overedToPressedTransition",
+                transitions.indexOf(_overedToPressedTransition) >= 0
+            );
+
+            Assert.assertTrue(
+                "Has _pressedToOveredTransition",
+                transitions.indexOf(_pressedToOveredTransition) >= 0
+            );
+            Assert.assertTrue(
+                "Has _pressedToPressedOutsideTransition",
+                transitions.indexOf(_pressedToPressedOutsideTransition) >= 0
+            );
+
+            Assert.assertTrue(
+                "Has _pressedOutsideToPressedTransition",
+                transitions.indexOf(_pressedOutsideToPressedTransition) >= 0
+            );
+
+            Assert.assertTrue(
+                "Has _pressedOutsideToNormalTransition",
+                transitions.indexOf(_pressedOutsideToNormalTransition) >= 0
+            );
+        }
 
         [Test]
         public function isEventCausesTransition():void

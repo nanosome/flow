@@ -43,6 +43,7 @@ package nanosome.flow.stateMachine.builder
             initiateStatesAndTransitions();
 			_stateMachine = configureStateMachine();
             checkTransitions();
+            validateStateMachine();
 		}
 		
 		public function getStateMachine():StateMachine
@@ -103,7 +104,41 @@ package nanosome.flow.stateMachine.builder
                         "."
                 );
         }
-		
+
+        /**
+         * Performs state machine validation by collecting its states and transitions
+         * and comparing them with states and transitions contained by this current builder.
+         */
+		private function validateStateMachine():void
+		{
+            var names:Vector.<String>;
+            var name:String;
+            var missingStates:Vector.<State> = new Vector.<State>();
+            var missingTransitions:Vector.<Transition> = new Vector.<Transition>();
+
+            var smStates:Vector.<State> = getStateMachine().getStates();
+            var smTransitions:Vector.<Transition> = getStateMachine().getTransitions();
+
+            names = ClassUtils.getVariablesOfType(this, State);
+			for each (name in names)
+			{
+                if (smStates.indexOf(this[name]) < 0)
+                    missingStates.push(this[name]);
+			}
+
+            names = ClassUtils.getVariablesOfType(this, Transition);
+			for each (name in names)
+			{
+                if (smTransitions.indexOf(this[name]) < 0)
+				    missingTransitions.push(this[name]);
+			}
+            
+            if (missingStates.length > 0)
+                throw new Error("State Machine has been built with errors, has missing States: " + missingStates);
+
+            if (missingTransitions.length > 0)
+                throw new Error("State Machine has been built with errors, has missing Transitions: " + missingTransitions);
+		}
 		//--------------------------------------------------------------------------
 		//
 		//  DSL specific methods

@@ -5,6 +5,8 @@ package visualizing
 
     import nanosome.flow.easing.EasingLineRunner;
     import nanosome.flow.easing.TimedEasing;
+    import nanosome.flow.stateMachine.logic.State;
+    import nanosome.flow.stateMachine.logic.Transition;
     import nanosome.flow.visualizing.Visualizer;
 
     import nanosome.flow.visualizing.controller.VisualizerController;
@@ -55,6 +57,47 @@ package visualizing
             // just in case
             _visualizer = null;
             _visualizerTarget = null;
+        }
+
+
+        [Test]
+        public function areMissingStatesDetected():void
+        {
+            var totalStates:Vector.<State> = _.getStateMachine().getStates();
+            var missingStates:Vector.<State> = _visualizer.checkMissingStates(_.getStateMachine());
+
+            Assert.assertEquals(
+                "Number of states in state machine being visualized",
+                4, totalStates.length
+            );
+
+            Assert.assertEquals(
+                "Missing states (present in the state machine, but absent in visualizer)",
+                1, missingStates.length
+            );
+
+            Assert.assertEquals(
+                "Missing state (present in the state machine, but absent in visualizer)",
+                missingStates[0], _.pressedOutside
+            );
+        }
+
+
+        [Test]
+        public function areMissingTransitionsDetected():void
+        {
+            var totalTransitions:Vector.<Transition> = _.getStateMachine().getTransitions();
+            var missingTransitions:Vector.<Transition> = _visualizer.checkMissingTransitions(_.getStateMachine());
+
+            Assert.assertEquals(
+                "Number of transitions in state machine being visualized",
+                7, totalTransitions.length
+            );
+
+            Assert.assertEquals(
+                "Missing transitions (present in the state machine, but absent in visualizer)",
+                4, missingTransitions.length
+            ); // TODO: This is a test currently failing
         }
 
 

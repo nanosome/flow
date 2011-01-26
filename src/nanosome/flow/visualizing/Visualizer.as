@@ -97,21 +97,34 @@ package nanosome.flow.visualizing
 
         public function applyTransform():void
         {
-            trace("applying value: " + value);
             _transform.apply(value);
         }
 
-        public function checkMissingStates(stateMachine:StateMachine):Array
+        public function checkMissingStates(stateMachine:StateMachine):Vector.<State>
         {
-            var res:Array = [];
-
+            var res:Vector.<State> = new Vector.<State>();
+            var states:Vector.<State> = stateMachine.getStates();
+            
+            for each (var state:State in states)
+            {
+                if (_values[state] == null)
+                    res.push(state);
+            }
             return res;
         }
 
-        public function checkMissingTransiitions(stateMachine:StateMachine):Array
+        public function checkMissingTransitions(stateMachine:StateMachine):Vector.<Transition>
         {
-            var res:Array = [];
+            var res:Vector.<Transition> = new Vector.<Transition>();
+            var transitions:Vector.<Transition> = stateMachine.getTransitions();
+            var transition:Transition;
 
+            for (var transitionObj:Object in _easings)
+            {
+                transition = Transition(transitionObj);
+                if (transitions.indexOf(transition) < 0)
+                    res.push(transition);
+            }
             return res;
         }
 

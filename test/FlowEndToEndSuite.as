@@ -11,6 +11,7 @@ package
     [RunWith("org.flexunit.runners.Suite")]
     public class FlowEndToEndSuite
     {
+        // TODO: Split it into two suits and add run configurations
         // testing StateMachine and its builder stuff
         public var t1:SignalsLayerTest;
         public var t2:StateMachineTest;

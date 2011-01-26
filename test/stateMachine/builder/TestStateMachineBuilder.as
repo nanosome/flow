@@ -39,7 +39,7 @@ package stateMachine.builder
 				
 			fromOveredToPressed = _.
 				from(overed).to(pressed).by(signals.mouseDown).
-				back(fromPressedToOvered, signals.mouseOut)._;
+				back(fromPressedToOvered, signals.mouseUp)._;
 			
 			fromPressedToPressedOutside = _.
 				from(pressed).to(pressedOutside).by(signals.mouseOut).
