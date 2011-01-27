@@ -1,24 +1,11 @@
 package
 {
-    import easing.EasingLineRunnerTest;
-
-    import signals.SignalsLayerTest;
-    import stateMachine.StateMachineTest;
-    import stateMachine.builder.StateMachineBuilderTest;
-    import visualizing.VisualizerTest;
-
     [Suite]
     [RunWith("org.flexunit.runners.Suite")]
     public class FlowEndToEndSuite
     {
-        // TODO: Split it into two suits and add run configurations
-        // testing StateMachine and its builder stuff
-        public var t1:SignalsLayerTest;
-        public var t2:StateMachineTest;
-        public var t3:StateMachineBuilderTest;
-
-        // testing visualizing part
-        public var t4:EasingLineRunnerTest;
-        public var t5:VisualizerTest;
+        public var s1:StateMachineTestsSuite;
+        
+        public var s2:VisualizingTestsSuite;
     }
 }
