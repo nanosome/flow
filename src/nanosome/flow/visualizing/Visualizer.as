@@ -126,5 +126,15 @@ package nanosome.flow.visualizing
             return res;
         }
 
+        protected function getEasingsList():Dictionary
+        {
+            return _easings;
+        }
+
+        protected function getValuesList():Dictionary
+        {
+            return _values;   
+        }
+
     }
 }

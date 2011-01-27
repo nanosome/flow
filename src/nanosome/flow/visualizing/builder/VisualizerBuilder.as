@@ -19,21 +19,35 @@ package nanosome.flow.visualizing.builder
 
         public function state(state:State, value:Number):VisualizerBuilder
         {
+            mapValue(state, value);
             return this;
         }
 
         public function transition(transition:Transition, value:TimedEasing):VisualizerBuilder
         {
+            mapTransition(transition, value);
             return this;
         }
 
-        public function transitionsAs(targetBuilder:VisualizerBuilder):VisualizerBuilder
+        public function easingsAs(targetBuilder:VisualizerBuilder):VisualizerBuilder
         {
+            var targetEasings = targetBuilder.getEasingsList();
+            var transitionObj:Object;
+            for (transitionObj in targetEasings)
+            {
+                mapTransition((transitionObj as Transition), targetEasings[transitionObj]);
+            }
             return this;
         }
 
         public function valuesAs(targetBuilder:VisualizerBuilder):VisualizerBuilder
         {
+            var targetValues = targetBuilder.getValuesList();
+            var stateObj:Object;
+            for (stateObj in targetValues)
+            {
+                mapValue((stateObj as State), targetValues[stateObj]);
+            }
             return this;
         }
 
@@ -41,13 +55,6 @@ package nanosome.flow.visualizing.builder
         {
             _parentalController.addVisualizer(this);
         }
-
-        //--------------------------------------------------------------------------
-        //
-        //  internal methods
-        //
-        //--------------------------------------------------------------------------
-
 
     }
 }
