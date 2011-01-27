@@ -97,7 +97,32 @@ package visualizing
             Assert.assertEquals(
                 "Missing transitions (present in the state machine, but absent in visualizer)",
                 4, missingTransitions.length
-            ); // TODO: This is a test currently failing
+            );
+
+            Assert.assertTrue(
+                "Transition 'fromPressedToOvered' is missing",
+                missingTransitions.indexOf(_.fromPressedToOvered) >= 0
+            );
+
+            Assert.assertTrue(
+                "Transition 'fromPressedToOvered' is missing",
+                missingTransitions.indexOf(_.fromPressedToOvered) >= 0
+            );
+
+            Assert.assertTrue(
+                "Transition 'fromPressedToPressedOutside' is missing",
+                missingTransitions.indexOf(_.fromPressedToPressedOutside) >= 0
+            );
+
+            Assert.assertTrue(
+                "Transition 'fromPressedOutsideToPressed' is missing",
+                missingTransitions.indexOf(_.fromPressedOutsideToPressed) >= 0
+            );
+
+            Assert.assertTrue(
+                "Transition 'fromPressedOutsideToNormal' is missing",
+                missingTransitions.indexOf(_.fromPressedOutsideToNormal) >= 0
+            );
         }
 
 

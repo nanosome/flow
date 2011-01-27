@@ -117,12 +117,10 @@ package nanosome.flow.visualizing
         {
             var res:Vector.<Transition> = new Vector.<Transition>();
             var transitions:Vector.<Transition> = stateMachine.getTransitions();
-            var transition:Transition;
 
-            for (var transitionObj:Object in _easings)
+            for each (var transition:Transition in transitions)
             {
-                transition = Transition(transitionObj);
-                if (transitions.indexOf(transition) < 0)
+                if (_easings[transition] == null)
                     res.push(transition);
             }
             return res;
