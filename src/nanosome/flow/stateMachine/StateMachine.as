@@ -12,6 +12,9 @@ package nanosome.flow.stateMachine
          */
         private var _initialState:State;
 
+        private var _states:Vector.<State>;
+        private var _transitions:Vector.<Transition>;
+
         /**
          * Constructor
          *  
@@ -32,11 +35,13 @@ package nanosome.flow.stateMachine
          *
          * @return Array of State objects
          */
-        public function get states():Vector.<State> // TODO: Add caching to .state getter
+        public function get states():Vector.<State>
         {
-            var result:Vector.<State> = new Vector.<State>();
-            collectStates(result, getInitialState());
-            return result;
+            if (_states)
+                return _states;
+            _states = new Vector.<State>();
+            collectStates(_states, getInitialState());
+            return _states;
         }
 
         private function collectStates(result:Vector.<State>, state:State):void
@@ -60,10 +65,12 @@ package nanosome.flow.stateMachine
          *
          * @return Vector of Transition objects
          */
-        // TODO: add caching to .transitions getter
         public function get transitions():Vector.<Transition>
         {
-            var result:Vector.<Transition> = new Vector.<Transition>();
+            if (_transitions)
+                return _transitions;
+
+            _transitions = new Vector.<Transition>();
             var states:Vector.<State> = this.states;
             var k:int = states.length;
 
@@ -76,11 +83,11 @@ package nanosome.flow.stateMachine
                 var j:int;
                 for (j = 0; j < m; j++)
                 {
-                    if (result.indexOf(transitions[j]) < 0)
-                        result.push(transitions[j]);
+                    if (_transitions.indexOf(transitions[j]) < 0)
+                        _transitions.push(transitions[j]);
                 }
             }
-            return result;
+            return _transitions;
         }
 
     }
