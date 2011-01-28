@@ -63,7 +63,7 @@ package visualizing
         [Test]
         public function areMissingStatesDetected():void
         {
-            var totalStates:Vector.<State> = _.getStateMachine().getStates();
+            var totalStates:Vector.<State> = _.getStateMachine().states;
             var missingStates:Vector.<State> = _visualizer.checkMissingStates(_.getStateMachine());
 
             Assert.assertEquals(
@@ -86,7 +86,7 @@ package visualizing
         [Test]
         public function areMissingTransitionsDetected():void
         {
-            var totalTransitions:Vector.<Transition> = _.getStateMachine().getTransitions();
+            var totalTransitions:Vector.<Transition> = _.getStateMachine().transitions;
             var missingTransitions:Vector.<Transition> = _visualizer.checkMissingTransitions(_.getStateMachine());
 
             Assert.assertEquals(

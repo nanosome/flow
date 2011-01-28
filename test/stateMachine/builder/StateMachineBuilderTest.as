@@ -33,7 +33,7 @@ package stateMachine.builder
         [Test]
         public function areAllStatesAdded():void
         {
-            var states:Vector.<State> = _stateMachine.getStates();
+            var states:Vector.<State> = _stateMachine.states;
 
             Assert.assertTrue(
                 "Has 'normal' state",
@@ -64,7 +64,7 @@ package stateMachine.builder
         [Test]
         public function areAllTransitionsAdded():void
         {
-            var transitions:Vector.<Transition> = _stateMachine.getTransitions();
+            var transitions:Vector.<Transition> = _stateMachine.transitions;
 
             Assert.assertTrue(
                 "Has 'fromNormalToOvered' transition",

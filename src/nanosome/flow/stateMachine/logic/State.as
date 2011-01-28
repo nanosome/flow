@@ -105,7 +105,6 @@ package nanosome.flow.stateMachine.logic
          * 
          * @return Vector of State objects
          */
-        // TODO: Cache getAllTargets
         public function get targets():Vector.<State>
         {
             var result:Vector.<State> = new Vector.<State>();
@@ -128,7 +127,6 @@ package nanosome.flow.stateMachine.logic
          *
          * @return Vector of State objects
          */
-        // TODO: Cache getAllTransitions
         public function get transitions():Vector.<Transition>
         {
             var result:Vector.<Transition> = new Vector.<Transition>();

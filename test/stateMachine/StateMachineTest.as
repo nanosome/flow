@@ -41,31 +41,31 @@ package stateMachine
             _stateMachine = new StateMachine(_normalState);
 
             _normalToOveredTransition =
-                    _normalState.addTransition(s.mouseOver, _overedState);
+                    _normalState.addTransition(s.mouseOver.id, _overedState);
 
             _overedToNormalTransition =
-                    _overedState.addTransition(s.mouseOut, _normalState);
+                    _overedState.addTransition(s.mouseOut.id, _normalState);
 
             _overedToPressedTransition =
-                    _overedState.addTransition(s.mouseDown, _overedAndPressedState);
+                    _overedState.addTransition(s.mouseDown.id, _overedAndPressedState);
 
             _pressedToOveredTransition =
-                    _overedAndPressedState.addTransition(s.mouseUp, _overedState);
+                    _overedAndPressedState.addTransition(s.mouseUp.id, _overedState);
 
             _pressedToPressedOutsideTransition =
-                _overedAndPressedState.addTransition(s.mouseOut, _pressedOutsideState);
+                _overedAndPressedState.addTransition(s.mouseOut.id, _pressedOutsideState);
 
             _pressedOutsideToPressedTransition =
-                _pressedOutsideState.addTransition(s.mouseOver, _overedAndPressedState);
+                _pressedOutsideState.addTransition(s.mouseOver.id, _overedAndPressedState);
 
             _pressedOutsideToNormalTransition =
-                _pressedOutsideState.addTransition(s.mouseUp, _normalState);
+                _pressedOutsideState.addTransition(s.mouseUp.id, _normalState);
         }
 
         [Test]
         public function areAllStatesAdded():void
         {
-            var states:Vector.<State> = _stateMachine.getStates();
+            var states:Vector.<State> = _stateMachine.states;
 
             Assert.assertEquals(
                 "Number of states",
@@ -96,7 +96,7 @@ package stateMachine
         [Test]
         public function areAllTransitionsAdded():void
         {
-            var transitions:Vector.<Transition> = _stateMachine.getTransitions();
+            var transitions:Vector.<Transition> = _stateMachine.transitions;
 
             Assert.assertEquals(
                 "Number of transitions",

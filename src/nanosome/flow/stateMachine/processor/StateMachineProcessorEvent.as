@@ -7,8 +7,8 @@ package nanosome.flow.stateMachine.processor
 
     public class StateMachineProcessorEvent extends Event
     {
-		// Messages constants for events
-		public static const STATE_CHANGED:String 	= "stateChanged";
+        // Messages constants for events
+        public static const STATE_CHANGED:String = "stateChanged";
 
         private var _oldState:State;
         private var _transition:Transition;

@@ -4,30 +4,30 @@ package nanosome.flow.stateMachine.processor
     import flash.profiler.profile;
 
     import nanosome.flow.stateMachine.*;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
+    import flash.events.Event;
+    import flash.events.EventDispatcher;
 
-	import nanosome.flow.stateMachine.logic.State;
+    import nanosome.flow.stateMachine.logic.State;
     import nanosome.flow.signals.AbstractSignalSet;
     import nanosome.flow.signals.SignalEvent;
     import nanosome.flow.stateMachine.logic.Transition;
 
     /**
-	 * 
-	 */
-	public class StateMachineProcessor extends EventDispatcher
-	{ // TODO: Rename it to StateMachine, drop StateMachine
-		/**
-		 * @private
-		 * Holds a reference to current state
-		 */
-		protected var _currentState:State;
-		 
-		/**
-		 * @private
-		 * Holds a reference to state machine currently working with
-		 */
-		private var _stateMachine:StateMachine;
+     * 
+     */
+    public class StateMachineProcessor extends EventDispatcher
+    { // TODO: Rename it to StateMachine, drop StateMachine
+        /**
+         * @private
+         * Holds a reference to current state
+         */
+        protected var _currentState:State;
+         
+        /**
+         * @private
+         * Holds a reference to state machine currently working with
+         */
+        private var _stateMachine:StateMachine;
 
         /**
          * @private
@@ -35,18 +35,18 @@ package nanosome.flow.stateMachine.processor
          */
         private var _signals:AbstractSignalSet;
 
-		//--------------------------------------------------------------------------
-		//
-		//  Constructor
-		//
-		//--------------------------------------------------------------------------
-		
-		/**
-		 *  Constructor
-		 */			
-		public function StateMachineProcessor(stateMachine:StateMachine, signals:AbstractSignalSet)
-		{
-			_stateMachine = stateMachine;
+        //--------------------------------------------------------------------------
+        //
+        //  Constructor
+        //
+        //--------------------------------------------------------------------------
+        
+        /**
+         *  Constructor
+         */            
+        public function StateMachineProcessor(stateMachine:StateMachine, signals:AbstractSignalSet)
+        {
+            _stateMachine = stateMachine;
             _currentState = stateMachine.getInitialState();
             _signals = signals;
             // Frankly, we can add type checking for signals set here to match
@@ -55,43 +55,43 @@ package nanosome.flow.stateMachine.processor
             // signals from different sets but with same signal ID should be
             // treated equally
             _signals.addEventListener(SignalEvent.SIGNAL_FIRED, onSignalFired);
-		}
+        }
 
         private function onSignalFired(event:SignalEvent):void //TODO: Consider merging onSignalFired, handle and handleTransition
         {
             handle(event.signalID);
         }
 
-		/**
-		 *  Performing check for State change. 
-		 *  Changes current action and state, if conditions are met.
-		 *  
-		 *  @return True, if conditions are met.
-		 */		
-		protected function handle(eventCode:String):Boolean
-		{
-		    if(_currentState.hasTransitionForEvent(eventCode))
-		    {
-		    	handleTransition(_currentState.transitionForEvent(eventCode));
-		    	return true;
-		    }
-		    return false;
-		}
-		
-		/**
-	 	 *  Sets new state.
-	 	 */			
-		protected function handleTransition(transition:Transition):void
-		{
+        /**
+         *  Performing check for State change. 
+         *  Changes current action and state, if conditions are met.
+         *  
+         *  @return True, if conditions are met.
+         */        
+        protected function handle(eventCode:String):Boolean
+        {
+            if(_currentState.hasTransitionForEvent(eventCode))
+            {
+                handleTransition(_currentState.transitionForEvent(eventCode));
+                return true;
+            }
+            return false;
+        }
+        
+        /**
+          *  Sets new state.
+          */            
+        protected function handleTransition(transition:Transition):void
+        {
             var oldState:State = _currentState;
-			_currentState = transition.target;
-			dispatchEvent(new StateMachineProcessorEvent(oldState, transition));
-		}
+            _currentState = transition.target;
+            dispatchEvent(new StateMachineProcessorEvent(oldState, transition));
+        }
 
         public function getCurrentState():State
         {
             return _currentState;
         }
-	
-	}
+    
+    }
 }
