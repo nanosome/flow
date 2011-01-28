@@ -32,20 +32,22 @@ package nanosome.flow.stateMachine
          *
          * @return Array of State objects
          */
-        public function getStates():Vector.<State>
+        // TODO: refactor it to getter
+        public function getStates():Vector.<State> // TODO: Add caching of state lists and transitions
         {
             var result:Vector.<State> = new Vector.<State>();
             collectStates(result, getInitialState());
             return result;
         }
 
+        //TODO:  add caching to collectState
         private function collectStates(result:Vector.<State>, state:State):void
         {
             if (result.indexOf(state) == -1)
             {
                 result.push(state);
                 var targetsOfState:Vector.<State> = state.getAllTargets();
-                for each (var s:State in targetsOfState)
+                for each (var s:State in targetsOfState) // TODO: use int to iterate
                 {
                     collectStates(result, s);
                 }
@@ -55,8 +57,9 @@ package nanosome.flow.stateMachine
         /**
          * Utility method, returning all transitions found in this StateMachine
          *
-         * @return Array of Transition objects
+         * @return Vector of Transition objects
          */
+        // TODO: refactor it to getter, add caching
         public function getTransitions():Vector.<Transition>
         {
             var result:Vector.<Transition> = new Vector.<Transition>();
@@ -65,7 +68,7 @@ package nanosome.flow.stateMachine
             var transitions:Vector.<Transition>;
             var transition:Transition;
 
-            for each (state in states)
+            for each (state in states) // TODO: use int to iterate
             {
                 transitions = state.getAllTransitions();
                 for each (transition in transitions)

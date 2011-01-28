@@ -44,6 +44,19 @@ package stateMachine.builder
 			fromPressedToPressedOutside = _.
 				from(pressed).to(pressedOutside).by(signals.mouseOut).
 				back(fromPressedOutsideToPressed, signals.mouseOver)._;
+
+            // TODO: Consider the following syntax
+            /*
+               define(fromNormalToOvered).by(signals.mouseOver).
+               back(fromOveredToNormal, signals.mouseOut);
+
+               also consider more straight buidler;
+
+               public const normal: State = createState();
+               public const overed: State = createState();
+
+               public const fromNormalToOvered: Transition = createTransition( normal, overed );
+            */
 				
 			fromPressedOutsideToNormal = _.from(pressedOutside).to(normal).by(signals.mouseUp)._;
 

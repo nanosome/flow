@@ -1,6 +1,8 @@
 // @license@
 package nanosome.flow.stateMachine.processor
 {
+    import flash.profiler.profile;
+
     import nanosome.flow.stateMachine.*;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -14,7 +16,7 @@ package nanosome.flow.stateMachine.processor
 	 * 
 	 */
 	public class StateMachineProcessor extends EventDispatcher
-	{
+	{ // TODO: Rename it to StateMachine, drop StateMachine
 		/**
 		 * @private
 		 * Holds a reference to current state
@@ -55,7 +57,7 @@ package nanosome.flow.stateMachine.processor
             _signals.addEventListener(SignalEvent.SIGNAL_FIRED, onSignalFired);
 		}
 
-        public function onSignalFired(event:SignalEvent):void
+        private function onSignalFired(event:SignalEvent):void //TODO: Consider merging onSignalFired, handle and handleTransition
         {
             handle(event.signalID);
         }

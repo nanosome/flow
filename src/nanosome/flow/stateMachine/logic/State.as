@@ -24,7 +24,7 @@ package nanosome.flow.stateMachine.logic
 		 * @private 
 		 * Holds a set of conditional transitions from this state
 		 */
-		private var _transitions:Dictionary;
+		private var _transitions:Object;
 		
 		//--------------------------------------------------------------------------
 		//
@@ -38,7 +38,7 @@ package nanosome.flow.stateMachine.logic
 		public function State(id:String)
 		{
 			_id = id;
-			_transitions = new Dictionary();
+			_transitions = {};
 		}
 		
 		public function get id():String
@@ -73,19 +73,19 @@ package nanosome.flow.stateMachine.logic
 		 */		
 		public function hasTransitionForEvent(signalID:String):Boolean
 		{
-			return _transitions[signalID] != null;
+			return _transitions[signalID] != null; // TODO: Remove Signal dependency
 		}
 		
 		/**
 		 *  Adds Transition for this State.
-		 */		
+		 */
 		public function addTransition(signal:Signal, targetState:State):Transition 
 		{
             var t:Transition = new Transition();
             defineTransition(t, signal, targetState);
             return t;
 		}
-
+        //TODO: Code smell
         public function defineTransition(transition:Transition, signal:Signal, targetState:State):void
         {
             transition.define(this, targetState);
@@ -107,6 +107,7 @@ package nanosome.flow.stateMachine.logic
          * 
          * @return Array of State objects
          */
+        // TODO: Cache getAllTargets
         public function getAllTargets():Vector.<State>
         {
             var result:Vector.<State> = new Vector.<State>();
@@ -129,6 +130,7 @@ package nanosome.flow.stateMachine.logic
          *
          * @return Array of State objects
          */
+        // TODO: Cache getAllTransitions
         public function getAllTransitions():Vector.<Transition>
         {
             var result:Vector.<Transition> = new Vector.<Transition>();

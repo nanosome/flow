@@ -14,6 +14,8 @@ package nanosome.flow.easing
             setPosition(startingPosition);
         }
 
+
+        // return true, if its still has something to do
         public function setPosition(value:Number):Boolean
         {
             // NOTE - we're not checking position to be positive value
@@ -74,9 +76,10 @@ package nanosome.flow.easing
                         "(" + newLine._startValue + ".." + newLine._endValue + ")."
                     );
 
+                // TODO: How to animate complex values? like, from "cow" to "cat"?
                 // now we have to calculate position
                 if (newLine._duration < _position)
-                    calculatedPosition = 0;
+                    calculatedPosition = 0; // TODO: what if its 0.. 1 in 10 secs and 1.. 0 in 2 seconds, and we're in the middle?
                 else
                     calculatedPosition = calculatePosition(newLine, this.value);
             }

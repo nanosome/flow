@@ -21,7 +21,7 @@ package nanosome.flow.signals
 			return _id;
 		}
 
-        public function fire():void
+        public function fire(event:Event = null):void
         {
             _ownerSet.fireSignal(this);
         }

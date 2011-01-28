@@ -7,7 +7,7 @@ package misc
 
     public class ButtonSignals extends AbstractSignalSet
     {
-		public var mouseUp:Signal;
+		public var mouseUp:Signal; 
 		public var mouseDown:Signal;
 		public var mouseOver:Signal;
 		public var mouseOut:Signal;
