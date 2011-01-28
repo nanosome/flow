@@ -32,23 +32,25 @@ package nanosome.flow.stateMachine
          *
          * @return Array of State objects
          */
-        public function get states():Vector.<State> // TODO: Add caching of state lists and transitions
+        public function get states():Vector.<State> // TODO: Add caching to .state getter
         {
             var result:Vector.<State> = new Vector.<State>();
             collectStates(result, getInitialState());
             return result;
         }
 
-        //TODO:  add caching to collectState
         private function collectStates(result:Vector.<State>, state:State):void
         {
             if (result.indexOf(state) == -1)
             {
                 result.push(state);
                 var targetsOfState:Vector.<State> = state.targets;
-                for each (var s:State in targetsOfState) // TODO: use int to iterate
+                var k:int = targetsOfState.length;
+                var i:int;
+
+                for (i = 0; i < k; i++)
                 {
-                    collectStates(result, s);
+                    collectStates(result, targetsOfState[i]);
                 }
             }
         }
@@ -58,21 +60,24 @@ package nanosome.flow.stateMachine
          *
          * @return Vector of Transition objects
          */
-        // TODO: add caching
+        // TODO: add caching to .transitions getter
         public function get transitions():Vector.<Transition>
         {
             var result:Vector.<Transition> = new Vector.<Transition>();
-            var state:State;
-            var transitions:Vector.<Transition>;
-            var transition:Transition;
+            var states:Vector.<State> = this.states;
+            var k:int = states.length;
 
-            for each (state in states) // TODO: use int to iterate
+            var i:int;
+
+            for (i = 0; i < k; i++)
             {
-                transitions = state.transitions;
-                for each (transition in transitions)
+                var transitions:Vector.<Transition> = states[i].transitions;
+                var m:int = transitions.length;
+                var j:int;
+                for (j = 0; j < m; j++)
                 {
-                    if (result.indexOf(transition) < 0)
-                        result.push(transition);
+                    if (result.indexOf(transitions[j]) < 0)
+                        result.push(transitions[j]);
                 }
             }
             return result;
