@@ -41,12 +41,14 @@ package nanosome.flow.stateMachine
 
         private function collectStates(result:Vector.<State>, state:State):void
         {
-            if (result.indexOf(state) >= 0) return;
-            result.push(state);
-            var targetsOfState:Vector.<State> = state.getAllTargets();
-            for each (var s:State in targetsOfState)
+            if (result.indexOf(state) == -1)
             {
-                collectStates(result, s);
+                result.push(state);
+                var targetsOfState:Vector.<State> = state.getAllTargets();
+                for each (var s:State in targetsOfState)
+                {
+                    collectStates(result, s);
+                }
             }
         }
         
