@@ -15,7 +15,7 @@ package nanosome.flow.stateMachine.builder
         public function get _():Transition
         {
             checkTransition();
-            return _sourceState.addTransition(_signal, _targetState);
+            return _sourceState.addTransition(_signal.id, _targetState);
         }
 
 /*
@@ -58,7 +58,7 @@ package nanosome.flow.stateMachine.builder
         public function back(backTransition:Transition, backSignal:Signal):TransitionBuilder
         {
             checkTransition();
-            _targetState.defineTransition(backTransition, backSignal, _sourceState);
+            _targetState.defineTransition(backTransition, backSignal.id, _sourceState);
             return this;
         }
 

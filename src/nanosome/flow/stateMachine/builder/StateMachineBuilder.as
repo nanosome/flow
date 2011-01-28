@@ -116,8 +116,8 @@ package nanosome.flow.stateMachine.builder
             var missingStates:Vector.<State> = new Vector.<State>();
             var missingTransitions:Vector.<Transition> = new Vector.<Transition>();
 
-            var smStates:Vector.<State> = getStateMachine().getStates();
-            var smTransitions:Vector.<Transition> = getStateMachine().getTransitions();
+            var smStates:Vector.<State> = getStateMachine().states;
+            var smTransitions:Vector.<Transition> = getStateMachine().transitions;
 
             names = ClassUtils.getVariablesOfType(this, State);
 			for each (name in names)

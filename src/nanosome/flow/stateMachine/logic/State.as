@@ -103,10 +103,10 @@ package nanosome.flow.stateMachine.logic
         /**
          * Utility method, sweeps all transitions and collects all related targets.
          * 
-         * @return Array of State objects
+         * @return Vector of State objects
          */
         // TODO: Cache getAllTargets
-        public function getAllTargets():Vector.<State>
+        public function get targets():Vector.<State>
         {
             var result:Vector.<State> = new Vector.<State>();
             var foundTargets:Dictionary = new Dictionary();
@@ -124,12 +124,12 @@ package nanosome.flow.stateMachine.logic
         }
 
         /**
-         * Utility method, returns all transitions in array.
+         * Utility method, returns all transitions of this state.
          *
-         * @return Array of State objects
+         * @return Vector of State objects
          */
         // TODO: Cache getAllTransitions
-        public function getAllTransitions():Vector.<Transition>
+        public function get transitions():Vector.<Transition>
         {
             var result:Vector.<Transition> = new Vector.<Transition>();
             for each (var transition:Transition in _transitions)

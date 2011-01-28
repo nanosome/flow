@@ -109,9 +109,8 @@ package nanosome.flow.visualizing
         public function checkMissingStates(stateMachine:StateMachine):Vector.<State>
         {
             var res:Vector.<State> = new Vector.<State>();
-            var states:Vector.<State> = stateMachine.getStates();
             
-            for each (var state:State in states)
+            for each (var state:State in stateMachine.states)
             {
                 if (_values[state] == null)
                     res.push(state);
@@ -122,9 +121,8 @@ package nanosome.flow.visualizing
         public function checkMissingTransitions(stateMachine:StateMachine):Vector.<Transition>
         {
             var res:Vector.<Transition> = new Vector.<Transition>();
-            var transitions:Vector.<Transition> = stateMachine.getTransitions();
 
-            for each (var transition:Transition in transitions)
+            for each (var transition:Transition in stateMachine.transitions)
             {
                 if (_easings[transition] == null)
                     res.push(transition);
