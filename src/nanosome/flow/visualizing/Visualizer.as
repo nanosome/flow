@@ -100,6 +100,12 @@ package nanosome.flow.visualizing
             _transform.apply(value);
         }
 
+        //--------------------------------------------------------------------------
+        //
+        //  Utility methods
+        //
+        //--------------------------------------------------------------------------
+
         public function checkMissingStates(stateMachine:StateMachine):Vector.<State>
         {
             var res:Vector.<State> = new Vector.<State>();
@@ -136,5 +142,38 @@ package nanosome.flow.visualizing
             return _values;   
         }
 
+        public function hasIdenticalMappingsWith(target:Visualizer):Boolean
+        {
+            var targetValues:Dictionary = target.getValuesList();
+            var targetEasings:Dictionary = target.getEasingsList();
+
+            var stateObj:Object;
+            for (stateObj in targetValues)
+            {
+                if (targetValues[stateObj] !== _values[stateObj])
+                    return false
+            }
+
+            var transitionObj:Object;
+            for (transitionObj in targetEasings)
+            {
+                if (targetEasings[transitionObj] !== _easings[transitionObj])
+                    return false
+            }
+
+            for (stateObj in _values)
+            {
+                if (_values[stateObj] !== targetValues[stateObj])
+                    return false
+            }
+
+            for (transitionObj in _easings)
+            {
+                if (_easings[transitionObj] !== targetEasings[transitionObj])
+                    return false
+            }
+
+            return true;
+        }
     }
 }

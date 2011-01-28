@@ -1,5 +1,7 @@
 package nanosome.flow.visualizing.builder
 {
+    import flash.utils.Dictionary;
+
     import nanosome.flow.easing.TimedEasing;
     import nanosome.flow.stateMachine.logic.State;
     import nanosome.flow.stateMachine.logic.Transition;
@@ -31,7 +33,7 @@ package nanosome.flow.visualizing.builder
 
         public function easingsAs(targetBuilder:VisualizerBuilder):VisualizerBuilder
         {
-            var targetEasings = targetBuilder.getEasingsList();
+            var targetEasings:Dictionary = targetBuilder.getEasingsList();
             var transitionObj:Object;
             for (transitionObj in targetEasings)
             {
@@ -42,7 +44,7 @@ package nanosome.flow.visualizing.builder
 
         public function valuesAs(targetBuilder:VisualizerBuilder):VisualizerBuilder
         {
-            var targetValues = targetBuilder.getValuesList();
+            var targetValues:Dictionary = targetBuilder.getValuesList();
             var stateObj:Object;
             for (stateObj in targetValues)
             {

@@ -49,12 +49,6 @@ package visualizing.builder
         [Test]
         public function areValuesAndEasingsCopied():void
         {
-            /*
-             Frankly, we have to test only the following methods:
-             - transitionsAs
-             - valuesAs
-              */
-
             // configure controller
             var activePassiveSignals:ActivePassiveSignals = _activePassive.getNewSignalsSet();
 
@@ -88,6 +82,11 @@ package visualizing.builder
                 .easingsAs(baseVis)
                 .valuesAs(baseVis)
             .activate();
+
+            Assert.assertTrue(
+                "baseVis and copyVis has identical mappings",
+                baseVis.hasIdenticalMappingsWith(copyVis)
+            );
 
         }
     }
