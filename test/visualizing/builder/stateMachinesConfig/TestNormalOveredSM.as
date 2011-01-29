@@ -2,36 +2,36 @@ package visualizing.builder.stateMachinesConfig
 {
     import nanosome.flow.stateMachine.StateMachine;
     import nanosome.flow.stateMachine.builder.StateMachineBuilder;
-    import nanosome.flow.stateMachine.logic.State;
-    import nanosome.flow.stateMachine.logic.Transition;
+    import nanosome.flow.stateMachine.State;
+    import nanosome.flow.stateMachine.Transition;
 
     import misc.ButtonSignals;
 
     public class TestNormalOveredSM extends StateMachineBuilder
-	{
-		// states
+    {
+        // states
         public var normal:State;
-		public var overed:State;
+        public var overed:State;
 
-		// transitions
-		public var fromNormalToOvered:Transition;
-		public var fromOveredToNormal:Transition;
+        // transitions
+        public var fromNormalToOvered:Transition;
+        public var fromOveredToNormal:Transition;
 
         public function getNewSignalsSet():NormalOveredSignals
         {
             return new NormalOveredSignals();
         }
-		
-		override protected function configureStateMachine():StateMachine
-		{
+        
+        override protected function configureStateMachine():StateMachine
+        {
             var signals:NormalOveredSignals = getNewSignalsSet();
 
-			fromNormalToOvered = _.
+            fromNormalToOvered = _.
                 from(normal).to(overed).by(signals.setOvered).
-				back(fromOveredToNormal, signals.setNormal)._;
-				
-			return new StateMachine(normal);
-		}
+                back(fromOveredToNormal, signals.setNormal)._;
+                
+            return new StateMachine(normal);
+        }
 
-	}
+    }
 }

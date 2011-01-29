@@ -4,8 +4,8 @@ package stateMachine
     import nanosome.flow.stateMachine.processor.StateMachineProcessor;
 
     import nanosome.flow.stateMachine.processor.StateMachineProcessorEvent;
-    import nanosome.flow.stateMachine.logic.State;
-    import nanosome.flow.stateMachine.logic.Transition;
+    import nanosome.flow.stateMachine.State;
+    import nanosome.flow.stateMachine.Transition;
 
     import org.flexunit.Assert;
 

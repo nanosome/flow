@@ -1,8 +1,8 @@
 package stateMachine.builder
 {
     import nanosome.flow.stateMachine.StateMachine;
-    import nanosome.flow.stateMachine.logic.State;
-    import nanosome.flow.stateMachine.logic.Transition;
+    import nanosome.flow.stateMachine.State;
+    import nanosome.flow.stateMachine.Transition;
     import nanosome.flow.stateMachine.processor.StateMachineProcessor;
 
     import org.flexunit.Assert;
