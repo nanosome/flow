@@ -1,10 +1,8 @@
 // @license@
 package nanosome.flow.stateMachine.processor
 {
-    import flash.profiler.profile;
 
     import nanosome.flow.stateMachine.*;
-    import flash.events.Event;
     import flash.events.EventDispatcher;
 
     import nanosome.flow.stateMachine.State;
@@ -13,7 +11,7 @@ package nanosome.flow.stateMachine.processor
     import nanosome.flow.stateMachine.Transition;
 
     public class StateMachineProcessor extends EventDispatcher
-    { // TODO: Rename it to StateMachine, drop StateMachine
+    {
         /**
          * @private
          * Holds a reference to current state
@@ -32,12 +30,6 @@ package nanosome.flow.stateMachine.processor
          */
         private var _signals:AbstractSignalSet;
 
-        //--------------------------------------------------------------------------
-        //
-        //  Constructor
-        //
-        //--------------------------------------------------------------------------
-
         /**
          *  Constructor
          */
@@ -53,7 +45,6 @@ package nanosome.flow.stateMachine.processor
         {
             handle(event.signalID);
         }
-
         
         protected function handle(eventCode:String):Boolean
         {
@@ -66,7 +57,6 @@ package nanosome.flow.stateMachine.processor
             dispatchEvent(new StateMachineProcessorEvent(oldState, transition));
             return true;
         }
-
 
         public function getCurrentState():State
         {
