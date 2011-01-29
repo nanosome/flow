@@ -2,6 +2,7 @@ package nanosome.flow.stateMachine.builder
 {
     import nanosome.flow.signals.Signal;
     import nanosome.flow.stateMachine.State;
+    import nanosome.flow.stateMachine.StateMachine;
     import nanosome.flow.stateMachine.Transition;
 
     final public class TransitionBuilder
@@ -9,21 +10,18 @@ package nanosome.flow.stateMachine.builder
         private var _sourceState:State;
         private var _signal:Signal;
         private var _targetState:State;
+        private var _stateMachine:StateMachine;
 
-        public function TransitionBuilder() {}
+        public function TransitionBuilder(stateMachine:StateMachine)
+        {
+            _stateMachine = stateMachine;
+        }
 
         public function get _():Transition
         {
             checkTransition();
-            return _sourceState.addTransition(_signal.id, _targetState);
+            return _stateMachine.addTransition(_sourceState, _signal.id, _targetState);
         }
-
-/*
-            fromNormalToOvered = _.from(normal).to(overed).by(signals.mouseOver)._;
-
-            fromNormalToOvered = _.from(normal).to(overed).by(signals.mouseOver)
-                                  .back(fromOveredToNormal, signals.mouseOut)._;
- */
 
         public function from(state:State):TransitionBuilder
         {
@@ -58,7 +56,7 @@ package nanosome.flow.stateMachine.builder
         public function back(backTransition:Transition, backSignal:Signal):TransitionBuilder
         {
             checkTransition();
-            _targetState.defineTransition(backTransition, backSignal.id, _sourceState);
+            _stateMachine.defineTransition(backTransition, _targetState, backSignal.id, _sourceState);
             return this;
         }
 

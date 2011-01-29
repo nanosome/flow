@@ -57,7 +57,7 @@ package nanosome.flow.stateMachine
          *  
          *  @see Transition
          */        
-        public function transitionForEvent(signalID:String):Transition
+        internal function transitionForEvent(signalID:String):Transition
         {
             return Transition(_transitions[signalID]);
         }
@@ -69,7 +69,7 @@ package nanosome.flow.stateMachine
          *  
          *  @see Transition
          */        
-        public function hasTransitionForEvent(signalID:String):Boolean
+        internal function hasTransitionForEvent(signalID:String):Boolean
         {
             return _transitions[signalID] != null;
         }
@@ -77,14 +77,14 @@ package nanosome.flow.stateMachine
         /**
          *  Adds Transition for this State.
          */
-        public function addTransition(signalID:String, targetState:State):Transition
+        internal function addTransition(signalID:String, targetState:State):Transition
         {
             var t:Transition = new Transition();
             defineTransition(t, signalID, targetState);
             return t;
         }
-        //TODO: Code smell
-        public function defineTransition(transition:Transition, signalID:String, targetState:State):void
+
+        internal function defineTransition(transition:Transition, signalID:String, targetState:State):void
         {
             transition.define(this, targetState);
             _transitions[signalID] = transition;
@@ -105,7 +105,7 @@ package nanosome.flow.stateMachine
          * 
          * @return Vector of State objects
          */
-        public function get targets():Vector.<State>
+        internal function get targets():Vector.<State>
         {
             var result:Vector.<State> = new Vector.<State>();
             var foundTargets:Dictionary = new Dictionary();
@@ -127,7 +127,7 @@ package nanosome.flow.stateMachine
          *
          * @return Vector of State objects
          */
-        public function get transitions():Vector.<Transition>
+        internal function get transitions():Vector.<Transition>
         {
             var result:Vector.<Transition> = new Vector.<Transition>();
             for each (var transition:Transition in _transitions)

@@ -41,17 +41,23 @@ package nanosome.flow.stateMachine.builder
         public function StateMachineBuilder()
         {
             initiateStatesAndTransitions();
-            _stateMachine = configureStateMachine();
+            configureStateMachine();
             checkTransitions();
             validateStateMachine();
         }
+
+        public function set initialState(state:State):void
+        {
+            _stateMachine = new StateMachine(state);
+        }
+
         
         public function getStateMachine():StateMachine
         {
             return _stateMachine;
         }
 
-        protected function configureStateMachine():StateMachine
+        protected function configureStateMachine():void
         {
             throw new Error("This method should be overriden.");
         }
@@ -147,7 +153,7 @@ package nanosome.flow.stateMachine.builder
 
         final public function get _():TransitionBuilder
         {
-            return new TransitionBuilder();
+            return new TransitionBuilder(getStateMachine());
         }
 /*
         private function checkExpression():void

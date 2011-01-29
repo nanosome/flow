@@ -37,6 +37,16 @@ package nanosome.flow.stateMachine
             return state.transitionForEvent(signal);
         }
 
+        public function addTransition(source:State, signal:String, target:State):Transition
+        {
+            return source.addTransition(signal, target);
+        }
+
+        public function defineTransition(transition:Transition, source:State, signal:String, target:State):void
+        {
+            source.defineTransition(transition, signal, target);
+        }
+
         /**
          * Utility method, returning all states found in this StateMachine
          *

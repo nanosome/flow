@@ -29,9 +29,11 @@ package stateMachine.builder
             return new ButtonSignals();
         }
 
-        override protected function configureStateMachine():StateMachine
+        override protected function configureStateMachine():void
         {
             var signals:ButtonSignals = getNewSignalsSet();
+
+            initialState = normal;
 
             fromNormalToOvered = _.
                 from(normal).to(overed).by(signals.mouseOver).
@@ -59,8 +61,6 @@ package stateMachine.builder
             */
                 
             fromPressedOutsideToNormal = _.from(pressedOutside).to(normal).by(signals.mouseUp)._;
-
-            return new StateMachine(normal);
         }
 
     }

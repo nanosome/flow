@@ -29,7 +29,7 @@ package nanosome.flow.stateMachine
         //
         //--------------------------------------------------------------------------
 
-        public function define(source:State, target:State):void // TODO: Hide this method
+        internal function define(source:State, target:State):void
         {
             _source = source;
             _target = target;

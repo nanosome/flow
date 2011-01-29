@@ -21,16 +21,16 @@ package visualizing.builder.stateMachinesConfig
         {
             return new NormalOveredSignals();
         }
-        
-        override protected function configureStateMachine():StateMachine
+
+        override protected function configureStateMachine():void
         {
             var signals:NormalOveredSignals = getNewSignalsSet();
+
+            initialState = normal;
 
             fromNormalToOvered = _.
                 from(normal).to(overed).by(signals.setOvered).
                 back(fromOveredToNormal, signals.setNormal)._;
-                
-            return new StateMachine(normal);
         }
 
     }

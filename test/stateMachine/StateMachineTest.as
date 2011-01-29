@@ -41,25 +41,25 @@ package stateMachine
             _stateMachine = new StateMachine(_normalState);
 
             _normalToOveredTransition =
-                    _normalState.addTransition(s.mouseOver.id, _overedState);
+                _stateMachine.addTransition(_normalState, s.mouseOver.id, _overedState);
 
             _overedToNormalTransition =
-                    _overedState.addTransition(s.mouseOut.id, _normalState);
+                _stateMachine.addTransition(_overedState, s.mouseOut.id, _normalState);
 
             _overedToPressedTransition =
-                    _overedState.addTransition(s.mouseDown.id, _overedAndPressedState);
+                _stateMachine.addTransition(_overedState, s.mouseDown.id, _overedAndPressedState);
 
             _pressedToOveredTransition =
-                    _overedAndPressedState.addTransition(s.mouseUp.id, _overedState);
+                _stateMachine.addTransition(_overedAndPressedState, s.mouseUp.id, _overedState);
 
             _pressedToPressedOutsideTransition =
-                _overedAndPressedState.addTransition(s.mouseOut.id, _pressedOutsideState);
+                _stateMachine.addTransition(_overedAndPressedState, s.mouseOut.id, _pressedOutsideState);
 
             _pressedOutsideToPressedTransition =
-                _pressedOutsideState.addTransition(s.mouseOver.id, _overedAndPressedState);
+                _stateMachine.addTransition(_pressedOutsideState, s.mouseOver.id, _overedAndPressedState);
 
             _pressedOutsideToNormalTransition =
-                _pressedOutsideState.addTransition(s.mouseUp.id, _normalState);
+                _stateMachine.addTransition(_pressedOutsideState, s.mouseUp.id, _normalState);
         }
 
         [Test]

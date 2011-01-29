@@ -22,15 +22,15 @@ package visualizing.builder.stateMachinesConfig
             return new ActivePassiveSignals();
         }
         
-        override protected function configureStateMachine():StateMachine
+        override protected function configureStateMachine():void
         {
             var signals:ActivePassiveSignals = getNewSignalsSet();
+
+            initialState = passive;
 
             fromPassiveToActive = _.
                 from(passive).to(active).by(signals.setActive).
                 back(fromActiveToPassive, signals.setPassive)._;
-                
-            return new StateMachine(passive);
         }
 
     }
