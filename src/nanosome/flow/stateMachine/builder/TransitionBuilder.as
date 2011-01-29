@@ -1,8 +1,8 @@
 package nanosome.flow.stateMachine.builder
 {
     import nanosome.flow.signals.Signal;
-    import nanosome.flow.stateMachine.logic.State;
-    import nanosome.flow.stateMachine.logic.Transition;
+    import nanosome.flow.stateMachine.State;
+    import nanosome.flow.stateMachine.Transition;
 
     final public class TransitionBuilder
     {

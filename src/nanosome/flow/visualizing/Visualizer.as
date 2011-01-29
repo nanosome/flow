@@ -6,8 +6,8 @@ package nanosome.flow.visualizing
     import nanosome.flow.easing.EasingLineRunner;
     import nanosome.flow.easing.TimedEasing;
     import nanosome.flow.stateMachine.StateMachine;
-    import nanosome.flow.stateMachine.logic.State;
-    import nanosome.flow.stateMachine.logic.Transition;
+    import nanosome.flow.stateMachine.State;
+    import nanosome.flow.stateMachine.Transition;
     import nanosome.flow.visualizing.transforms.IVisualizerTransform;
 
     public class Visualizer

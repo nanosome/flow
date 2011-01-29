@@ -2,8 +2,8 @@ package nanosome.flow.stateMachine.processor
 {
     import flash.events.Event;
 
-    import nanosome.flow.stateMachine.logic.State;
-    import nanosome.flow.stateMachine.logic.Transition;
+    import nanosome.flow.stateMachine.State;
+    import nanosome.flow.stateMachine.Transition;
 
     public class StateMachineProcessorEvent extends Event
     {

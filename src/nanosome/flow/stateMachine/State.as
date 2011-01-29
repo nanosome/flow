@@ -1,5 +1,5 @@
 // @license@
-package nanosome.flow.stateMachine.logic
+package nanosome.flow.stateMachine
 {
     import flash.utils.Dictionary;
 

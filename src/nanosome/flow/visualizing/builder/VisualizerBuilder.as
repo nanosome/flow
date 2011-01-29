@@ -3,8 +3,8 @@ package nanosome.flow.visualizing.builder
     import flash.utils.Dictionary;
 
     import nanosome.flow.easing.TimedEasing;
-    import nanosome.flow.stateMachine.logic.State;
-    import nanosome.flow.stateMachine.logic.Transition;
+    import nanosome.flow.stateMachine.State;
+    import nanosome.flow.stateMachine.Transition;
     import nanosome.flow.visualizing.Visualizer;
     import nanosome.flow.visualizing.controller.VisualizerController;
     import nanosome.flow.visualizing.transforms.IVisualizerTransform;

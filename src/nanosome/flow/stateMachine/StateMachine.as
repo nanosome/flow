@@ -1,9 +1,6 @@
 // @license@
 package nanosome.flow.stateMachine
 {
-    import nanosome.flow.stateMachine.logic.State;
-    import nanosome.flow.stateMachine.logic.Transition;
-
     public class StateMachine
     {
         /**

@@ -7,10 +7,10 @@ package nanosome.flow.stateMachine.processor
     import flash.events.Event;
     import flash.events.EventDispatcher;
 
-    import nanosome.flow.stateMachine.logic.State;
+    import nanosome.flow.stateMachine.State;
     import nanosome.flow.signals.AbstractSignalSet;
     import nanosome.flow.signals.SignalEvent;
-    import nanosome.flow.stateMachine.logic.Transition;
+    import nanosome.flow.stateMachine.Transition;
 
     public class StateMachineProcessor extends EventDispatcher
     { // TODO: Rename it to StateMachine, drop StateMachine
