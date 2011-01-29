@@ -30,33 +30,32 @@ package nanosome.flow.signals
             initiateSignals();
         }
 
-		private function initiateSignals():void
-		{
-			var stateClassName:String = getQualifiedClassName(Signal);
-			var typeDesc:XML = describeType(this);
+        private function initiateSignals():void
+        {
+            var stateClassName:String = getQualifiedClassName(Signal);
+            var typeDesc:XML = describeType(this);
 
-			var vars:XMLList = typeDesc.child("variable");
+            var vars:XMLList = typeDesc.child("variable");
 
-			var typeAttr:String;
-			var nameAttr:String;
+            var typeAttr:String;
+            var nameAttr:String;
 
-			for each (var item:XML in vars)
-			{
-				typeAttr = item.attribute("type");
-				nameAttr = item.attribute("name");
+            for each (var item:XML in vars)
+            {
+                typeAttr = item.attribute("type");
+                nameAttr = item.attribute("name");
 
                 if (this[nameAttr] != null) // exit, if this member already exists
                     return;
 
-				else if (typeAttr == stateClassName)
-					this[nameAttr] = new Signal(SIGNAL_ID_PREFIX + nameAttr, this);
-			}
-		}
+                else if (typeAttr == stateClassName)
+                    this[nameAttr] = new Signal(SIGNAL_ID_PREFIX + nameAttr, this);
+            }
+        }
 
         public function fireSignal(signal:Signal):void
         {
             dispatchEvent(new SignalEvent(signal));
         }
     }
-
 }

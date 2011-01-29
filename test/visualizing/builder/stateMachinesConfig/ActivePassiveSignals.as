@@ -7,7 +7,7 @@ package visualizing.builder.stateMachinesConfig
 
     public class ActivePassiveSignals extends AbstractSignalSet
     {
-		public var setActive:Signal;
-		public var setPassive:Signal;
+        public var setActive:Signal;
+        public var setPassive:Signal;
     }
 }

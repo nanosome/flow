@@ -19,21 +19,21 @@ package nanosome.flow.utils
             var result:Vector.<String> = new Vector.<String>();
 
             var variableClassName:String = getQualifiedClassName(variableType);
-			var typeDesc:XML = describeType(targetClassInstance);
+            var typeDesc:XML = describeType(targetClassInstance);
 
-			var vars:XMLList = typeDesc.child("variable");
+            var vars:XMLList = typeDesc.child("variable");
 
-			var typeAttr:String;
-			var nameAttr:String;
+            var typeAttr:String;
+            var nameAttr:String;
 
-			for each (var item:XML in vars)
-			{
-				typeAttr = item.attribute("type");
-				nameAttr = item.attribute("name");
+            for each (var item:XML in vars)
+            {
+                typeAttr = item.attribute("type");
+                nameAttr = item.attribute("name");
 
                 if (typeAttr == variableClassName)
                     result.push(nameAttr);
-			}
+            }
 
             return result;
         }
@@ -72,20 +72,20 @@ package nanosome.flow.utils
         public static function getVariablesOfTypeOrInherited(targetClassInstance:Object, variableType:Class):Vector.<String>
         {
             var result:Vector.<String> = new Vector.<String>();
-			var typeDesc:XML = describeType(targetClassInstance);
-			var vars:XMLList = typeDesc.child("variable");
+            var typeDesc:XML = describeType(targetClassInstance);
+            var vars:XMLList = typeDesc.child("variable");
 
-			var typeAttr:String;
-			var nameAttr:String;
+            var typeAttr:String;
+            var nameAttr:String;
 
-			for each (var item:XML in vars)
-			{
-				typeAttr = item.attribute("type");
-				nameAttr = item.attribute("name");
+            for each (var item:XML in vars)
+            {
+                typeAttr = item.attribute("type");
+                nameAttr = item.attribute("name");
 
                if ( ClassUtils.isClassSameOrInheritedFrom(getDefinitionByName(typeAttr) as Class, variableType) )
                     result.push(nameAttr);
-			}
+            }
 
             return result;
         }
@@ -101,21 +101,21 @@ package nanosome.flow.utils
          */
         public static function getClassForVariable(targetClassInstance:Object, variableName:String):Class
         {
-			var typeDesc:XML = describeType(targetClassInstance);
+            var typeDesc:XML = describeType(targetClassInstance);
 
-			var vars:XMLList = typeDesc.child("variable");
+            var vars:XMLList = typeDesc.child("variable");
 
-			var typeAttr:String;
-			var nameAttr:String;
+            var typeAttr:String;
+            var nameAttr:String;
 
-			for each (var item:XML in vars)
-			{
-				typeAttr = item.attribute("type");
-				nameAttr = item.attribute("name");
+            for each (var item:XML in vars)
+            {
+                typeAttr = item.attribute("type");
+                nameAttr = item.attribute("name");
 
                 if (variableName == nameAttr)
                     return getDefinitionByName(typeAttr) as Class;
-			}
+            }
 
             return null;
         }

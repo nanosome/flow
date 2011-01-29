@@ -17,16 +17,16 @@ package nanosome.flow.visualizing.controller
      * and visualizer performs switching in steps (whatever time or frame based).
      */
     public class VisualizerController extends StateMachineProcessor
-	{
+    {
 
         private var _visualizers:Array;
         private var _tickGenerator:ITickGenerator;
 
-		/**
-		 *  Constructor
-		 */			
-		public function VisualizerController(stateMachine:StateMachine, signals:AbstractSignalSet)
-		{
+        /**
+         *  Constructor
+         */            
+        public function VisualizerController(stateMachine:StateMachine, signals:AbstractSignalSet)
+        {
             super(stateMachine, signals);
             _visualizers = [];
             _tickGenerator = new TickGenerator();
@@ -36,7 +36,7 @@ package nanosome.flow.visualizing.controller
             // event listener to ourselves - it will allow us easily decouple (if needed)
             // from StateMachineProcessor
             addEventListener(StateMachineProcessorEvent.STATE_CHANGED, onStateChanged);
-		}
+        }
 
         public function setCustomTickGenerator(tickGenerator:ITickGenerator):void
         {
@@ -73,5 +73,5 @@ package nanosome.flow.visualizing.controller
             }
             _tickGenerator.start();
         }
-	}
+    }
 }

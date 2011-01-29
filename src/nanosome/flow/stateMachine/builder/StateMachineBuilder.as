@@ -2,7 +2,7 @@
 package nanosome.flow.stateMachine.builder
 {
     import nanosome.flow.stateMachine.State;
-	import nanosome.flow.stateMachine.StateMachine;
+    import nanosome.flow.stateMachine.StateMachine;
     import nanosome.flow.stateMachine.Transition;
     import nanosome.flow.utils.ClassUtils;
 

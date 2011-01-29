@@ -5,7 +5,7 @@ package signals
 
     public class TestSignalsSet extends AbstractSignalSet
     {
-		public var signalA:Signal;
-		public var signalB:Signal;
+        public var signalA:Signal;
+        public var signalB:Signal;
     }
 }

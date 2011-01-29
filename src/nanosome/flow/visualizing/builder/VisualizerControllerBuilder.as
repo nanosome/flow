@@ -8,7 +8,7 @@ package nanosome.flow.visualizing.builder
     public class VisualizerControllerBuilder extends VisualizerController
     {
         public function VisualizerControllerBuilder(stateMachine:StateMachine, signals:AbstractSignalSet)
-		{
+        {
             super(stateMachine, signals);
         }
 

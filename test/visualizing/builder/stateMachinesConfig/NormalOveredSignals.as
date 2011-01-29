@@ -7,7 +7,7 @@ package visualizing.builder.stateMachinesConfig
 
     public class NormalOveredSignals extends AbstractSignalSet
     {
-		public var setNormal:Signal;
-		public var setOvered:Signal;
+        public var setNormal:Signal;
+        public var setOvered:Signal;
     }
 }
