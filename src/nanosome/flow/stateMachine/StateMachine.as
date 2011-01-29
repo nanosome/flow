@@ -30,6 +30,16 @@ package nanosome.flow.stateMachine
             return _initialState;
         }
 
+        public function hasTransitionFromStateForForEvent(state:State, signal:String):Boolean
+        {
+            return state.hasTransitionForEvent(signal);
+        }
+
+        public function getTransitionFromStateForEvent(state:State, signal:String):Transition
+        {
+            return state.transitionForEvent(signal);
+        }
+
         /**
          * Utility method, returning all states found in this StateMachine
          *

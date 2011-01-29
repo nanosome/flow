@@ -3,7 +3,7 @@ package nanosome.flow.easing
     public class EasingLineRunner
     {
         public static const SWITCHING_PRECISION:Number = .001;
-        public static const SWITCHING_ITERATIONS_LIMIT:uint = 40;
+        public static const SWITCHING_ITERATIONS_LIMIT:uint = 16;
 
         protected var _line:EasingLine;
         protected var _position:Number;
@@ -13,7 +13,6 @@ package nanosome.flow.easing
             _line = startingLine;
             setPosition(startingPosition);
         }
-
 
         // return true, if its still has something to do
         public function setPosition(value:Number):Boolean
@@ -77,11 +76,9 @@ package nanosome.flow.easing
                     );
 
                 // TODO: How to animate complex values? like, from "cow" to "cat"?
+                
                 // now we have to calculate position
-                if (newLine._duration < _position)
-                    calculatedPosition = 0; // TODO: what if its 0.. 1 in 10 secs and 1.. 0 in 2 seconds, and we're in the middle?
-                else
-                    calculatedPosition = calculatePosition(newLine, this.value);
+                calculatedPosition = calculatePosition(newLine, this.value);
             }
 
             _line = new EasingLine(newLine._easing, newLine._duration, calculatedStartValue, newLine._endValue);
@@ -103,7 +100,6 @@ package nanosome.flow.easing
         protected function calculatePosition(targetLine:EasingLine, sourceValue:Number):Number
         {
             var _iterations:int = 0;
-
 
             // 'from' position during seeking
             var fPos:Number = 0;
@@ -153,7 +149,6 @@ package nanosome.flow.easing
                         return cPos;
                 }
             }
-
             return cPos;
         }
 

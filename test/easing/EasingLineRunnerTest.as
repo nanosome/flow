@@ -176,5 +176,33 @@ package easing
                 10, runner.getPositionForTest()
             );
         }
+
+        [Test]
+        public function isSwitchingReversingEasingLinesFromLongToShort():void
+        {
+            var inEasingLine:EasingLine = new EasingLine(Linear.easeIn, 20, 15, 115);
+
+            var outEasingLine:EasingLine = new EasingLine(Linear.easeIn, 6, 115, 15);
+
+            var runner:EasingLineRunner = new EasingLineRunner(inEasingLine, 10);
+
+            var precision:Number = EasingLineRunner.SWITCHING_PRECISION;
+            
+            Assert.assertEquals(
+                "value BEFORE switching with position 10 on linear line, precision = " + precision,
+                65, roundWithPrecision(runner.value, precision)
+            );
+
+            runner.switchToNewEasingLine(outEasingLine, true);
+            Assert.assertEquals(
+                "value AFTER switching from easing in to easing out, precision = " + precision,
+                65, roundWithPrecision(runner.value, precision)
+            );
+
+            Assert.assertEquals(
+                "position AFTER switching from expo to linear",
+                3, runner.getPositionForTest()
+            );
+        }
     }
 }

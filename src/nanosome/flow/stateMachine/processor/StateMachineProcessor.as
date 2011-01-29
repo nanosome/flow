@@ -12,9 +12,6 @@ package nanosome.flow.stateMachine.processor
     import nanosome.flow.signals.SignalEvent;
     import nanosome.flow.stateMachine.logic.Transition;
 
-    /**
-     * 
-     */
     public class StateMachineProcessor extends EventDispatcher
     { // TODO: Rename it to StateMachine, drop StateMachine
         /**
@@ -22,7 +19,7 @@ package nanosome.flow.stateMachine.processor
          * Holds a reference to current state
          */
         protected var _currentState:State;
-         
+
         /**
          * @private
          * Holds a reference to state machine currently working with
@@ -40,53 +37,36 @@ package nanosome.flow.stateMachine.processor
         //  Constructor
         //
         //--------------------------------------------------------------------------
-        
+
         /**
          *  Constructor
-         */            
+         */
         public function StateMachineProcessor(stateMachine:StateMachine, signals:AbstractSignalSet)
         {
             _stateMachine = stateMachine;
             _currentState = stateMachine.getInitialState();
             _signals = signals;
-            // Frankly, we can add type checking for signals set here to match
-            // incoming signals parameter type with that of used for stateMachine
-            // but this coupling is no good, i guess, because
-            // signals from different sets but with same signal ID should be
-            // treated equally
             _signals.addEventListener(SignalEvent.SIGNAL_FIRED, onSignalFired);
         }
 
-        private function onSignalFired(event:SignalEvent):void //TODO: Consider merging onSignalFired, handle and handleTransition
+        private function onSignalFired(event:SignalEvent):void 
         {
             handle(event.signalID);
         }
 
-        /**
-         *  Performing check for State change. 
-         *  Changes current action and state, if conditions are met.
-         *  
-         *  @return True, if conditions are met.
-         */        
+        
         protected function handle(eventCode:String):Boolean
         {
-            if(_currentState.hasTransitionForEvent(eventCode))
-            {
-                handleTransition(_currentState.transitionForEvent(eventCode));
-                return true;
-            }
-            return false;
-        }
-        
-        /**
-          *  Sets new state.
-          */            
-        protected function handleTransition(transition:Transition):void
-        {
+            if (!_stateMachine.hasTransitionFromStateForForEvent(_currentState, eventCode))
+                return false;
+
+            var transition:Transition = _stateMachine.getTransitionFromStateForEvent(_currentState,eventCode);
             var oldState:State = _currentState;
             _currentState = transition.target;
             dispatchEvent(new StateMachineProcessorEvent(oldState, transition));
+            return true;
         }
+
 
         public function getCurrentState():State
         {
