@@ -10,7 +10,7 @@ package
     {
         // testing visualizing part
         public var t1:EasingLineRunnerTest;
-        public var t2:VisualizerTest;
-        public var t3:VisualizerBuilderTest;
+        //public var t2:VisualizerTest;
+        //public var t3:VisualizerBuilderTest;
     }
 }

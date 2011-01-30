@@ -2,8 +2,8 @@ package visualizing
 {
     import flash.events.EventDispatcher;
 
-    import nanosome.flow.visualizing.ITickGenerator;
-    import nanosome.flow.visualizing.TickGeneratorEvent;
+    import nanosome.flow.visualizing.ticking.ITickGenerator;
+    import nanosome.flow.visualizing.ticking.TickGeneratorEvent;
 
     public class TestingTickGenerator extends EventDispatcher implements ITickGenerator
     {

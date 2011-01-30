@@ -5,9 +5,9 @@ package nanosome.flow.visualizing.controller
     import nanosome.flow.stateMachine.StateMachine;
     import nanosome.flow.stateMachine.processor.StateMachineProcessor;
     import nanosome.flow.stateMachine.processor.StateMachineProcessorEvent;
-    import nanosome.flow.visualizing.ITickGenerator;
-    import nanosome.flow.visualizing.TickGenerator;
-    import nanosome.flow.visualizing.TickGeneratorEvent;
+    import nanosome.flow.visualizing.ticking.ITickGenerator;
+    import nanosome.flow.visualizing.ticking.TickGenerator;
+    import nanosome.flow.visualizing.ticking.TickGeneratorEvent;
     import nanosome.flow.visualizing.Visualizer;
 
     /**

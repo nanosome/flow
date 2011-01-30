@@ -1,5 +1,6 @@
-package nanosome.flow.visualizing
+package nanosome.flow.visualizing.ticking
 {
+    import nanosome.flow.visualizing.*;
     import flash.display.Sprite;
     import flash.events.Event;
     import flash.utils.getTimer;

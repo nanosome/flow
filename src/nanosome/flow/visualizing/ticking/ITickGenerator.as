@@ -1,4 +1,4 @@
-package nanosome.flow.visualizing
+package nanosome.flow.visualizing.ticking
 {
     import flash.events.IEventDispatcher;
 
