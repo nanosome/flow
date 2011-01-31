@@ -1,4 +1,4 @@
-package nanosome.flow.visualizing.animators.abstract
+package nanosome.flow.visualizing.animators.base
 {
     import nanosome.flow.easing.TimedEasing;
     import nanosome.flow.visualizing.ticking.ITickGenerator;
@@ -7,7 +7,7 @@ package nanosome.flow.visualizing.animators.abstract
 
     public class BaseAnimator
     {
-        protected static const SWITCHING_ITERATIONS_LIMIT:uint = 16;
+        protected static const SWITCHING_ITERATIONS_LIMIT:uint = 30;
 
         protected var _timedEasing:TimedEasing;
         protected var _position:Number;
@@ -29,14 +29,51 @@ package nanosome.flow.visualizing.animators.abstract
             _tickGenerator.addEventListener(TickGeneratorEvent.TICK_UPDATE, onTickUpdate);
         }
 
+        public function get position():Number
+        {
+            return _position;
+        }
+
+        public function get value():*
+        {
+            return calculateValue(_startValue, _endValue, _timedEasing, _position);
+        }
+
         protected function onTickUpdate(event:TickGeneratorEvent):void
         {
-            throw new Error("This method should be overridden");
+            if (!makeStep(event.delta))
+                _tickGenerator.stop();
+        }
+
+        protected function makeStep(delta:Number):Boolean
+        {
+            _position += delta
+            if (_position > _timedEasing.duration)
+            {
+                _position = _timedEasing.duration;
+                return false;
+            }
+            return true;
         }
 
         protected function _animate(easing:Function, duration:Number, newStartValue:*, newEndValue:*, isReversing:Boolean):void
         {
-            var newTimedEasing = new TimedEasing(easing, duration);
+            if (_timedEasing)
+            {
+                switchTo(easing, duration, newStartValue, newEndValue, isReversing);
+                return;
+            }
+
+            _timedEasing = new TimedEasing(easing, duration);
+            _startValue = newStartValue;
+            _endValue = newEndValue;
+            _position = 0;
+        }
+
+
+        private function switchTo(easing:Function, duration:Number, newStartValue:*, newEndValue:*, isReversing:Boolean):void
+        {
+            var newTimedEasing:TimedEasing = new TimedEasing(easing, duration);
             var currentValue:* = calculateValue(_startValue, _endValue, _timedEasing, _position);
             if (!isReversing)
             {
@@ -45,8 +82,6 @@ package nanosome.flow.visualizing.animators.abstract
             }
             else
             {
-                _startValue = newStartValue;
-
                 if (!(_startValue == newEndValue && _endValue == newStartValue))
                     throw new Error(
                         "Current easing line starting/ending values " +
@@ -55,8 +90,8 @@ package nanosome.flow.visualizing.animators.abstract
                         "(" + _startValue + ".." + newStartValue + ")."
                     );
 
+                _startValue = newStartValue;
                 _position = calculatePosition(currentValue, newTimedEasing, newStartValue, newEndValue);
-
             }
              _timedEasing = newTimedEasing;
             _endValue = newEndValue;
@@ -113,6 +148,32 @@ package nanosome.flow.visualizing.animators.abstract
         {
             throw new Error("This method should be overriden");
         }
+
+        protected function _compareNumbers (comparingFirstValue:Number, comparingSecondValue:Number, contextStartValue:Number, contextEndValue:Number):int
+        {
+            var biggerValue:Number;
+            var lesserValue:Number;
+
+            if (comparingFirstValue == comparingSecondValue)
+                return 0;
+
+            if (contextEndValue > contextStartValue)
+            {
+                lesserValue = comparingFirstValue;
+                biggerValue = comparingSecondValue;
+            }
+            else
+            {
+                lesserValue = comparingSecondValue;
+                biggerValue = comparingFirstValue;
+            }
+
+            if (lesserValue < biggerValue)
+                return -1;
+
+            return 1;
+        }
+
 
     }
 }

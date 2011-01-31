@@ -1,6 +1,7 @@
 package
 {
-    import easing.EasingLineRunnerTest;
+    import animators.ColorAnimatorTest;
+    import animators.NumericAnimatorTest;
     import visualizing.VisualizerTest;
     import visualizing.builder.VisualizerBuilderTest;
 
@@ -9,8 +10,7 @@ package
     public class VisualizingTestsSuite
     {
         // testing visualizing part
-        public var t1:EasingLineRunnerTest;
-        //public var t2:VisualizerTest;
-        //public var t3:VisualizerBuilderTest;
+        public var t1:NumericAnimatorTest;
+        public var t2:ColorAnimatorTest;
     }
 }

@@ -2,7 +2,7 @@ package nanosome.flow.visualizing.animators
 {
     import flash.display.DisplayObject;
 
-    import nanosome.flow.visualizing.animators.abstract.NumericAnimator;
+    import nanosome.flow.visualizing.animators.base.NumericAnimator;
 
     public class AlphaAnimator extends NumericAnimator
     {
