@@ -22,9 +22,9 @@ package nanosome.flow.visualizing.animators.base
             return _compareNumbers(comparingFirstValue, comparingSecondValue, contextStartValue, contextEndValue);
         }
 
-        override protected function calculateValue(startValue:*, endValue:*, timedEasing:TimedEasing, position:Number):*
+        override protected function calculateValue(timedEasing:TimedEasing, position:Number):*
         {
-            return timedEasing.easing(position, startValue, endValue - startValue, timedEasing.duration);
+            return timedEasing.easing(position, _startValue, _deltaValue, timedEasing.duration);
         }
 
     }

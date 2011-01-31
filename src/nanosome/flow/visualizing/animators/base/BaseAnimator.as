@@ -36,7 +36,7 @@ package nanosome.flow.visualizing.animators.base
 
         public function get value():*
         {
-            return calculateValue(_startValue, _endValue, _timedEasing, _position);
+            return calculateValue(_timedEasing, _position);
         }
 
         protected function onTickUpdate(event:TickGeneratorEvent):void
@@ -47,7 +47,7 @@ package nanosome.flow.visualizing.animators.base
 
         protected function makeStep(delta:Number):Boolean
         {
-            _position += delta
+            _position += delta;
             if (_position > _timedEasing.duration)
             {
                 _position = _timedEasing.duration;
@@ -56,11 +56,11 @@ package nanosome.flow.visualizing.animators.base
             return true;
         }
 
-        protected function _animate(easing:Function, duration:Number, newStartValue:*, newEndValue:*, isReversing:Boolean):void
+        protected function _switchTo(easing:Function, duration:Number, newStartValue:*, newEndValue:*):void
         {
             if (_timedEasing)
             {
-                switchTo(easing, duration, newStartValue, newEndValue, isReversing);
+                switchEasingTo(easing, duration, newEndValue);
                 return;
             }
 
@@ -70,38 +70,29 @@ package nanosome.flow.visualizing.animators.base
             _position = 0;
         }
 
-
-        private function switchTo(easing:Function, duration:Number, newStartValue:*, newEndValue:*, isReversing:Boolean):void
+        protected function _reverseTo(easing:Function, duration:Number):void
         {
             var newTimedEasing:TimedEasing = new TimedEasing(easing, duration);
-            var currentValue:* = calculateValue(_startValue, _endValue, _timedEasing, _position);
-            if (!isReversing)
-            {
-                _startValue = currentValue;
-                _position = 0;
-            }
-            else
-            {
-                if (!(_startValue == newEndValue && _endValue == newStartValue))
-                    throw new Error(
-                        "Current easing line starting/ending values " +
-                        "(" + _startValue + ".." + newEndValue + ") " +
-                        "should match to reversed starting/ending values of the new line " +
-                        "(" + _startValue + ".." + newStartValue + ")."
-                    );
+            var currentValue:* = this.value;
 
-                _startValue = newStartValue;
-                _position = calculatePosition(currentValue, newTimedEasing, newStartValue, newEndValue);
-            }
-             _timedEasing = newTimedEasing;
+            var newStartValue:* = _endValue;
+            _endValue = _startValue;
+            _startValue = newStartValue;
+            _position = calculatePosition(currentValue, newTimedEasing);
+
+            _timedEasing = newTimedEasing;
+        }
+
+        private function switchEasingTo(easing:Function, duration:Number, newEndValue:*):void
+        {
+            _startValue = this.value;
+            _position = 0;
+
+             _timedEasing = new TimedEasing(easing, duration);
             _endValue = newEndValue;
         }
 
-
-        protected function calculatePosition(
-            sourceValue: *,
-            targetEasing:TimedEasing, targetStartValue: *, targetEndValue: *
-        ):Number
+        protected function calculatePosition(sourceValue: *,  targetEasing:TimedEasing):Number
         {
             var _iterations:int = 0;
 
@@ -121,8 +112,8 @@ package nanosome.flow.visualizing.animators.base
                 cPos = (fPos + tPos) / 2;
                 compareResult = compare(
                     sourceValue,
-                    calculateValue(targetStartValue, targetEndValue, targetEasing, cPos),
-                    targetStartValue, targetEndValue
+                    calculateValue(targetEasing, cPos),
+                    _startValue, _endValue
                 );
 
                 if (compareResult == 0)
@@ -144,7 +135,7 @@ package nanosome.flow.visualizing.animators.base
             throw new Error("This method should be overriden");
         }
 
-        protected function calculateValue(startValue:*, endValue:*, timedEasing:TimedEasing, position:Number):*
+        protected function calculateValue(timedEasing:TimedEasing, position:Number):*
         {
             throw new Error("This method should be overriden");
         }
