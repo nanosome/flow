@@ -18,12 +18,22 @@ package nanosome.flow.easing
          *  @private
          *  Holds duration value in whatever units
          */
-        internal var _duration:uint;
+        internal var _duration:Number;
 
-        public function TimedEasing(easing:Function, duration:uint)
+        public function TimedEasing(easing:Function, duration:Number)
         {
             _easing = easing;
             _duration = duration;
+        }
+
+        public function get duration():Number
+        {
+            return _duration;
+        }
+
+        public function get easing():Function
+        {
+            return _easing;
         }
     }
 }
