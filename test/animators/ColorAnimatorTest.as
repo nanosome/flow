@@ -18,7 +18,7 @@ package animators
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
             animator.setCustomTickGenerator(tickGenerator);
 
-            animator.animate(Linear.easeIn, 500, 0xFE8800, 0x0088FE, false);
+            animator.switchTo(Linear.easeIn, 500, 0xFE8800, 0x0088FE);
 
             Assert.assertEquals(
                 "Initial animator value before animation starts",
@@ -40,7 +40,7 @@ package animators
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
             animator.setCustomTickGenerator(tickGenerator);
 
-            animator.animate(Exponential.easeIn, 10, 0x880000, 0x000000, false);
+            animator.switchTo(Exponential.easeIn, 10, 0x880000, 0x000000);
 
             Assert.assertEquals(
                 "Initial animator value before animation starts",
@@ -54,7 +54,7 @@ package animators
                 0x440000, animator.value
             );
 
-            animator.animate(Linear.easeIn, 20, 0x000000, 0x880000, true);
+            animator.reverseTo(Linear.easeIn, 20);
 
             Assert.assertEquals(
                 "Animator value, after switching from expo to linear, at value 65, value range 115.. 15",

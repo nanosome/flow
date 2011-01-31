@@ -56,7 +56,7 @@ package nanosome.flow.visualizing.animators.base
             return true;
         }
 
-        protected function _switchTo(easing:Function, duration:Number, newStartValue:*, newEndValue:*):void
+        public function switchTo(easing:Function, duration:Number, newStartValue:*, newEndValue:*):void
         {
             if (_timedEasing)
             {
@@ -65,22 +65,25 @@ package nanosome.flow.visualizing.animators.base
             }
 
             _timedEasing = new TimedEasing(easing, duration);
-            _startValue = newStartValue;
-            _endValue = newEndValue;
+            setStartEndValues(newStartValue, newEndValue);
             _position = 0;
         }
 
-        protected function _reverseTo(easing:Function, duration:Number):void
+        public function reverseTo(easing:Function, duration:Number):void
         {
             var newTimedEasing:TimedEasing = new TimedEasing(easing, duration);
             var currentValue:* = this.value;
 
-            var newStartValue:* = _endValue;
-            _endValue = _startValue;
-            _startValue = newStartValue;
+            setStartEndValues(_endValue, _startValue);
             _position = calculatePosition(currentValue, newTimedEasing);
 
             _timedEasing = newTimedEasing;
+        }
+
+        protected function setStartEndValues(startValue:*, endValue:*):void
+        {
+            _startValue = startValue;
+            _endValue = endValue;
         }
 
         private function switchEasingTo(easing:Function, duration:Number, newEndValue:*):void
@@ -112,8 +115,7 @@ package nanosome.flow.visualizing.animators.base
                 cPos = (fPos + tPos) / 2;
                 compareResult = compare(
                     sourceValue,
-                    calculateValue(targetEasing, cPos),
-                    _startValue, _endValue
+                    calculateValue(targetEasing, cPos)
                 );
 
                 if (compareResult == 0)
@@ -130,7 +132,7 @@ package nanosome.flow.visualizing.animators.base
         // returns value less than 0, if comparingFirstValue < comparingSecondValue,
         // more than 0, if comparingFirstValue > comparingSecondValue,
         // 0, if they are equal
-        protected function compare(comparingFirstValue:*, comparingSecondValue: *, contextStartValue:*, contextEndValue:*):int
+        protected function compare(comparingFirstValue:*, comparingSecondValue: *):int
         {
             throw new Error("This method should be overriden");
         }

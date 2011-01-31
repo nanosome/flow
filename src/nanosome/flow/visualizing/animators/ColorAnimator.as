@@ -1,37 +1,38 @@
 package nanosome.flow.visualizing.animators
 {
-    import flash.display.DisplayObject;
-
     import nanosome.flow.easing.TimedEasing;
     import nanosome.flow.visualizing.animators.base.BaseAnimator;
 
     public class ColorAnimator extends BaseAnimator
     {
-        public function animate(easing:Function, duration:Number, fromValue:Number, toValue:Number, isReversing:Boolean):void
-        {
-            _animate(easing,  duration, fromValue, toValue, isReversing);
-        }
+        protected var _startR:int;
+        protected var _startG:int;
+        protected var _startB:int;
 
+        protected var _endR:int;
+        protected var _endG:int;
+        protected var _endB:int;
 
-        // returns value less than 0, if comparingFirstValue < comparingSecondValue,
-        // more than 0, if comparingFirstValue > comparingSecondValue,
-        // 0, if they are equal
-        override protected function compare(comparingFirstValue:*, comparingSecondValue: *, contextStartValue:*, contextEndValue:*):int
+        protected var _deltaR:int;
+        protected var _deltaG:int;
+        protected var _deltaB:int;
+
+        override protected function compare(comparingFirstValue:*, comparingSecondValue: *):int
         {
             if (comparingFirstValue == comparingSecondValue)
                 return 0;
 
             var cR:int = _compareNumbers(
                 red(comparingFirstValue), red(comparingSecondValue),
-                red(contextStartValue), red(contextEndValue)
+                _startR, _endR
             );
             var cG:int = _compareNumbers(
                 green(comparingFirstValue), green(comparingSecondValue),
-                green(contextStartValue), green(contextEndValue)
+                _startG, _endG
             );
             var cB:int = _compareNumbers(
                 blue(comparingFirstValue), blue(comparingSecondValue),
-                blue(contextStartValue), blue(contextEndValue)
+                _startB, _endB
             );
 
             var more:Boolean = (cR > 0 || cG > 0 || cB > 0);
@@ -49,17 +50,29 @@ package nanosome.flow.visualizing.animators
             );
         }
 
-        override protected function calculateValue(startValue:*, endValue:*, timedEasing:TimedEasing, position:Number):*
+        override protected function calculateValue(timedEasing:TimedEasing, position:Number):*
         {
-            var fR:int = red(startValue);
-            var fG:int = green(startValue);
-            var fB:int = blue(startValue);
-
-            var cR:int = Math.round(timedEasing.easing(position, fR, red(endValue) - fR, timedEasing.duration));
-            var cG:int = Math.round(timedEasing.easing(position, fG, green(endValue) - fG, timedEasing.duration));
-            var cB:int = Math.round(timedEasing.easing(position, fB, blue(endValue) - fB, timedEasing.duration));
+            var cR:int = Math.round(timedEasing.easing(position, _startR, _deltaR, timedEasing.duration));
+            var cG:int = Math.round(timedEasing.easing(position, _startG, _deltaG, timedEasing.duration));
+            var cB:int = Math.round(timedEasing.easing(position, _startB, _deltaB, timedEasing.duration));
             
             return (cR << 16) | (cG << 8) | cB;
+        }
+
+        override protected function setStartEndValues(startValue:*, endValue:*):void
+        {
+            super.setStartEndValues(startValue, endValue);
+            _startR = red(_startValue);
+            _startG = green(_startValue);
+            _startB = blue(_startValue);
+
+            _endR = red(_endValue);
+            _endG = green(_endValue);
+            _endB = blue(_endValue);
+
+            _deltaR = _endR - _startR;
+            _deltaG = _endG - _startG;
+            _deltaB = _endB - _startB;
         }
 
         protected function red(value:uint):int

@@ -13,61 +13,61 @@ package animators
 
     public class NumericAnimatorTest
     {
+        public static const TESTING_PRECISION:Number = .0001;
+
         [Test]
         public function areStepsWorkingCorrectly():void
         {
-            var precision:Number = NumericAnimator.SWITCHING_PRECISION;
             var animator:NumericAnimator = new NumericAnimator();
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
             animator.setCustomTickGenerator(tickGenerator);
 
-            animator.animate(Linear.easeIn, 500, 10, 110, false);
+            animator.switchTo(Linear.easeIn, 500, 10, 110);
 
             Assert.assertEquals(
                 "Initial animator value before animation starts",
-                10,  roundWithPrecision(animator.value, precision)
+                10,  roundWithPrecision(animator.value, TESTING_PRECISION)
             );
 
             tickGenerator.makeTicks(250);
 
             Assert.assertEquals(
                 "Animator value, 250 of 500 steps, value range 10.. 110",
-                60, roundWithPrecision(animator.value, precision)
+                60, roundWithPrecision(animator.value, TESTING_PRECISION)
             );
         }
 
         [Test]
         public function isSwitchingReversingFromExpoToLinear():void
         {
-            var precision:Number = NumericAnimator.SWITCHING_PRECISION;
             var animator:NumericAnimator = new NumericAnimator();
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
             animator.setCustomTickGenerator(tickGenerator);
 
-            animator.animate(Exponential.easeIn, 10, 15, 115, false);
+            animator.switchTo(Exponential.easeIn, 10, 15, 115);
 
             Assert.assertEquals(
                 "Initial animator value before animation starts",
-                15, roundWithPrecision(animator.value, precision)
+                15, roundWithPrecision(animator.value, TESTING_PRECISION)
             );
 
             tickGenerator.makeTicks(9);
 
             Assert.assertEquals(
                 "Animator value, expo easing 9 of 10 steps, value range 15.. 115",
-                65, roundWithPrecision(animator.value, precision)
+                65, roundWithPrecision(animator.value, TESTING_PRECISION)
             );
 
-            animator.animate(Linear.easeIn, 20, 115, 15, true);
+            animator.reverseTo(Linear.easeIn, 20);
 
             Assert.assertEquals(
                 "Animator value, after switching from expo to linear, at value 65, value range 115.. 15",
-                65, roundWithPrecision(animator.value, precision)
+                65, roundWithPrecision(animator.value, TESTING_PRECISION)
             );
 
             Assert.assertEquals(
                 "Animator position, after switching from expo to linear, at value 65, value range 115.. 15",
-                10,  roundWithPrecision(animator.position, precision)
+                10,  roundWithPrecision(animator.position, TESTING_PRECISION)
             );
         }
 
