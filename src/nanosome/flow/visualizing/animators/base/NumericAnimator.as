@@ -8,7 +8,7 @@ package nanosome.flow.visualizing.animators.base
 
         override protected function compare(comparingFirstValue:*, comparingSecondValue: *):int
         {
-            return _compareNumbers(comparingFirstValue, comparingSecondValue, _startValue, _endValue);
+            return _compareNumbers(comparingFirstValue, comparingSecondValue, _endValue > _startValue);
         }
 
         override protected function calculateValue(timedEasing:TimedEasing, position:Number):*

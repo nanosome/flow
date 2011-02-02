@@ -7,8 +7,6 @@ package animators
 
     import org.flexunit.Assert;
 
-    import visualizing.TestingTickGenerator;
-
     public class ColorAnimatorTest
     {
         [Test]

@@ -20,6 +20,7 @@ package nanosome.flow.visualizing.animators.base
         {
             _tickGenerator = new TickGenerator();
             _tickGenerator.addEventListener(TickGeneratorEvent.TICK_UPDATE, onTickUpdate);
+            _position = 0;
         }
 
         public function setCustomTickGenerator(tickGenerator:ITickGenerator):void
@@ -142,7 +143,7 @@ package nanosome.flow.visualizing.animators.base
             throw new Error("This method should be overriden");
         }
 
-        protected function _compareNumbers (comparingFirstValue:Number, comparingSecondValue:Number, contextStartValue:Number, contextEndValue:Number):int
+        protected function _compareNumbers (comparingFirstValue:Number, comparingSecondValue:Number, positiveContextDelta:Boolean):int
         {
             var biggerValue:Number;
             var lesserValue:Number;
@@ -150,7 +151,7 @@ package nanosome.flow.visualizing.animators.base
             if (comparingFirstValue == comparingSecondValue)
                 return 0;
 
-            if (contextEndValue > contextStartValue)
+            if (positiveContextDelta)
             {
                 lesserValue = comparingFirstValue;
                 biggerValue = comparingSecondValue;

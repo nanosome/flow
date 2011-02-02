@@ -24,15 +24,15 @@ package nanosome.flow.visualizing.animators.base
 
             var cR:int = _compareNumbers(
                 red(comparingFirstValue), red(comparingSecondValue),
-                _startR, _endR
+                _endR > _startR
             );
             var cG:int = _compareNumbers(
                 green(comparingFirstValue), green(comparingSecondValue),
-                _startG, _endG
+                _endG > _startG
             );
             var cB:int = _compareNumbers(
                 blue(comparingFirstValue), blue(comparingSecondValue),
-                _startB, _endB
+                _endB > _startB
             );
 
             var more:Boolean = (cR > 0 || cG > 0 || cB > 0);

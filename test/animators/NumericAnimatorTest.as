@@ -9,8 +9,6 @@ package animators
 
     import utils.roundWithPrecision;
 
-    import visualizing.TestingTickGenerator;
-
     public class NumericAnimatorTest
     {
         public static const TESTING_PRECISION:Number = .0001;
