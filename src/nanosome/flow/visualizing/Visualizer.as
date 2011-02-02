@@ -4,7 +4,7 @@ package nanosome.flow.visualizing
 
     import nanosome.flow.easing.EasingLine;
     import nanosome.flow.easing.EasingLineRunner;
-    import nanosome.flow.easing.TimedEasing;
+    import nanosome.flow.visualizing.TimedEasing;
     import nanosome.flow.stateMachine.StateMachine;
     import nanosome.flow.stateMachine.State;
     import nanosome.flow.stateMachine.Transition;

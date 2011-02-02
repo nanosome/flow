@@ -1,6 +1,6 @@
 package nanosome.flow.visualizing.animators.base
 {
-    import nanosome.flow.easing.TimedEasing;
+    import nanosome.flow.visualizing.TimedEasing;
     import nanosome.flow.visualizing.ticking.ITickGenerator;
     import nanosome.flow.visualizing.ticking.TickGenerator;
     import nanosome.flow.visualizing.ticking.TickGeneratorEvent;

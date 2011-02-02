@@ -1,4 +1,4 @@
-package nanosome.flow.easing
+package nanosome.flow.visualizing
 {
     /**
      * This is the base class for defining transition behavior.

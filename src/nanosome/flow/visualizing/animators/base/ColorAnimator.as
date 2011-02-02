@@ -1,6 +1,6 @@
-package nanosome.flow.visualizing.animators
+package nanosome.flow.visualizing.animators.base
 {
-    import nanosome.flow.easing.TimedEasing;
+    import nanosome.flow.visualizing.TimedEasing;
     import nanosome.flow.visualizing.animators.base.BaseAnimator;
 
     public class ColorAnimator extends BaseAnimator

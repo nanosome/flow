@@ -4,7 +4,7 @@ package visualizing
     import mx.effects.easing.Quadratic;
 
     import nanosome.flow.easing.EasingLineRunner;
-    import nanosome.flow.easing.TimedEasing;
+    import nanosome.flow.visualizing.TimedEasing;
     import nanosome.flow.stateMachine.State;
     import nanosome.flow.stateMachine.Transition;
     import nanosome.flow.visualizing.Visualizer;

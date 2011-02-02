@@ -5,7 +5,7 @@ package visualizing.builder
     import mx.effects.easing.Linear;
     import mx.effects.easing.Quadratic;
 
-    import nanosome.flow.easing.TimedEasing;
+    import nanosome.flow.visualizing.TimedEasing;
     import nanosome.flow.visualizing.Visualizer;
     import nanosome.flow.visualizing.builder.VisualizerBuilder;
 

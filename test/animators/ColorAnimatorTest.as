@@ -3,7 +3,7 @@ package animators
     import mx.effects.easing.Exponential;
     import mx.effects.easing.Linear;
 
-    import nanosome.flow.visualizing.animators.ColorAnimator;
+    import nanosome.flow.visualizing.animators.base.ColorAnimator;
 
     import org.flexunit.Assert;
 
