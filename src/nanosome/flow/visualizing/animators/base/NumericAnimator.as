@@ -11,7 +11,7 @@ package nanosome.flow.visualizing.animators.base
             return _compareNumbers(comparingFirstValue, comparingSecondValue, _endValue > _startValue);
         }
 
-        override protected function calculateValue(timedEasing:TimedEasing, position:Number):*
+        override protected function calculateValueToCompare(timedEasing:TimedEasing, position:Number):*
         {
             return timedEasing.easing(position, _startValue, _deltaValue, timedEasing.duration);
         }

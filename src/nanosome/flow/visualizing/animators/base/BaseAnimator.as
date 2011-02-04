@@ -1,11 +1,13 @@
 package nanosome.flow.visualizing.animators.base
 {
+    import flash.events.EventDispatcher;
+
     import nanosome.flow.visualizing.TimedEasing;
     import nanosome.flow.visualizing.ticking.ITickGenerator;
     import nanosome.flow.visualizing.ticking.TickGenerator;
     import nanosome.flow.visualizing.ticking.TickGeneratorEvent;
 
-    public class BaseAnimator
+    public class BaseAnimator extends EventDispatcher
     {
         protected static const SWITCHING_ITERATIONS_LIMIT:uint = 30;
 
@@ -35,15 +37,11 @@ package nanosome.flow.visualizing.animators.base
             return _position;
         }
 
-        public function get value():*
-        {
-            return calculateValue(_timedEasing, _position);
-        }
-
         protected function onTickUpdate(event:TickGeneratorEvent):void
         {
             if (!makeStep(event.delta))
                 _tickGenerator.stop();
+            update();
         }
 
         protected function makeStep(delta:Number):Boolean
@@ -57,6 +55,12 @@ package nanosome.flow.visualizing.animators.base
             return true;
         }
 
+        protected function setStartEndValues(startValue:*, endValue:*):void
+        {
+            _startValue = startValue;
+            _endValue = endValue;
+        }
+
         public function switchTo(easing:Function, duration:Number, newStartValue:*, newEndValue:*):void
         {
             if (_timedEasing)
@@ -64,36 +68,27 @@ package nanosome.flow.visualizing.animators.base
                 switchEasingTo(easing, duration, newEndValue);
                 return;
             }
-
-            _timedEasing = new TimedEasing(easing, duration);
             setStartEndValues(newStartValue, newEndValue);
+            _timedEasing = new TimedEasing(easing, duration);
+            _position = 0;
+            update();
+        }
+
+        private function switchEasingTo(easing:Function, duration:Number, newEndValue:*):void
+        {
+            setStartEndValues(switchingValue, newEndValue);
+            _timedEasing = new TimedEasing(easing, duration);
             _position = 0;
         }
 
         public function reverseTo(easing:Function, duration:Number):void
         {
             var newTimedEasing:TimedEasing = new TimedEasing(easing, duration);
-            var currentValue:* = this.value;
+            var targetValue:* = this.value;
 
             setStartEndValues(_endValue, _startValue);
-            _position = calculatePosition(currentValue, newTimedEasing);
-
+            _position = calculatePosition(targetValue, newTimedEasing);
             _timedEasing = newTimedEasing;
-        }
-
-        protected function setStartEndValues(startValue:*, endValue:*):void
-        {
-            _startValue = startValue;
-            _endValue = endValue;
-        }
-
-        private function switchEasingTo(easing:Function, duration:Number, newEndValue:*):void
-        {
-            _startValue = this.value;
-            _position = 0;
-
-             _timedEasing = new TimedEasing(easing, duration);
-            _endValue = newEndValue;
         }
 
         protected function calculatePosition(sourceValue: *,  targetEasing:TimedEasing):Number
@@ -116,7 +111,7 @@ package nanosome.flow.visualizing.animators.base
                 cPos = (fPos + tPos) / 2;
                 compareResult = compare(
                     sourceValue,
-                    calculateValue(targetEasing, cPos)
+                    calculateValueToCompare(targetEasing, cPos)
                 );
 
                 if (compareResult == 0)
@@ -138,10 +133,23 @@ package nanosome.flow.visualizing.animators.base
             throw new Error("This method should be overriden");
         }
 
-        protected function calculateValue(timedEasing:TimedEasing, position:Number):*
+        protected function calculateValueToCompare(timedEasing:TimedEasing, position:Number):*
         {
             throw new Error("This method should be overriden");
         }
+
+        public function get value():*
+        {
+            return calculateValueToCompare(_timedEasing, _position);
+        }
+
+        public function get switchingValue():*
+        {
+            return this.value;
+        }
+
+        public function update():void
+        {}
 
         protected function _compareNumbers (comparingFirstValue:Number, comparingSecondValue:Number, positiveContextDelta:Boolean):int
         {
@@ -167,7 +175,5 @@ package nanosome.flow.visualizing.animators.base
 
             return 1;
         }
-
-
     }
 }

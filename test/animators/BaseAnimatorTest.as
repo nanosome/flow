@@ -1,15 +1,8 @@
 package animators
 {
-    import animators.TestingTickGenerator;
 
-    import mx.effects.easing.Exponential;
     import mx.effects.easing.Linear;
-
-    import nanosome.flow.visualizing.animators.base.ColorAnimator;
-
     import org.flexunit.Assert;
-
-    import animators.TestingTickGenerator;
 
     public class BaseAnimatorTest
     {
@@ -67,8 +60,16 @@ package animators
                 "Custom TickGenerator should be stopped after 501 of 500 ticks",
                 tickGenerator.isRunning
             );
-
         }
+    }
+}
 
+import nanosome.flow.visualizing.animators.base.BaseAnimator;
+
+internal class BaseTestableAnimator extends BaseAnimator
+{
+    public function compareNumbers(comparingFirstValue:Number, comparingSecondValue:Number, positiveContextDelta:Boolean):int
+    {
+        return _compareNumbers(comparingFirstValue, comparingSecondValue, positiveContextDelta);
     }
 }

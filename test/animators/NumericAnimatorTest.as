@@ -35,8 +35,37 @@ package animators
             );
         }
 
+
         [Test]
-        public function isSwitchingReversingFromExpoToLinear():void
+        public function isOverflowingPositionLimited():void
+        {
+            var animator:NumericAnimator = new NumericAnimator();
+            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
+            animator.setCustomTickGenerator(tickGenerator);
+
+            animator.switchTo(Linear.easeIn, 200, 10, 110);
+
+            tickGenerator.makeTicks(250);
+
+            Assert.assertEquals(
+                "Position after 250 ticks of 200 total",
+                200,  animator.position
+            );
+
+            Assert.assertEquals(
+                "Position after 250 ticks of 200 total",
+                200,  animator.position
+            );
+
+            Assert.assertFalse(
+                "Custom TickGenerator should be stopped after 250 of 200 ticks",
+                tickGenerator.isRunning
+            );
+        }
+
+
+        [Test]
+        public function isReversingFromExpoToLinear():void
         {
             var animator:NumericAnimator = new NumericAnimator();
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
@@ -68,6 +97,42 @@ package animators
                 10,  roundWithPrecision(animator.position, TESTING_PRECISION)
             );
         }
+
+        [Test]
+        public function isReversingEasingLinesFromLongToShort():void
+        {
+            var animator:NumericAnimator = new NumericAnimator();
+            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
+            animator.setCustomTickGenerator(tickGenerator);
+
+            animator.switchTo(Linear.easeIn, 200, 10, 110);
+
+            tickGenerator.makeTicks(100);
+
+            Assert.assertEquals(
+                "Value BEFORE switching, precision = " + TESTING_PRECISION,
+                60, roundWithPrecision(animator.value, TESTING_PRECISION)
+            );
+
+            Assert.assertEquals(
+                "Position BEFORE switching, precision = " + TESTING_PRECISION,
+                100, animator.position
+            );
+
+            animator.reverseTo(Linear.easeIn, 10);
+
+            Assert.assertEquals(
+                "Value AFTER switching, precision = " + TESTING_PRECISION,
+                60, roundWithPrecision(animator.value, TESTING_PRECISION)
+            );
+
+            Assert.assertEquals(
+                "Position AFTER switching, precision = " + TESTING_PRECISION,
+                5, animator.position
+            );
+        }
+
+        //TODO: Add switchTo testing
 
     }
 }

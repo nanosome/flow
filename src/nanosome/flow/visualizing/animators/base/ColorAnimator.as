@@ -50,7 +50,7 @@ package nanosome.flow.visualizing.animators.base
             );
         }
 
-        override protected function calculateValue(timedEasing:TimedEasing, position:Number):*
+        override protected function calculateValueToCompare(timedEasing:TimedEasing, position:Number):*
         {
             var cR:int = Math.round(timedEasing.easing(position, _startR, _deltaR, timedEasing.duration));
             var cG:int = Math.round(timedEasing.easing(position, _startG, _deltaG, timedEasing.duration));

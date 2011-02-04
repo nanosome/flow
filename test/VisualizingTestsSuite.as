@@ -2,6 +2,7 @@ package
 {
     import animators.BaseAnimatorTest;
     import animators.ColorAnimatorTest;
+    import animators.CrossfadeShaderAnimatorTest;
     import animators.NumericAnimatorTest;
 
     [Suite]
@@ -12,5 +13,6 @@ package
         public var t1:BaseAnimatorTest;
         public var t2:NumericAnimatorTest;
         public var t3:ColorAnimatorTest;
+        public var t4:CrossfadeShaderAnimatorTest;
     }
 }
