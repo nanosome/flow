@@ -8,11 +8,12 @@ package nanosome.flow.visualizing
     import nanosome.flow.stateMachine.StateMachine;
     import nanosome.flow.stateMachine.State;
     import nanosome.flow.stateMachine.Transition;
+    import nanosome.flow.visualizing.animators.base.BaseAnimator;
     import nanosome.flow.visualizing.transforms.IVisualizerTransform;
 
     public class Visualizer
     {
-        private var _transform:IVisualizerTransform;
+        private var _animator:BaseAnimator;
 
         private var _values:Dictionary;
         private var _easings:Dictionary;
@@ -20,16 +21,17 @@ package nanosome.flow.visualizing
         private var _prevTransition:Transition;
         private var _initialValue:Number;
         private var _isEndValueApplied:Boolean;
-        private var _runner:EasingLineRunner;
         
         
-        public function Visualizer(transform:IVisualizerTransform)
+        public function Visualizer(animator:BaseAnimator)
         {
-            _transform = transform;
+            _animator = animator;
             _values = new Dictionary();
             _easings = new Dictionary();
         }
 
+        //TODO: Left here
+        
         public function makeStep(delta:Number):Boolean
         {
             if (!_runner || _isEndValueApplied)

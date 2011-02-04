@@ -9,6 +9,7 @@ package visualizing
     import nanosome.flow.stateMachine.Transition;
     import nanosome.flow.visualizing.Visualizer;
 
+    import nanosome.flow.visualizing.animators.AlphaAnimator;
     import nanosome.flow.visualizing.controller.VisualizerController;
     
     import org.flexunit.Assert;
@@ -38,7 +39,9 @@ package visualizing
         public function configureVisualizerAndTarget():void
         {
             _visualizerTarget = new MockSprite();
-            _visualizer = new Visualizer(new MockAlphaTransform(_visualizerTarget));
+            var animator:AlphaAnimator = new AlphaAnimator(); // alternatively, you can take it from the pool
+            animator.setTarget(_visualizerTarget);
+            _visualizer = new Visualizer(animator);
 
             var inEasing:TimedEasing = new TimedEasing(Linear.easeIn, 100);
             var outEasing:TimedEasing = new TimedEasing(Quadratic.easeOut, 200);
@@ -211,7 +214,7 @@ package visualizing
             );
         }
 
-
+/*
         [Test]
         public function isReversingSwitchingPerformingSmoothly():void
         {
@@ -493,7 +496,7 @@ package visualizing
                 "beta value, 210 out of 200 ticks, range (50.. 90), after MOUSE_OVER event, precision = " + precision,
                 90, roundWithPrecision(_visualizerTarget.beta, precision)
             );
-
         }
+*/
     }
 }
