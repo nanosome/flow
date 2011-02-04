@@ -14,7 +14,7 @@ package nanosome.flow.visualizing.ticking
     public class TickGenerator extends Sprite implements ITickGenerator
     {
 
-        private var _isActivated:Boolean;
+        private var _isRunning:Boolean;
         private var _prevTimer:int;
 
         //--------------------------------------------------------------------------
@@ -29,18 +29,18 @@ package nanosome.flow.visualizing.ticking
 
         public function start():void
         {
-            if (_isActivated)
+            if (_isRunning)
                 return;
-            _isActivated = true;
+            _isRunning = true;
             _prevTimer = getTimer();
             addEventListener(Event.ENTER_FRAME, onEnterFrame)
         }
 
         public function stop():void
         {
-            if (!_isActivated)
+            if (!_isRunning)
                 return;
-            _isActivated = false;
+            _isRunning = false;
             removeEventListener(Event.ENTER_FRAME, onEnterFrame)
         }
 
@@ -49,6 +49,11 @@ package nanosome.flow.visualizing.ticking
             var nowTimer:int = getTimer();
             dispatchEvent(new TickGeneratorEvent(TickGeneratorEvent.TICK_UPDATE, nowTimer - _prevTimer));
             _prevTimer = nowTimer;
+        }
+
+        public function get isRunning():Boolean
+        {
+            return _isRunning;
         }
     }
 }

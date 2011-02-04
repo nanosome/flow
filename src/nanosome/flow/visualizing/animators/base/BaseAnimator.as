@@ -72,6 +72,7 @@ package nanosome.flow.visualizing.animators.base
             _timedEasing = new TimedEasing(easing, duration);
             _position = 0;
             update();
+            _tickGenerator.start();
         }
 
         private function switchEasingTo(easing:Function, duration:Number, newEndValue:*):void
@@ -79,6 +80,7 @@ package nanosome.flow.visualizing.animators.base
             setStartEndValues(switchingValue, newEndValue);
             _timedEasing = new TimedEasing(easing, duration);
             _position = 0;
+            _tickGenerator.start();
         }
 
         public function reverseTo(easing:Function, duration:Number):void
@@ -89,6 +91,7 @@ package nanosome.flow.visualizing.animators.base
             setStartEndValues(_endValue, _startValue);
             _position = calculatePosition(targetValue, newTimedEasing);
             _timedEasing = newTimedEasing;
+            _tickGenerator.start();
         }
 
         protected function calculatePosition(sourceValue: *,  targetEasing:TimedEasing):Number

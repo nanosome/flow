@@ -61,6 +61,7 @@ package animators
                 tickGenerator.isRunning
             );
         }
+
     }
 }
 

@@ -12,5 +12,6 @@ package nanosome.flow.visualizing.ticking
     {
         function start():void;
         function stop():void;
+        function get isRunning():Boolean;
     }
 }

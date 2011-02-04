@@ -58,7 +58,7 @@ package animators
         {
             _animator.switchTo(Linear.easeIn, 200, _redImage, _greenImage);
 
-            _processingFunc =  Async.asyncHandler(this, onFirstAnimatorUpdate, SHADER_JOB_TIMEOUT, null, handleTimeout);
+            _processingFunc = Async.asyncHandler(this, onFirstAnimatorUpdate, SHADER_JOB_TIMEOUT, null, handleTimeout);
             _animator.addEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc, false, 0, true);
         }
 
@@ -69,9 +69,8 @@ package animators
                 "Initial value of the pixel before animation starts",
                 "880000", _outputImage.getPixel(0, 0).toString(16)
            );
-
            _animator.removeEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc);
-           _processingFunc =  Async.asyncHandler(this, onFirstAnimatorSteps, SHADER_JOB_TIMEOUT, null, handleTimeout);
+           _processingFunc = Async.asyncHandler(this, onFirstAnimatorSteps, SHADER_JOB_TIMEOUT, null, handleTimeout);
            _animator.addEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc, false, 0, true);
             
            _tickGenerator.makeTicks(100);
@@ -83,9 +82,8 @@ package animators
                 "Value of the pixel after animation starts, 100 steps of 200, linear easing, [0x88000.. 0x008800]",
                 "444400", _outputImage.getPixel(0, 0).toString(16)
            );
-
            _animator.removeEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc);
-           _processingFunc =  Async.asyncHandler(this, onReversingComplete, SHADER_JOB_TIMEOUT, null, handleTimeout);
+           _processingFunc = Async.asyncHandler(this, onReversingComplete, SHADER_JOB_TIMEOUT, null, handleTimeout);
            _animator.addEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc, false, 0, true);
            _animator.reverseTo(Linear.easeIn, 20);
 
@@ -93,7 +91,6 @@ package animators
                 "Position after reversing from duration 200 with position 100 to duration 20, linear easing",
                 10, _animator.position
            );
-
            _animator.update();
         }
 
@@ -103,9 +100,8 @@ package animators
                 "Value of the pixel after update after reversing, 10 steps of 20, linear easing, [0x008800.. 0x880000]",
                 "444400", _outputImage.getPixel(0, 0).toString(16)
            );
-
            _animator.removeEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc);
-           _processingFunc =  Async.asyncHandler(this, onStepsAfterReversingComplete, SHADER_JOB_TIMEOUT, null, handleTimeout);
+           _processingFunc = Async.asyncHandler(this, onStepsAfterReversingComplete, SHADER_JOB_TIMEOUT, null, handleTimeout);
            _animator.addEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc, false, 0, true);
            _tickGenerator.makeTicks(5);
         }
@@ -116,9 +112,8 @@ package animators
                 "Value of the pixel after update after reversing, 15 steps of 20, linear easing, [0x008800.. 0x880000]",
                 "662200", _outputImage.getPixel(0, 0).toString(16)
            );
-
            _animator.removeEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc);
-           _processingFunc =  Async.asyncHandler(this, onSwitchingComplete, SHADER_JOB_TIMEOUT, null, handleTimeout);
+           _processingFunc = Async.asyncHandler(this, onSwitchingComplete, SHADER_JOB_TIMEOUT, null, handleTimeout);
            _animator.addEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc, false, 0, true);
            _animator.switchTo(Linear.easeIn, 20, _redImage, _blueImage);
            _animator.update();
@@ -130,9 +125,8 @@ package animators
                 "Value of the pixel after update after switching, 0 steps of 20, linear easing, [0x662200.. 0x000088]",
                 "662200", _outputImage.getPixel(0, 0).toString(16)
            );
-
            _animator.removeEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc);
-           _processingFunc =  Async.asyncHandler(this, onStepsAfterSwitchingComplete, SHADER_JOB_TIMEOUT, null, handleTimeout);
+           _processingFunc = Async.asyncHandler(this, onStepsAfterSwitchingComplete, SHADER_JOB_TIMEOUT, null, handleTimeout);
            _animator.addEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc, false, 0, true);
            _tickGenerator.makeTicks(10);
            _animator.update();
