@@ -11,7 +11,7 @@ package nanosome.flow.visualizing.ticking
      * Delta usually is a number of milliseconds lasted since last tick,
      * but it can be any unit used in computing visualizer steps.
      */
-    public class TickGenerator extends Sprite implements ITickGenerator
+    public class FrameTickGenerator extends Sprite implements ITickGenerator
     {
 
         private var _isRunning:Boolean;
@@ -23,7 +23,7 @@ package nanosome.flow.visualizing.ticking
         //
         //--------------------------------------------------------------------------
 
-        public function TickGenerator()
+        public function FrameTickGenerator()
         {
         }
 

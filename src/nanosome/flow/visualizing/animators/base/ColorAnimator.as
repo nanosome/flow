@@ -17,6 +17,7 @@ package nanosome.flow.visualizing.animators.base
         protected var _deltaG:int;
         protected var _deltaB:int;
 
+
         override protected function compare(comparingFirstValue:*, comparingSecondValue: *):int
         {
             if (comparingFirstValue == comparingSecondValue)

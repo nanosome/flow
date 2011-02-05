@@ -2,9 +2,11 @@ package nanosome.flow.visualizing.animators.base
 {
     import flash.events.EventDispatcher;
 
+    import mx.effects.easing.Linear;
+
     import nanosome.flow.visualizing.TimedEasing;
     import nanosome.flow.visualizing.ticking.ITickGenerator;
-    import nanosome.flow.visualizing.ticking.TickGenerator;
+    import nanosome.flow.visualizing.ticking.FrameTickGenerator;
     import nanosome.flow.visualizing.ticking.TickGeneratorEvent;
 
     public class BaseAnimator extends EventDispatcher
@@ -20,7 +22,7 @@ package nanosome.flow.visualizing.animators.base
 
         public function BaseAnimator()
         {
-            _tickGenerator = new TickGenerator();
+            _tickGenerator = new FrameTickGenerator();
             _tickGenerator.addEventListener(TickGeneratorEvent.TICK_UPDATE, onTickUpdate);
             _position = 0;
         }
@@ -59,6 +61,13 @@ package nanosome.flow.visualizing.animators.base
         {
             _startValue = startValue;
             _endValue = endValue;
+        }
+
+        public function setInitialValue(startValue:*):void
+        {
+            // we have to mimic switching because some transformations (like shaders)
+            // may require both inputs
+            switchTo(Linear.easeIn, 1, startValue, startValue);
         }
 
         public function switchTo(easing:Function, duration:Number, newStartValue:*, newEndValue:*):void

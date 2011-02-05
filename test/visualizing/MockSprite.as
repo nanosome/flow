@@ -1,14 +1,8 @@
 package visualizing
 {
-    import flash.display.DisplayObject;
-
-    public class MockSprite extends DisplayObject
+    public class MockSprite
     {
         public var alpha:Number;
         public var beta:Number;
-
-        public function MockSprite()
-        {
-        }
     }
 }
