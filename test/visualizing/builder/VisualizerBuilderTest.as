@@ -7,19 +7,15 @@ package visualizing.builder
 
     import nanosome.flow.visualizing.TimedEasing;
     import nanosome.flow.visualizing.AnimationMapper;
-    import nanosome.flow.visualizing.builder.VisualizerBuilder;
-
-    import nanosome.flow.visualizing.builder.VisualizerControllerBuilder;
     import nanosome.flow.visualizing.Visualizer;
+
+    import nanosome.flow.visualizing.builders.VisualizerBuilder;
 
     import org.flexunit.Assert;
 
     import stateMachine.builder.TestStateMachineBuilder;
     import stateMachine.builder.TestStateMachineBuildersFactory;
 
-    import visualizing.MockAlphaTransform;
-    import visualizing.MockBetaTransform;
-    import visualizing.MockSprite;
     import visualizing.TestingTickGenerator;
 
     import visualizing.builder.stateMachinesConfig.ActivePassiveSignals;
@@ -52,14 +48,14 @@ package visualizing.builder
             // configure controller
             var activePassiveSignals:ActivePassiveSignals = _activePassive.getNewSignalsSet();
 
-            var activePassive:VisualizerControllerBuilder = new VisualizerControllerBuilder(
+            var activePassive:VisualizerBuilder = new VisualizerBuilder(
                 _activePassive.getStateMachine(), activePassiveSignals
             );
 
             activePassive.setCustomTickGenerator(_tickGenerator);
 
-            var baseElement:MockSprite = new MockSprite();
-            var copyElement:MockSprite = new MockSprite();
+            var baseElement:InternalMockSprite = new InternalMockSprite();
+            var copyElement:InternalMockSprite = new InternalMockSprite();
 
             // configure active/passive visualizers
 
@@ -90,4 +86,51 @@ package visualizing.builder
 
         }
     }
+}
+
+//--------------------------------------------------------------------------
+//
+//  Internal classes used in testing
+//
+//--------------------------------------------------------------------------
+
+import nanosome.flow.visualizing.animators.base.NumericAnimator;
+
+
+internal class InternalMockAlphaAnimator extends NumericAnimator
+{
+    protected var _target:*;
+
+    public function setTarget(target:*):void
+    {
+        _target = target;
+    }
+
+    override public function update():void
+    {
+        _target.alpha = this.value;
+    }
+}
+
+
+internal class InternalMockBetaAnimator extends NumericAnimator
+{
+    protected var _target:*;
+
+    public function setTarget(target:*):void
+    {
+        _target = target;
+    }
+
+    override public function update():void
+    {
+        _target.beta = this.value;
+    }
+}
+
+
+internal class InternalMockSprite
+{
+    public var alpha:Number;
+    public var beta:Number;
 }

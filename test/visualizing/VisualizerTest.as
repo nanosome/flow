@@ -33,15 +33,15 @@ package visualizing
         }
 
         private var _alphaMapper:AnimationMapper;
-        private var _visualizerTarget:MockSprite;
+        private var _visualizerTarget:InternalMockSprite;
         private var _tickGenerator:TestingTickGenerator;
 
         [Before]
         public function configureVisualizerAndTarget():void
         {
-            _visualizerTarget = new MockSprite();
+            _visualizerTarget = new InternalMockSprite();
             _tickGenerator = new TestingTickGenerator();
-            var animator:MockAlphaAnimator = new MockAlphaAnimator(); // alternatively, you can take it from the pool
+            var animator:InternalMockAlphaAnimator = new InternalMockAlphaAnimator(); // alternatively, you can take it from the pool
             animator.setTarget(_visualizerTarget);
             animator.setCustomTickGenerator(_tickGenerator);
             _alphaMapper = new AnimationMapper(animator);
@@ -299,7 +299,7 @@ package visualizing
         [Test]
         public function severalVisualizersWithOneController():void
         {
-            var animator:MockBetaAnimator = new MockBetaAnimator(); // alternatively, you can take it from the pool
+            var animator:InternalMockBetaAnimator = new InternalMockBetaAnimator(); // alternatively, you can take it from the pool
             animator.setTarget(_visualizerTarget);
             animator.setCustomTickGenerator(_tickGenerator);
             var betaMapper:AnimationMapper = new AnimationMapper(animator);
@@ -368,7 +368,7 @@ package visualizing
         [Test]
         public function severalVisualizerControllersWithOneStateMachine():void
         {
-            var animator:MockBetaAnimator = new MockBetaAnimator(); // alternatively, you can take it from the pool
+            var animator:InternalMockBetaAnimator = new InternalMockBetaAnimator(); // alternatively, you can take it from the pool
             animator.setTarget(_visualizerTarget);
             animator.setCustomTickGenerator(_tickGenerator);
             var betaMapper:AnimationMapper = new AnimationMapper(animator);
@@ -444,9 +444,16 @@ package visualizing
     }
 }
 
+//--------------------------------------------------------------------------
+//
+//  Internal classes used in testing
+//
+//--------------------------------------------------------------------------
+
 import nanosome.flow.visualizing.animators.base.NumericAnimator;
 
-internal class MockAlphaAnimator extends NumericAnimator
+
+internal class InternalMockAlphaAnimator extends NumericAnimator
 {
     protected var _target:*;
 
@@ -462,7 +469,7 @@ internal class MockAlphaAnimator extends NumericAnimator
 }
 
 
-internal class MockBetaAnimator extends NumericAnimator
+internal class InternalMockBetaAnimator extends NumericAnimator
 {
     protected var _target:*;
 
@@ -475,4 +482,11 @@ internal class MockBetaAnimator extends NumericAnimator
     {
         _target.beta = this.value;
     }
+}
+
+
+internal class InternalMockSprite
+{
+    public var alpha:Number;
+    public var beta:Number;
 }

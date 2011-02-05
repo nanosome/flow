@@ -6,6 +6,7 @@ package
     import animators.NumericAnimatorTest;
 
     import visualizing.VisualizerTest;
+    import visualizing.builder.VisualizerBuilderTest;
 
     [Suite]
     [RunWith("org.flexunit.runners.Suite")]
@@ -19,5 +20,6 @@ package
 
         // testing visualizer
         public var t5:VisualizerTest;
+        public var t6:VisualizerBuilderTest;
     }
 }
