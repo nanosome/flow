@@ -5,7 +5,7 @@ package
     import animators.CrossfadeShaderAnimatorTest;
     import animators.NumericAnimatorTest;
 
-    import visualizing.VisualizerTest;
+    import visualizing.AnimationMapperTest;
     import visualizing.builder.VisualizerBuilderTest;
 
     [Suite]
@@ -19,7 +19,7 @@ package
         public var t4:CrossfadeShaderAnimatorTest;
 
         // testing visualizer
-        public var t5:VisualizerTest;
+        public var t5:AnimationMapperTest;
         public var t6:VisualizerBuilderTest;
     }
 }

@@ -18,7 +18,7 @@ package visualizing
 
     import utils.roundWithPrecision;
 
-    public class VisualizerTest
+    public class AnimationMapperTest
     {
         private static const SWITCHING_PRECISION:Number = .00001;
 
