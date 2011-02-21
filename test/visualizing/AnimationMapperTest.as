@@ -139,7 +139,7 @@ package visualizing
             var visualizerManager:VisualizerManager = new VisualizerManager(_.getStateMachine(), signals);
 
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            var alphaVisualizer:Visualizer = new Visualizer(_alphaMapping);
+            var alphaVisualizer:Visualizer = new Visualizer(_alphaMapping);  // TODO: Fix animators (use accessors?)
             alphaVisualizer.setCustomTickGenerator(tickGenerator);
             
             visualizerManager.addVisualizer(alphaVisualizer);
