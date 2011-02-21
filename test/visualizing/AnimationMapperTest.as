@@ -6,9 +6,11 @@ package visualizing
     import nanosome.flow.visualizing.TimedEasing;
     import nanosome.flow.stateMachine.State;
     import nanosome.flow.stateMachine.Transition;
-    import nanosome.flow.visualizing.AnimationMapper;
+    import nanosome.flow.visualizing.AnimationMapping;
 
     import nanosome.flow.visualizing.Visualizer;
+    import nanosome.flow.visualizing.VisualizerManager;
+
 
     import org.flexunit.Assert;
 
@@ -32,38 +34,35 @@ package visualizing
             _ = repository.testStateMachineBuilder;
         }
 
-        private var _alphaMapper:AnimationMapper;
+        private var _alphaMapping:AnimationMapping;
         private var _visualizerTarget:InternalMockSprite;
-        private var _tickGenerator:TestingTickGenerator;
 
         [Before]
         public function configureVisualizerAndTarget():void
         {
             _visualizerTarget = new InternalMockSprite();
-            _tickGenerator = new TestingTickGenerator();
             var animator:InternalMockAlphaAnimator = new InternalMockAlphaAnimator(); // alternatively, you can take it from the pool
             animator.setTarget(_visualizerTarget);
-            animator.setCustomTickGenerator(_tickGenerator);
-            _alphaMapper = new AnimationMapper(animator);
+
+            _alphaMapping = new AnimationMapping();
 
             var inEasing:TimedEasing = new TimedEasing(Linear.easeIn, 100);
             var outEasing:TimedEasing = new TimedEasing(Quadratic.easeOut, 200);
 
-            _alphaMapper.mapTransition(_.fromNormalToOvered, inEasing);
-            _alphaMapper.mapTransition(_.fromOveredToNormal, outEasing);
-            _alphaMapper.mapTransition(_.fromOveredToPressed, inEasing);
-            _alphaMapper.mapValue(_.normal, .5);
-            _alphaMapper.mapValue(_.overed, .9);
-            _alphaMapper.mapValue(_.pressed, .3);
+            _alphaMapping.mapTransition(_.fromNormalToOvered, inEasing);
+            _alphaMapping.mapTransition(_.fromOveredToNormal, outEasing);
+            _alphaMapping.mapTransition(_.fromOveredToPressed, inEasing);
+            _alphaMapping.mapValue(_.normal, .5);
+            _alphaMapping.mapValue(_.overed, .9);
+            _alphaMapping.mapValue(_.pressed, .3);
         }
 
         [After]
         public function destroyVisualizerAndTarget():void
         {
             // just in case
-            _alphaMapper = null;
+            _alphaMapping = null;
             _visualizerTarget = null;
-            _tickGenerator = null;
         }
 
 
@@ -71,7 +70,7 @@ package visualizing
         public function areMissingStatesDetected():void
         {
             var totalStates:Vector.<State> = _.getStateMachine().states;
-            var missingStates:Vector.<State> = _alphaMapper.checkMissingStates(_.getStateMachine());
+            var missingStates:Vector.<State> = _alphaMapping.checkMissingStates(_.getStateMachine());
 
             Assert.assertEquals(
                 "Number of states in state machine being visualized",
@@ -94,7 +93,7 @@ package visualizing
         public function areMissingTransitionsDetected():void
         {
             var totalTransitions:Vector.<Transition> = _.getStateMachine().transitions;
-            var missingTransitions:Vector.<Transition> = _alphaMapper.checkMissingTransitions(_.getStateMachine());
+            var missingTransitions:Vector.<Transition> = _alphaMapping.checkMissingTransitions(_.getStateMachine());
 
             Assert.assertEquals(
                 "Number of transitions in state machine being visualized",
@@ -137,16 +136,20 @@ package visualizing
         public function areValuesChangingOnTicking():void
         {
             var signals:ButtonSignals = _.getNewSignalsSet();
-            var visualizerController:Visualizer = new Visualizer(_.getStateMachine(), signals);
+            var visualizerManager:VisualizerManager = new VisualizerManager(_.getStateMachine(), signals);
 
-            visualizerController.addAnimationMapping(_alphaMapper);
+            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
+            var alphaVisualizer:Visualizer = new Visualizer(_alphaMapping);
+            alphaVisualizer.setCustomTickGenerator(tickGenerator);
+            
+            visualizerManager.addVisualizer(alphaVisualizer);
 
             Assert.assertEquals(
                 "alpha value, 0 out of 100  ticks, range (.5.. .9), BEFORE event fired",
                 .5, _visualizerTarget.alpha
             );
 
-            _tickGenerator.makeTicks(50);
+            tickGenerator.makeTicks(50);
             Assert.assertEquals(
                 "alpha value, 50 out of 100  ticks, range (.5.. .9), BEFORE event fired",
                 .5, _visualizerTarget.alpha
@@ -154,19 +157,19 @@ package visualizing
 
             signals.mouseOver.fire();
 
-            _tickGenerator.makeTicks(50);
+            tickGenerator.makeTicks(50);
             Assert.assertEquals(
                 "alpha value, 50 out of 100 ticks, range (.5.. .9), AFTER event fired",
                 .7, _visualizerTarget.alpha
             );
 
-            _tickGenerator.makeTicks(50);
+            tickGenerator.makeTicks(50);
             Assert.assertEquals(
                 "alpha value, 100 out of 100 ticks, range (.5.. .9), AFTER event fired",
                 .9, _visualizerTarget.alpha
               );
 
-            _tickGenerator.makeTicks(10);
+            tickGenerator.makeTicks(10);
             Assert.assertEquals(
                 "alpha value, 110 out of 100 ticks, range (.5.. .9), AFTER event fired",
                 .9, _visualizerTarget.alpha
@@ -178,15 +181,19 @@ package visualizing
         public function isReversingSwitchingPerformingSmoothly():void
         {
             var signals:ButtonSignals = _.getNewSignalsSet();
-            var visualizer:Visualizer = new Visualizer(_.getStateMachine(), signals);
+            var visualizer:VisualizerManager = new VisualizerManager(_.getStateMachine(), signals);
 
             var precision:Number = SWITCHING_PRECISION;
 
-            visualizer.addAnimationMapping(_alphaMapper);
+            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
+            var alphaVisualizer:Visualizer = new Visualizer(_alphaMapping);
+            alphaVisualizer.setCustomTickGenerator(tickGenerator);
+            
+            visualizer.addVisualizer(alphaVisualizer);
 
             signals.mouseOver.fire();
 
-            _tickGenerator.makeTicks(50);
+            tickGenerator.makeTicks(50);
 
             Assert.assertEquals(
                 "alpha value, 50 out of 100 ticks, range (.5.. .9), after MOUSE_OVER event, precision = " + precision,
@@ -200,7 +207,7 @@ package visualizing
                 .7, roundWithPrecision(_visualizerTarget.alpha, precision)
             );
 
-            _tickGenerator.makeTicks(150);
+            tickGenerator.makeTicks(150);
             Assert.assertEquals(
                 "alpha value",
                 .5, _visualizerTarget.alpha
@@ -211,22 +218,26 @@ package visualizing
         public function isNormalFullSwitchingPerformingSmoothly():void
         {
             var signals:ButtonSignals = _.getNewSignalsSet();
-            var visualizer:Visualizer = new Visualizer(_.getStateMachine(), signals);
+            var visualizer:VisualizerManager = new VisualizerManager(_.getStateMachine(), signals);
 
             var precision:Number = SWITCHING_PRECISION;
 
-            visualizer.addAnimationMapping(_alphaMapper);
+            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
+            var alphaVisualizer:Visualizer = new Visualizer(_alphaMapping);
+            alphaVisualizer.setCustomTickGenerator(tickGenerator);
+
+            visualizer.addVisualizer(alphaVisualizer);
 
             signals.mouseOver.fire();
 
-            _tickGenerator.makeTicks(50);
+            tickGenerator.makeTicks(50);
 
             Assert.assertEquals(
                 "alpha value, 50 out of 100 ticks, range (.5.. .9), after MOUSE_OVER event, precision = " + precision,
                 .7, roundWithPrecision(_visualizerTarget.alpha, precision)
             );
 
-            _tickGenerator.makeTicks(60);
+            tickGenerator.makeTicks(60);
 
             Assert.assertEquals(
                 "alpha value, 110 out of 100 ticks, range (.5.. .9), after MOUSE_OVER event, precision = " + precision,
@@ -240,14 +251,14 @@ package visualizing
                 .9, roundWithPrecision(_visualizerTarget.alpha, precision)
             );
 
-            _tickGenerator.makeTicks(50);
+            tickGenerator.makeTicks(50);
 
             Assert.assertEquals(
                 "alpha value, 50 out of 100 ticks, range (.9.. .3), after MOUSE_DOWN event, precision = " + precision,
                 .6, roundWithPrecision(_visualizerTarget.alpha, precision)
               );
 
-            _tickGenerator.makeTicks(60);
+            tickGenerator.makeTicks(60);
 
             Assert.assertEquals(
                 "alpha value, 110 out of 100 ticks, range (.9.. .3), after MOUSE_DOWN event, precision = " + precision,
@@ -259,15 +270,19 @@ package visualizing
         public function isNormalPartialSwitchingPerformingSmoothly():void
         {
             var signals:ButtonSignals = _.getNewSignalsSet();
-            var visualizer:Visualizer = new Visualizer(_.getStateMachine(), signals);
+            var vis:VisualizerManager = new VisualizerManager(_.getStateMachine(), signals);
 
             var precision:Number = SWITCHING_PRECISION;
 
-            visualizer.addAnimationMapping(_alphaMapper);
+            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
+            var alphaVisualizer:Visualizer = new Visualizer(_alphaMapping);
+            alphaVisualizer.setCustomTickGenerator(tickGenerator);
+
+            vis.addVisualizer(alphaVisualizer);
 
             signals.mouseOver.fire();
 
-            _tickGenerator.makeTicks(50);
+            tickGenerator.makeTicks(50);
 
             Assert.assertEquals(
                 "alpha value, 50 out of 100 ticks, range (.5.. .9), after MOUSE_OVER event, precision = " + precision,
@@ -281,14 +296,14 @@ package visualizing
                 .7, roundWithPrecision(_visualizerTarget.alpha, precision)
             );
 
-            _tickGenerator.makeTicks(50);
+            tickGenerator.makeTicks(50);
 
             Assert.assertEquals(
                 "alpha value, 50 out of 100 ticks, range (.7.. .3), after MOUSE_DOWN event, precision = " + precision,
                 .5, roundWithPrecision(_visualizerTarget.alpha, precision)
             );
 
-            _tickGenerator.makeTicks(60);
+            tickGenerator.makeTicks(60);
 
             Assert.assertEquals(
                 "alpha value, 110 out of 100 ticks, range (.9.. .3), after MOUSE_DOWN event, precision = " + precision,
@@ -301,23 +316,29 @@ package visualizing
         {
             var animator:InternalMockBetaAnimator = new InternalMockBetaAnimator(); // alternatively, you can take it from the pool
             animator.setTarget(_visualizerTarget);
-            animator.setCustomTickGenerator(_tickGenerator);
-            var betaMapper:AnimationMapper = new AnimationMapper(animator);
+            var betaMapping:AnimationMapping = new AnimationMapping();
 
             var secondaryInEasing:TimedEasing = new TimedEasing(Linear.easeIn, 200);
             var secondaryOutEasing:TimedEasing = new TimedEasing(Quadratic.easeOut, 400);
 
-            betaMapper.mapTransition(_.fromNormalToOvered, secondaryInEasing);
-            betaMapper.mapTransition(_.fromOveredToNormal, secondaryOutEasing);
+            betaMapping.mapTransition(_.fromNormalToOvered, secondaryInEasing);
+            betaMapping.mapTransition(_.fromOveredToNormal, secondaryOutEasing);
 
-            betaMapper.mapValue(_.normal, 50);
-            betaMapper.mapValue(_.overed, 90);
+            betaMapping.mapValue(_.normal, 50);
+            betaMapping.mapValue(_.overed, 90);
+
+            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
+            var alphaVisualizer:Visualizer = new Visualizer(_alphaMapping);
+            alphaVisualizer.setCustomTickGenerator(tickGenerator);
+
+            var betaVisualizer:Visualizer = new Visualizer(betaMapping);
+            betaVisualizer.setCustomTickGenerator(tickGenerator);
 
             var signals:ButtonSignals = _.getNewSignalsSet();
-            var visualizer:Visualizer = new Visualizer(_.getStateMachine(), signals);
+            var vis:VisualizerManager = new VisualizerManager(_.getStateMachine(), signals);
 
-            visualizer.addAnimationMapping(_alphaMapper);
-            visualizer.addAnimationMapping(betaMapper);
+            vis.addVisualizer(alphaVisualizer);
+            vis.addVisualizer(betaVisualizer);
 
             Assert.assertEquals(
                 "alpha value after initialization, precision = " + SWITCHING_PRECISION,
@@ -331,7 +352,7 @@ package visualizing
 
             signals.mouseOver.fire();
 
-            _tickGenerator.makeTicks(50);
+            tickGenerator.makeTicks(50);
 
             Assert.assertEquals(
                 "alpha value, 50 out of 100 ticks, range (.5.. .9), after MOUSE_OVER event, precision = " + SWITCHING_PRECISION,
@@ -343,7 +364,7 @@ package visualizing
                 60, roundWithPrecision(_visualizerTarget.beta, SWITCHING_PRECISION)
             );
 
-            _tickGenerator.makeTicks(100);
+            tickGenerator.makeTicks(100);
 
             Assert.assertEquals(
                 "alpha value, 150 out of 100 ticks, range (.5.. .9), after MOUSE_OVER event, precision = " + SWITCHING_PRECISION,
@@ -355,7 +376,7 @@ package visualizing
                 80, roundWithPrecision(_visualizerTarget.beta, SWITCHING_PRECISION)
             );
 
-            _tickGenerator.makeTicks(60);
+            tickGenerator.makeTicks(60);
 
             Assert.assertEquals(
                 "beta value, 210 out of 200 ticks, range (50.. 90), after MOUSE_OVER event, precision = " + SWITCHING_PRECISION,
@@ -370,27 +391,33 @@ package visualizing
         {
             var animator:InternalMockBetaAnimator = new InternalMockBetaAnimator(); // alternatively, you can take it from the pool
             animator.setTarget(_visualizerTarget);
-            animator.setCustomTickGenerator(_tickGenerator);
-            var betaMapper:AnimationMapper = new AnimationMapper(animator);
+
+            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
+            var alphaVisualizer:Visualizer = new Visualizer(_alphaMapping);
+            alphaVisualizer.setCustomTickGenerator(tickGenerator);
+
+            var betaMapping:AnimationMapping = new AnimationMapping();
 
             var secondaryInEasing:TimedEasing = new TimedEasing(Linear.easeIn, 200);
             var secondaryOutEasing:TimedEasing = new TimedEasing(Quadratic.easeOut, 400);
 
-            betaMapper.mapTransition(_.fromNormalToOvered, secondaryInEasing);
-            betaMapper.mapTransition(_.fromOveredToNormal, secondaryOutEasing);
+            betaMapping.mapTransition(_.fromNormalToOvered, secondaryInEasing);
+            betaMapping.mapTransition(_.fromOveredToNormal, secondaryOutEasing);
 
-            betaMapper.mapValue(_.normal, 50);
-            betaMapper.mapValue(_.overed, 90);
+            betaMapping.mapValue(_.normal, 50);
+            betaMapping.mapValue(_.overed, 90);
+
+            var betaVisualizer:Visualizer = new Visualizer(betaMapping);
+            betaVisualizer.setCustomTickGenerator(tickGenerator);
 
             var signals:ButtonSignals = _.getNewSignalsSet();
-            var alphaVisualizer:Visualizer = new Visualizer(_.getStateMachine(), signals);
+            var alphaVisualizerManager:VisualizerManager = new VisualizerManager(_.getStateMachine(), signals);
 
             var secondarySignals:ButtonSignals = _.getNewSignalsSet();
-            var betaVisualizer:Visualizer = new Visualizer(_.getStateMachine(), secondarySignals);
+            var betaVisualizerManager:VisualizerManager = new VisualizerManager(_.getStateMachine(), secondarySignals);
 
-
-            alphaVisualizer.addAnimationMapping(_alphaMapper);
-            betaVisualizer.addAnimationMapping(betaMapper);
+            alphaVisualizerManager.addVisualizer(alphaVisualizer);
+            betaVisualizerManager.addVisualizer(betaVisualizer);
 
             Assert.assertEquals(
                 "alpha value after initialization, precision = " + SWITCHING_PRECISION,
@@ -404,7 +431,7 @@ package visualizing
 
             signals.mouseOver.fire();
 
-            _tickGenerator.makeTicks(50);
+            tickGenerator.makeTicks(50);
 
             Assert.assertEquals(
                 "alpha value, 50 out of 100 ticks, range (.5.. .9), after MOUSE_OVER event, precision = " + SWITCHING_PRECISION,
@@ -417,7 +444,7 @@ package visualizing
             );
 
             secondarySignals.mouseOver.fire();
-            _tickGenerator.makeTicks(50);
+            tickGenerator.makeTicks(50);
 
             Assert.assertEquals(
                 "alpha value, 100 out of 100 ticks, range (.5.. .9), after MOUSE_OVER event, precision = " + SWITCHING_PRECISION,
@@ -429,7 +456,7 @@ package visualizing
                 60, roundWithPrecision(_visualizerTarget.beta, SWITCHING_PRECISION)
             );
 
-            _tickGenerator.makeTicks(160);
+            tickGenerator.makeTicks(160);
 
             Assert.assertEquals(
                 "alpha value, 260 out of 100 ticks, range (.5.. .9), after MOUSE_OVER event, precision = " + SWITCHING_PRECISION,

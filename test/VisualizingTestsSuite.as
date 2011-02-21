@@ -20,6 +20,6 @@ package
 
         // testing visualizer
         public var t5:AnimationMapperTest;
-        public var t6:VisualizerBuilderTest;
+        //public var t6:VisualizerBuilderTest;
     }
 }

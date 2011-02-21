@@ -38,6 +38,28 @@ package nanosome.flow.utils
             return result;
         }
 
+        public static function getVariablesNamesAndTypes(targetClassInstance:Object):Vector.<Array>
+        {
+            var result:Vector.<Array> = new Vector.<Array>();
+
+            var typeDesc:XML = describeType(targetClassInstance);
+
+            var vars:XMLList = typeDesc.child("variable");
+
+            var typeAttr:String;
+            var nameAttr:String;
+
+            for each (var item:XML in vars)
+            {
+                typeAttr = item.attribute("type");
+                nameAttr = item.attribute("name");
+
+                result.push([nameAttr, typeAttr]);
+            }
+
+            return result;
+        }
+
         /**
          * Returns true, if <code>targetClass</code> is the same class or inherited from <code>requiredType</code>.
          *

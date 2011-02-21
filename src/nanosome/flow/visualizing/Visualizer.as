@@ -1,50 +1,93 @@
-// @license@
 package nanosome.flow.visualizing
 {
-    import nanosome.flow.signals.AbstractSignalSet;
-    import nanosome.flow.stateMachine.StateMachine;
-    import nanosome.flow.stateMachine.processor.StateMachineProcessor;
-    import nanosome.flow.stateMachine.processor.StateMachineProcessorEvent;
+    import flash.utils.Dictionary;
 
-    /**
-     * This class is meant to control visualizers, based on StateMachine behavior.
-     * Difference between visualizer and StateMachine is that state machine reacts
-     * to signals by immediately switching states (transitions has zero duration),
-     * and visualizer performs switching in steps (whatever time or frame based).
-     */
-    public class Visualizer extends StateMachineProcessor
+    import nanosome.flow.stateMachine.State;
+    import nanosome.flow.stateMachine.Transition;
+    import nanosome.flow.visualizing.animators.base.BaseAnimator;
+    import nanosome.flow.visualizing.ticking.FrameTickGenerator;
+    import nanosome.flow.visualizing.ticking.ITickGenerator;
+    import nanosome.flow.visualizing.ticking.TickGeneratorEvent;
+
+    import net.antistatic.logging.ILogger;
+    import net.antistatic.logging.LogFactory;
+
+    public class Visualizer
     {
+        private var _animator:BaseAnimator;
+        private var _tickGenerator:ITickGenerator;
+        private var _hasTickListener:Boolean;
 
-        private var _visualizers:Array;
+        private var _mapping:AnimationMapping;
 
-        /**
-         *  Constructor
-         */            
-        public function Visualizer(stateMachine:StateMachine, signals:AbstractSignalSet)
+        private var _prevTransition:Transition;
+        
+        //--------------------------------------------------------------------------
+        //
+        //  Constructor
+        //
+        //--------------------------------------------------------------------------
+
+        private var _logger:ILogger;
+
+        public function Visualizer(mapping:AnimationMapping)
         {
-            super(stateMachine, signals);
-            _visualizers = [];
-
-            // instead of overriding protected method handling transitions, just add
-            // event listener to ourselves - it will allow us easily decouple (if needed)
-            // from StateMachineProcessor
-            addEventListener(StateMachineProcessorEvent.STATE_CHANGED, onStateChanged);
+            _mapping = mapping;
+            _tickGenerator = new FrameTickGenerator();
+            _hasTickListener = false;
+            _logger = LogFactory.getLogger(this);
         }
 
-
-        public function addAnimationMapping(visualizer:AnimationMapper):void
+        public function setCustomTickGenerator(tickGenerator:ITickGenerator):void
         {
-            _visualizers.push(visualizer);
-            visualizer.setInitialState(_currentState);
+
+            if (_hasTickListener)
+                _tickGenerator.removeEventListener(TickGeneratorEvent.TICK_UPDATE, onTickUpdate);
+            _tickGenerator = tickGenerator;
         }
 
-        private function onStateChanged(event:StateMachineProcessorEvent):void
+        private function onTickUpdate(event:TickGeneratorEvent):void
         {
-            var v:AnimationMapper;
-            for each (v in _visualizers)
-            {
-                v.setTransition(event.transition);
-            }
+            if (!_animator.makeStep(event.delta))
+                _tickGenerator.stop();
+            _animator.update();
         }
+
+        public function setAnimator(animator:BaseAnimator):void
+        {
+            _animator = animator;
+            if (_hasTickListener)
+                return;
+
+            _tickGenerator.addEventListener(TickGeneratorEvent.TICK_UPDATE, onTickUpdate);
+            _hasTickListener = true;
+        }
+
+        public function setTransition(transition:Transition):void
+        {
+
+            var isReversing:Boolean = ( _prevTransition &&
+                transition.source == _prevTransition.target &&
+                transition.target == _prevTransition.source
+            );
+
+            var easing:TimedEasing = _mapping.getEasingForTransition(transition);
+
+            if (isReversing)
+                _animator.reverseTo(easing._easing, easing._duration);
+            else
+                _animator.switchTo(easing._easing, easing._duration,
+                    _mapping.getValueForState(transition.source), _mapping.getValueForState(transition.target));
+
+            _tickGenerator.start(); // kicking it to start it up again
+
+            _prevTransition = transition;
+        }
+
+        public function setInitialState(state:State):void
+        {
+            _animator.setInitialValue(_mapping.getValueForState(state));
+        }
+
     }
 }

@@ -14,7 +14,7 @@ package animators
 
     public class CrossfadeShaderAnimatorTest
     {
-        public static const SHADER_JOB_TIMEOUT:uint = 50;
+        public static const SHADER_JOB_TIMEOUT:uint = 150;
 
         [Embed(source = "0x880000.png")]
         public static var RedImageClass:Class;
@@ -32,7 +32,6 @@ package animators
         private static var _outputImage:BitmapData;
 
         private static var _animator:CrossfadeShaderAnimator;
-        private static var _tickGenerator:TestingTickGenerator;
 
         private static var _processingFunc:Function;
 
@@ -45,9 +44,6 @@ package animators
 
             _outputImage = new BitmapData(_redImage.width, _redImage.height);
             _animator = new CrossfadeShaderAnimator();
-
-            _tickGenerator = new TestingTickGenerator();
-            _animator.setCustomTickGenerator(_tickGenerator);
 
             _animator.setTarget(_outputImage);
         }
@@ -73,7 +69,8 @@ package animators
            _processingFunc = Async.asyncHandler(this, onFirstAnimatorSteps, SHADER_JOB_TIMEOUT, null, handleTimeout);
            _animator.addEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc, false, 0, true);
             
-           _tickGenerator.makeTicks(100);
+           _animator.makeStep(100);
+           _animator.update();
         }
 
         protected function onFirstAnimatorSteps(event:Event, passThroughData:Object):void
@@ -103,7 +100,8 @@ package animators
            _animator.removeEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc);
            _processingFunc = Async.asyncHandler(this, onStepsAfterReversingComplete, SHADER_JOB_TIMEOUT, null, handleTimeout);
            _animator.addEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc, false, 0, true);
-           _tickGenerator.makeTicks(5);
+           _animator.makeStep(5);
+           _animator.update();
         }
 
         protected function onStepsAfterReversingComplete(event:Event, passThroughData:Object):void
@@ -128,7 +126,7 @@ package animators
            _animator.removeEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc);
            _processingFunc = Async.asyncHandler(this, onStepsAfterSwitchingComplete, SHADER_JOB_TIMEOUT, null, handleTimeout);
            _animator.addEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc, false, 0, true);
-           _tickGenerator.makeTicks(10);
+           _animator.makeStep(10);
            _animator.update();
         }
 

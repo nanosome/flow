@@ -5,17 +5,13 @@ package nanosome.flow.visualizing
     import nanosome.flow.stateMachine.StateMachine;
     import nanosome.flow.stateMachine.State;
     import nanosome.flow.stateMachine.Transition;
-    import nanosome.flow.visualizing.animators.base.BaseAnimator;
 
-
-    public class AnimationMapper
+    public class AnimationMapping
     {
-        private var _animator:BaseAnimator;
-
         private var _values:Dictionary;
         private var _easings:Dictionary;
 
-        private var _prevTransition:Transition;
+        private var _states:Array;
         
         //--------------------------------------------------------------------------
         //
@@ -23,44 +19,22 @@ package nanosome.flow.visualizing
         //
         //--------------------------------------------------------------------------
 
-        public function AnimationMapper(animator:BaseAnimator)
+        public function AnimationMapping()
         {
-            _animator = animator;
+            _states = [];
             _values = new Dictionary();
             _easings = new Dictionary();
         }
 
-        public function mapValue(state:State, value:Number):void
+        public function mapValue(state:State, value:*):void
         {
+            _states.push(state);
             _values[state] = value;
         }
 
         public function mapTransition(transition:Transition, timedEasing:TimedEasing):void
         {
             _easings[transition] = timedEasing;
-        }
-
-        public function setTransition(transition:Transition):void
-        {
-
-            var isReversing:Boolean = ( _prevTransition &&
-                transition.source == _prevTransition.target &&
-                transition.target == _prevTransition.source
-            );
-
-            var easing:TimedEasing = _easings[transition];
-
-            if (isReversing)
-                _animator.reverseTo(easing._easing, easing._duration);
-            else
-                _animator.switchTo(easing._easing, easing._duration, _values[transition.source], _values[transition.target]);
-
-            _prevTransition = transition;
-        }
-
-        public function setInitialState(state:State):void
-        {
-            _animator.setInitialValue(_values[state]);
         }
 
         //--------------------------------------------------------------------------
@@ -93,20 +67,22 @@ package nanosome.flow.visualizing
             return res;
         }
 
-        protected function getEasingsList():Dictionary
+
+        internal function getEasingForTransition(transition:Transition):TimedEasing
         {
-            return _easings;
+            return _easings[transition];
         }
 
-        protected function getValuesList():Dictionary
+        internal function getValueForState(state:State):*
         {
-            return _values;   
+            var res:* = _values[state];
+            return _values[state];
         }
 
-        public function hasIdenticalMappingsWith(target:AnimationMapper):Boolean
+        public function hasIdenticalMappingsWith(target:AnimationMapping):Boolean
         {
-            var targetValues:Dictionary = target.getValuesList();
-            var targetEasings:Dictionary = target.getEasingsList();
+            var targetValues:Dictionary = target._values;
+            var targetEasings:Dictionary = target._easings;
 
             var stateObj:Object;
             for (stateObj in targetValues)

@@ -6,10 +6,10 @@ package visualizing.builder
     import mx.effects.easing.Quadratic;
 
     import nanosome.flow.visualizing.TimedEasing;
-    import nanosome.flow.visualizing.AnimationMapper;
-    import nanosome.flow.visualizing.Visualizer;
+    import nanosome.flow.visualizing.AnimationMapping;
+    import nanosome.flow.visualizing.VisualizerManager;
 
-    import nanosome.flow.visualizing.builders.VisualizerBuilder;
+    import nanosome.flow.visualizing.builders.VisualMappingBuilder;
 
     import org.flexunit.Assert;
 
@@ -48,7 +48,7 @@ package visualizing.builder
             // configure controller
             var activePassiveSignals:ActivePassiveSignals = _activePassive.getNewSignalsSet();
 
-            var activePassive:VisualizerBuilder = new VisualizerBuilder(
+            var activePassive:VisualMappingBuilder = new VisualMappingBuilder(
                 _activePassive.getStateMachine(), activePassiveSignals
             );
 
@@ -59,11 +59,11 @@ package visualizing.builder
 
             // configure active/passive visualizers
 
-            var baseVis:VisualizerBuilder = activePassive.visualize(
+            var baseVis:VisualMappingBuilder = activePassive.visualize(
                     new AlphaAnimator(baseElement)
             );
 
-            var copyVis:VisualizerBuilder = activePassive.visualize(
+            var copyVis:VisualMappingBuilder = activePassive.visualize(
                     new AlphaAnimator(copyElement)
             );
 
@@ -107,13 +107,23 @@ package visualizing.builder
 //
 //--------------------------------------------------------------------------
 
+import flash.display.Sprite;
+
 import mx.effects.easing.Linear;
 
 import nanosome.flow.stateMachine.State;
 import nanosome.flow.stateMachine.Transition;
+import nanosome.flow.visualizing.animators.ColorPropertyAnimator;
+import nanosome.flow.visualizing.animators.NumericPropertyAnimator;
 import nanosome.flow.visualizing.animators.base.NumericAnimator;
 
+import nanosome.flow.visualizing.builders.VisualMappingBuilder;
+
+import nanosome.flow.visualizing.ticking.ITickGenerator;
+
 import stateMachine.builder.TestStateMachineBuilder;
+
+import visualizing.TestingTickGenerator;
 
 
 internal class InternalMockAlphaAnimator extends NumericAnimator
@@ -159,132 +169,93 @@ internal class TestViewAlpha
 {
     public function init():void
     {
-        var visualizer = 
+        
     }
 }
 
-internal class ActivePassiveMappingAlpha
+internal class ActivePassiveMapping extends VisualMappingBuilder
 {
     protected var _:TestStateMachineBuilder;
-    protected var _iconAlphaVisualizer:IMockVisualizer;
-    protected var _backgroundColorVisualizer:IMockVisualizer;
+    protected var _icon:Sprite; // = new SpriteAccessor() ??
+    protected var _backgroundAcc:TestBackgroundColorAccessor;
 
-    public function define():void
+    override protected function getTickGenerator():ITickGenerator
     {
-        defineDefaultTransition(Linear.easeIn, 50); // default one
-
-        defineState(_.normal);
-            _iconAlphaVisualizer.alpha = .1;
-            _backgroundColorVisualizer.color  = 0xFF0000;
-
-        defineTransition(_.fromNormalToOvered);
-            _iconAlphaVisualizer.ease(Linear.easeInOut, 10);
-            _backgroundColorVisualizer.ease(Linear.easeInOut, 10);
-
-        defineTransition(_.fromOveredToNormal);
-            _iconAlphaVisualizer.ease(Linear.easeInOut, 10);
-            _backgroundColorVisualizer.ease(Linear.easeInOut, 10);
-
-        defineState(_.overed);
-            _iconAlphaVisualizer.alpha = .1;
-            _backgroundColorVisualizer.color  = 0xFF0000;
-        done();
+        return new TestingTickGenerator();
     }
-}
 
-internal class ActivePassiveMappingAlphaTwo
-{
-    protected var _:TestStateMachineBuilder;
-    protected var _iconAlphaVisualizer:IMockVisualizer;
-    protected var _backgroundColorVisualizer:IMockVisualizer;
+    override protected function registerAnimators():void
+    {
+        forProperty("alpha").
+            ofInstance(_icon).
+            useAnimator(NumericPropertyAnimator);
+        forProperty("color").
+            ofInstance(_backgroundAcc).
+            useAnimator(NumericPropertyAnimator);
+    }
 
-    public function define(state:State, transition:Transition):void
+    override protected function defineStatesAndTransitions(state:State, transition:Transition):void
     {
         switch(state || transition)
         {
             case _.normal:
-                _iconAlphaVisualizer.alpha = .3;
-                _backgroundColorVisualizer.color  = 0xFF0000;
+                _icon.alpha = .3;
+                _backgroundAcc.color  = 0xFF0000;
             break;
 
             case _.fromNormalToOvered:
-                _iconAlphaVisualizer.ease(Linear.easeIn, 500);
-                _backgroundColorVisualizer.ease(Linear.easeIn, 300);
+                ease(_icon).by(Linear.easeIn, 500);
+                ease(_backgroundAcc).by(Linear.easeIn, 300);
             break;
 
             case _.overed:
-                _iconAlphaVisualizer.alpha = .8;
-                _backgroundColorVisualizer.color  = 0x00FF00;
+                _icon.alpha = .8;
+                _backgroundAcc.color  = 0x00FF00;
             break;
 
             case _.fromOveredToNormal:
-                _iconAlphaVisualizer.ease(Linear.easeIn, 500);
-                _backgroundColorVisualizer.ease(Linear.easeIn, 300);
+                ease(_icon).by(Linear.easeIn, 500);
+                ease(_backgroundAcc).by(Linear.easeIn, 300);
             break;
 
             case _.fromOveredToPressed:
-                _iconAlphaVisualizer.ease(Linear.easeIn, 500);
-                _backgroundColorVisualizer.ease(Linear.easeIn, 300);
+                ease(_icon).by(Linear.easeIn, 500);
+                ease(_backgroundAcc).by(Linear.easeIn, 300);
             break;
 
             case _.pressed:
-                _iconAlphaVisualizer.alpha = 1;
-                _backgroundColorVisualizer.color  = 0x0000FF;
+                _icon.alpha = 1;
+                _backgroundAcc.color  = 0x0000FF;
             break;
 
             case _.fromPressedToOvered:
-                _iconAlphaVisualizer.ease(Linear.easeIn, 500);
-                _backgroundColorVisualizer.ease(Linear.easeIn, 300);
+                ease(_icon, _backgroundAcc).by(Linear.easeIn, 500);
             break;
 
             case _.fromPressedToPressedOutside:
-                _iconAlphaVisualizer.ease(Linear.easeIn, 500);
-                _backgroundColorVisualizer.ease(Linear.easeIn, 300);
+                ease(_icon).by(Linear.easeIn, 500);
+                ease(_backgroundAcc).by(Linear.easeIn, 300);
             break;
 
             case _.pressedOutside:
-                _iconAlphaVisualizer.alpha = .9;
-                _backgroundColorVisualizer.color  = 0x0000FF;
+                _icon.alpha = .9;
+                _backgroundAcc.color  = 0x0000FF;
             break;
 
             case _.fromPressedOutsideToPressed:
             case _.fromPressedOutsideToNormal:
-                _iconAlphaVisualizer.ease(Linear.easeIn, 500);
-                _backgroundColorVisualizer.ease(Linear.easeIn, 300);
+                ease(_icon).by(Linear.easeIn, 500);
+                ease(_backgroundAcc).by(Linear.easeIn, 300);
             break;
 
 
             default:
-                _iconAlphaVisualizer.alpha = .6;
-                _backgroundColorVisualizer.color = 0x333333;
-                _iconAlphaVisualizer.ease(Linear.easeIn, 400);
-                _backgroundColorVisualizer.ease(Linear.easeIn, 200);
+                _icon.alpha = .6;
+                _backgroundAcc.color = 0x333333;
+                ease(_icon).by(Linear.easeIn, 400);
+                ease(_backgroundAcc).by(Linear.easeIn, 200);
             break;
         }
     }
 
-}
-
-internal class ActivePassiveMappingBeta
-{
-    protected var _:TestStateMachineBuilder;
-    protected var _iconAlphaVisualizer:IMockVisualizer;
-    protected var _backgroundColorVisualizer:IMockVisualizer;
-
-    public function define():void
-    {
-        default.ease(Linear.easeIn, 50); // default one
-
-        _iconAlphaVisualizer
-            .state(_.normal).mapTo(.1)
-            .transition(_.fromNormalToOvered).mapTo(Linear.easeIn, 300)
-            .transition(_.fromOveredToNormal).mapTo(Linear.easeOut, 500)
-            .state(_.overed).mapTo(.8);
-
-        _backgroundColorVisualizer
-            .state(_.normal).mapTo(0xFF0000)
-            .transition(_.fromNormalToOvered).mapTo(Linear.easeIn, 300)
-            .transition(_.fromOveredToNormal).mapTo(Linear.easeOut, 500)
-            .state(_.overed).mapTo(.8);
-    }
 }

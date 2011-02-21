@@ -13,8 +13,6 @@ package animators
         public function areStepsWorkingCorrectly():void
         {
             var animator:ColorAnimator = new ColorAnimator();
-            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            animator.setCustomTickGenerator(tickGenerator);
 
             animator.switchTo(Linear.easeIn, 500, 0xFE8800, 0x0088FE);
 
@@ -23,7 +21,7 @@ package animators
                 0xFE8800, animator.value
             );
 
-            tickGenerator.makeTicks(250);
+            animator.makeStep(250);
 
             Assert.assertEquals(
                 "Animator value, 250 of 500 steps, value range 10.. 110, actual value: " + Number(animator.value).toString(16),
@@ -35,8 +33,6 @@ package animators
         public function isSwitchingReversingFromExpoToLinear():void
         {
             var animator:ColorAnimator = new ColorAnimator();
-            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            animator.setCustomTickGenerator(tickGenerator);
 
             animator.switchTo(Exponential.easeIn, 10, 0x880000, 0x000000);
 
@@ -45,7 +41,7 @@ package animators
                 0x880000, animator.value
             );
 
-            tickGenerator.makeTicks(9);
+            animator.makeStep(9);
 
             Assert.assertEquals(
                 "Animator value, expo easing 9 of 10 steps, value range 15.. 115",

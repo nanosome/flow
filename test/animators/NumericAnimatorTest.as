@@ -17,8 +17,6 @@ package animators
         public function areStepsWorkingCorrectly():void
         {
             var animator:NumericAnimator = new NumericAnimator();
-            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            animator.setCustomTickGenerator(tickGenerator);
 
             animator.switchTo(Linear.easeIn, 500, 10, 110);
 
@@ -27,7 +25,7 @@ package animators
                 10,  roundWithPrecision(animator.value, TESTING_PRECISION)
             );
 
-            tickGenerator.makeTicks(250);
+            animator.makeStep(250);
 
             Assert.assertEquals(
                 "Animator value, 250 of 500 steps, value range 10.. 110",
@@ -40,12 +38,10 @@ package animators
         public function isOverflowingPositionLimited():void
         {
             var animator:NumericAnimator = new NumericAnimator();
-            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            animator.setCustomTickGenerator(tickGenerator);
 
             animator.switchTo(Linear.easeIn, 200, 10, 110);
 
-            tickGenerator.makeTicks(250);
+            animator.makeStep(250);
 
             Assert.assertEquals(
                 "Position after 250 ticks of 200 total",
@@ -55,11 +51,6 @@ package animators
             Assert.assertEquals(
                 "Position after 250 ticks of 200 total",
                 200,  animator.position
-            );
-
-            Assert.assertFalse(
-                "Custom TickGenerator should be stopped after 250 of 200 ticks",
-                tickGenerator.isRunning
             );
         }
 
@@ -68,8 +59,6 @@ package animators
         public function isReversingFromExpoToLinear():void
         {
             var animator:NumericAnimator = new NumericAnimator();
-            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            animator.setCustomTickGenerator(tickGenerator);
 
             animator.switchTo(Exponential.easeIn, 10, 15, 115);
 
@@ -78,7 +67,7 @@ package animators
                 15, roundWithPrecision(animator.value, TESTING_PRECISION)
             );
 
-            tickGenerator.makeTicks(9);
+            animator.makeStep(9);
 
             Assert.assertEquals(
                 "Animator value, expo easing 9 of 10 steps, value range 15.. 115",
@@ -102,12 +91,10 @@ package animators
         public function isReversingEasingLinesFromLongToShort():void
         {
             var animator:NumericAnimator = new NumericAnimator();
-            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            animator.setCustomTickGenerator(tickGenerator);
 
             animator.switchTo(Linear.easeIn, 200, 10, 110);
 
-            tickGenerator.makeTicks(100);
+            animator.makeStep(100);
 
             Assert.assertEquals(
                 "Value BEFORE reversing, precision = " + TESTING_PRECISION,
@@ -136,12 +123,10 @@ package animators
         public function isSwitchingWorks():void
         {
             var animator:NumericAnimator = new NumericAnimator();
-            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            animator.setCustomTickGenerator(tickGenerator);
 
             animator.switchTo(Linear.easeIn, 200, 10, 110);
 
-            tickGenerator.makeTicks(100);
+            animator.makeStep(100);
 
             Assert.assertEquals(
                 "Value BEFORE switching, precision = " + TESTING_PRECISION,
@@ -160,70 +145,19 @@ package animators
                 0, animator.position
             );
 
-            tickGenerator.makeTicks(50);
+            animator.makeStep(50);
 
             Assert.assertEquals(
                 "Value after switching, position 50 of 100, [60.. 160], precision = " + TESTING_PRECISION,
                 110, roundWithPrecision(animator.value, TESTING_PRECISION)
             );
 
-            tickGenerator.makeTicks(60);
+            animator.makeStep(60);
             Assert.assertEquals(
                 "Value after switching, position 110 of 100, [60.. 160], precision = " + TESTING_PRECISION,
                 160, roundWithPrecision(animator.value, TESTING_PRECISION)
             );
         }
 
-        [Test]
-        public function isTickerRestartedAfterSwitching():void
-        {
-            var animator:NumericAnimator = new NumericAnimator();
-            var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-
-            animator.setCustomTickGenerator(tickGenerator);
-            tickGenerator.start();
-
-            Assert.assertTrue(
-                "Custom TickGenerator has been started",
-                tickGenerator.isRunning
-            );
-
-            animator.switchTo(Linear.easeIn, 500, 0, 100);
-            tickGenerator.makeTicks(200);
-
-            Assert.assertTrue(
-                "Custom TickGenerator should be running after 200 of 500 ticks",
-                tickGenerator.isRunning
-            );
-
-            tickGenerator.makeTicks(301);
-
-            Assert.assertFalse(
-                "Custom TickGenerator should be stopped after 501 of 500 ticks",
-                tickGenerator.isRunning
-            );
-
-            animator.switchTo(Linear.easeIn, 50, 100, 200);
-
-            Assert.assertTrue(
-                "Custom TickGenerator should be restarted after performing switching",
-                tickGenerator.isRunning
-            );
-
-            tickGenerator.makeTicks(55);
-
-            Assert.assertFalse(
-                "Custom TickGenerator should be stopped after finished switching",
-                tickGenerator.isRunning
-            );
-
-            animator.reverseTo(Linear.easeIn, 10);
-
-            Assert.assertTrue(
-                "Custom TickGenerator should be restarted after performing reversing",
-                tickGenerator.isRunning
-            );
-
-        }
     }
 }
