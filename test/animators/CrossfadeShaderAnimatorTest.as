@@ -45,7 +45,7 @@ package animators
             _outputImage = new BitmapData(_redImage.width, _redImage.height);
             _animator = new CrossfadeShaderAnimator();
 
-            _animator.setTarget(_outputImage);
+            _animator.setTargetAndProperty(new Bitmap(_outputImage), "bitmapData");
         }
 
 

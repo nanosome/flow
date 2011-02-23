@@ -11,7 +11,7 @@ package nanosome.flow.visualizing.animators
     import nanosome.flow.visualizing.TimedEasing;
     import nanosome.flow.visualizing.animators.base.BaseAnimator;
 
-    public class CrossfadeShaderAnimator extends BaseAnimator
+    public class CrossfadeShaderAnimator extends BaseAnimator implements IPropertyAnimator
     {
         public static const UPDATED:String = "updated";
 
@@ -36,9 +36,11 @@ package nanosome.flow.visualizing.animators
             shaderJob.start();
         }
 
-        public function setTarget(target:BitmapData):void
+        public function setTargetAndProperty(target:*, property:String):void
         {
-            _target = target;
+            if (!(target[property] is BitmapData))
+                throw new Error("Target's property should be of BitmapData type");
+            _target = target[property];
         }
 
         private function onShaderJobComplete(event:ShaderEvent):void
