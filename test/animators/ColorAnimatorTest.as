@@ -29,6 +29,7 @@ package animators
             );
         }
 
+
         [Test]
         public function isSwitchingReversingFromExpoToLinear():void
         {

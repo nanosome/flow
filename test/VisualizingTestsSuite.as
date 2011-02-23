@@ -5,21 +5,22 @@ package
     import animators.CrossfadeShaderAnimatorTest;
     import animators.NumericAnimatorTest;
 
-    import visualizing.AnimationMapperTest;
+    import visualizing.AnimationMappingTest;
+    import visualizing.VisualizerTest;
     import visualizing.builder.VisualizerBuilderTest;
 
     [Suite]
     [RunWith("org.flexunit.runners.Suite")]
     public class VisualizingTestsSuite
     {
-        // testing animators
+        // testing primary animators
         public var t1:BaseAnimatorTest;
         public var t2:NumericAnimatorTest;
         public var t3:ColorAnimatorTest;
+        // test tricky shader-driven animator
         public var t4:CrossfadeShaderAnimatorTest;
 
-        // testing visualizer
-        public var t5:AnimationMapperTest;
-        //public var t6:VisualizerBuilderTest;
+        public var t5:AnimationMappingTest;
+        public var t6:VisualizerTest;
     }
 }

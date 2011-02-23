@@ -17,9 +17,12 @@ package nanosome.flow.visualizing
 
         private var _visualizers:Vector.<Visualizer>;
 
-        /**
-         *  Constructor
-         */            
+        //--------------------------------------------------------------------------
+        //
+        //  CONSTRUCTOR
+        //
+        //--------------------------------------------------------------------------
+
         public function VisualizerManager(stateMachine:StateMachine, signals:AbstractSignalSet)
         {
             super(stateMachine, signals);

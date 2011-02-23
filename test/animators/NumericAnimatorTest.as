@@ -13,6 +13,7 @@ package animators
     {
         public static const TESTING_PRECISION:Number = .0001;
 
+
         [Test]
         public function areStepsWorkingCorrectly():void
         {
@@ -42,11 +43,6 @@ package animators
             animator.switchTo(Linear.easeIn, 200, 10, 110);
 
             animator.makeStep(250);
-
-            Assert.assertEquals(
-                "Position after 250 ticks of 200 total",
-                200,  animator.position
-            );
 
             Assert.assertEquals(
                 "Position after 250 ticks of 200 total",
@@ -87,6 +83,7 @@ package animators
             );
         }
 
+
         [Test]
         public function isReversingEasingLinesFromLongToShort():void
         {
@@ -118,6 +115,7 @@ package animators
                 5, animator.position
             );
         }
+
 
         [Test]
         public function isSwitchingWorks():void

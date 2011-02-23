@@ -35,6 +35,7 @@ package animators
 
         private static var _processingFunc:Function;
 
+
         [BeforeClass]
         public static function prepareAssets():void
         {
@@ -57,7 +58,6 @@ package animators
             _processingFunc = Async.asyncHandler(this, onFirstAnimatorUpdate, SHADER_JOB_TIMEOUT, null, handleTimeout);
             _animator.addEventListener(CrossfadeShaderAnimator.UPDATED, _processingFunc, false, 0, true);
         }
-
 
         protected function onFirstAnimatorUpdate(event:Event, passThroughData:Object):void
         {
