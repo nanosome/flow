@@ -11,6 +11,7 @@ package visualizing
     import nanosome.flow.visualizing.Visualizer;
     import nanosome.flow.visualizing.VisualizerManager;
 
+    import nanosome.flow.visualizing.animators.NumericPropertyAnimator;
 
     import org.flexunit.Assert;
 
@@ -139,7 +140,10 @@ package visualizing
             var visualizerManager:VisualizerManager = new VisualizerManager(_.getStateMachine(), signals);
 
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            var alphaVisualizer:Visualizer = new Visualizer(_alphaMapping);  // TODO: Fix animators (use accessors?)
+            var alphaVisualizer:Visualizer = new Visualizer(
+                    _alphaMapping, NumericPropertyAnimator,
+                    _visualizerTarget, "alpha"   // TODO: Think on accessing target/properties
+            );
             alphaVisualizer.setCustomTickGenerator(tickGenerator);
             
             visualizerManager.addVisualizer(alphaVisualizer);
@@ -186,7 +190,10 @@ package visualizing
             var precision:Number = SWITCHING_PRECISION;
 
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            var alphaVisualizer:Visualizer = new Visualizer(_alphaMapping);
+            var alphaVisualizer:Visualizer = new Visualizer(
+                _alphaMapping, NumericPropertyAnimator,
+                _visualizerTarget, "alpha"
+            );
             alphaVisualizer.setCustomTickGenerator(tickGenerator);
             
             visualizer.addVisualizer(alphaVisualizer);
@@ -223,7 +230,10 @@ package visualizing
             var precision:Number = SWITCHING_PRECISION;
 
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            var alphaVisualizer:Visualizer = new Visualizer(_alphaMapping);
+            var alphaVisualizer:Visualizer = new Visualizer(
+                _alphaMapping, NumericPropertyAnimator,
+                _visualizerTarget, "alpha"
+            );
             alphaVisualizer.setCustomTickGenerator(tickGenerator);
 
             visualizer.addVisualizer(alphaVisualizer);
@@ -275,7 +285,10 @@ package visualizing
             var precision:Number = SWITCHING_PRECISION;
 
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            var alphaVisualizer:Visualizer = new Visualizer(_alphaMapping);
+            var alphaVisualizer:Visualizer = new Visualizer(
+                _alphaMapping, NumericPropertyAnimator,
+                _visualizerTarget, "alpha"
+            );
             alphaVisualizer.setCustomTickGenerator(tickGenerator);
 
             vis.addVisualizer(alphaVisualizer);
@@ -328,10 +341,16 @@ package visualizing
             betaMapping.mapValue(_.overed, 90);
 
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            var alphaVisualizer:Visualizer = new Visualizer(_alphaMapping);
+            var alphaVisualizer:Visualizer = new Visualizer(
+                _alphaMapping, NumericPropertyAnimator,
+                _visualizerTarget, "alpha"
+            );
             alphaVisualizer.setCustomTickGenerator(tickGenerator);
 
-            var betaVisualizer:Visualizer = new Visualizer(betaMapping);
+            var betaVisualizer:Visualizer = new Visualizer(
+                betaMapping, NumericPropertyAnimator,
+                _visualizerTarget, "beta"
+            );
             betaVisualizer.setCustomTickGenerator(tickGenerator);
 
             var signals:ButtonSignals = _.getNewSignalsSet();
@@ -393,7 +412,10 @@ package visualizing
             animator.setTarget(_visualizerTarget);
 
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            var alphaVisualizer:Visualizer = new Visualizer(_alphaMapping);
+            var alphaVisualizer:Visualizer = new Visualizer(
+                _alphaMapping, NumericPropertyAnimator,
+                _visualizerTarget, "alpha"
+            );
             alphaVisualizer.setCustomTickGenerator(tickGenerator);
 
             var betaMapping:AnimationMapping = new AnimationMapping();
@@ -407,7 +429,10 @@ package visualizing
             betaMapping.mapValue(_.normal, 50);
             betaMapping.mapValue(_.overed, 90);
 
-            var betaVisualizer:Visualizer = new Visualizer(betaMapping);
+            var betaVisualizer:Visualizer = new Visualizer(
+                betaMapping, NumericPropertyAnimator,
+                _visualizerTarget, "beta"
+            );
             betaVisualizer.setCustomTickGenerator(tickGenerator);
 
             var signals:ButtonSignals = _.getNewSignalsSet();

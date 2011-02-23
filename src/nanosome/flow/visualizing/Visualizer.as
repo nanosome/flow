@@ -2,6 +2,7 @@ package nanosome.flow.visualizing
 {
     import nanosome.flow.stateMachine.State;
     import nanosome.flow.stateMachine.Transition;
+    import nanosome.flow.visualizing.animators.IPropertyAnimator;
     import nanosome.flow.visualizing.animators.base.BaseAnimator;
     import nanosome.flow.visualizing.ticking.FrameTickGenerator;
     import nanosome.flow.visualizing.ticking.ITickGenerator;
@@ -14,6 +15,8 @@ package nanosome.flow.visualizing
         private var _tickGenerator:ITickGenerator;
 
         private var _mapping:AnimationMapping;
+        private var _target:Object;
+        private var _propertyName:String;
 
         private var _prevTransition:Transition;
         
@@ -23,19 +26,22 @@ package nanosome.flow.visualizing
         //
         //--------------------------------------------------------------------------
 
-        public function Visualizer(mapping:AnimationMapping, animatorClass:Class)
+        public function Visualizer(mapping:AnimationMapping, animatorClass:Class, target:Object, propertyName:String)
         {
             _mapping = mapping;
+            _target = target;
+            _propertyName = propertyName;
             _AnimatorClass = animatorClass;
             _tickGenerator = new FrameTickGenerator();
-            _tickGenerator.addEventListener(TickGeneratorEvent.TICK_UPDATE, onTickUpdate);
         }
 
         public function setCustomTickGenerator(tickGenerator:ITickGenerator):void
         {
-            _tickGenerator.removeEventListener(TickGeneratorEvent.TICK_UPDATE, onTickUpdate);
+            if (_animator)
+                _tickGenerator.removeEventListener(TickGeneratorEvent.TICK_UPDATE, onTickUpdate);
             _tickGenerator = tickGenerator;
-            _tickGenerator.addEventListener(TickGeneratorEvent.TICK_UPDATE, onTickUpdate);
+            if (_animator)
+                _tickGenerator.addEventListener(TickGeneratorEvent.TICK_UPDATE, onTickUpdate);
         }
 
         private function onTickUpdate(event:TickGeneratorEvent):void
@@ -52,10 +58,13 @@ package nanosome.flow.visualizing
         private function getAnimator():void
         {
             _animator = new _AnimatorClass();
+            (_animator as IPropertyAnimator).setTargetAndProperty(_target, _propertyName);
+            _tickGenerator.addEventListener(TickGeneratorEvent.TICK_UPDATE, onTickUpdate);
         }
 
         private function disposeAnimator():void
         {
+            _tickGenerator.removeEventListener(TickGeneratorEvent.TICK_UPDATE, onTickUpdate);
             _animator = null;
         }
 
@@ -66,7 +75,9 @@ package nanosome.flow.visualizing
                 transition.target == _prevTransition.source
             );
 
-            getAnimator();
+            if (!_animator)
+                getAnimator();
+            
             var easing:TimedEasing = _mapping.getEasingForTransition(transition);
 
             if (isReversing)
