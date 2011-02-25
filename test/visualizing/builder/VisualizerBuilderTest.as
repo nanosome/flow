@@ -1,22 +1,14 @@
 package visualizing.builder
 {
-    import misc.ButtonSignals;
-
     import mx.effects.easing.Linear;
     import mx.effects.easing.Quadratic;
 
     import nanosome.flow.visualizing.TimedEasing;
-    import nanosome.flow.visualizing.AnimationMapping;
-    import nanosome.flow.visualizing.VisualizerManager;
+
 
     import nanosome.flow.visualizing.builders.VisualMappingBuilder;
 
     import org.flexunit.Assert;
-
-    import stateMachine.builder.TestStateMachineBuilder;
-    import stateMachine.builder.TestStateMachineBuildersFactory;
-
-    import visualizing.TestingTickGenerator;
 
     import visualizing.builder.stateMachinesConfig.ActivePassiveSignals;
     import visualizing.builder.stateMachinesConfig.NormalOveredSignals;
@@ -42,68 +34,14 @@ package visualizing.builder
             _tickGenerator = new TestingTickGenerator();
         }
 
-        [Test]
-        public function areValuesAndEasingsCopied():void
-        {
-            // configure controller
-            var activePassiveSignals:ActivePassiveSignals = _activePassive.getNewSignalsSet();
-
-            var activePassive:VisualMappingBuilder = new VisualMappingBuilder(
-                _activePassive.getStateMachine(), activePassiveSignals
-            );
-
-            activePassive.setCustomTickGenerator(_tickGenerator);
-
-            var baseElement:InternalMockSprite = new InternalMockSprite();
-            var copyElement:InternalMockSprite = new InternalMockSprite();
-
-            // configure active/passive visualizers
-
-            var baseVis:VisualMappingBuilder = activePassive.visualize(
-                    new AlphaAnimator(baseElement)
-            );
-
-            var copyVis:VisualMappingBuilder = activePassive.visualize(
-                    new AlphaAnimator(copyElement)
-            );
-
-            baseVis
-                .state(_activePassive.passive, 0)
-                .transition(_activePassive.fromPassiveToActive, new TimedEasing(Linear.easeIn, 200))
-                .transition(_activePassive.fromActiveToPassive, new TimedEasing(Quadratic.easeOut, 400))
-                .state(_activePassive.active, 1)
-            .activate();
-
-            copyVis
-                .easingsAs(baseVis)
-                .valuesAs(baseVis)
-            .activate();
-
-            Assert.assertTrue(
-                "baseVis and copyVis has identical mappings",
-                baseVis.hasIdenticalMappingsWith(copyVis)
-            );
-
-            activePassive.visualize(target).by(AlphaAnimator)
-                .state(_activePassive.active).valueIs(1)
-                .state(_activePassive.passive).valueIs(.3)
-                .transition(_activePassive, new TimedEasing(Linear.easeIn, 200))
-                .transition(_activePassive, new TimedEasing(Linear.easeIn, 200))
-
-            alphaAnimator = animatorsFactory.getAlphaAnimatorFor(target);
-            alphaAnimator.state(_normalOvered.normal, .3);
-            alphaAnimator.state(_normalOvered.normal, .3);
-            alphaAnimator.state(_normalOvered.normal, .3);
-            alphaAnimator.transition(_normalOvered.fromNormalToOvered, easing01)
-
-
-        }
     }
 }
 
+
+
 //--------------------------------------------------------------------------
 //
-//  Internal classes used in testing
+//  Internal classes for configuring visualizer
 //
 //--------------------------------------------------------------------------
 
@@ -113,70 +51,16 @@ import mx.effects.easing.Linear;
 
 import nanosome.flow.stateMachine.State;
 import nanosome.flow.stateMachine.Transition;
-import nanosome.flow.visualizing.animators.ColorPropertyAnimator;
-import nanosome.flow.visualizing.animators.NumericPropertyAnimator;
-import nanosome.flow.visualizing.animators.base.NumericAnimator;
 
+import nanosome.flow.visualizing.animators.NumericPropertyAnimator;
 import nanosome.flow.visualizing.builders.VisualMappingBuilder;
 
-import nanosome.flow.visualizing.ticking.ITickGenerator;
-
 import stateMachine.builder.TestStateMachineBuilder;
-
-import visualizing.TestingTickGenerator;
-
-
-internal class InternalMockAlphaAnimator extends NumericAnimator
-{
-    protected var _target:*;
-
-    public function setTarget(target:*):void
-    {
-        _target = target;
-    }
-
-    override public function update():void
-    {
-        _target.alpha = this.value;
-    }
-}
-
-
-internal class InternalMockBetaAnimator extends NumericAnimator
-{
-    protected var _target:*;
-
-    public function setTarget(target:*):void
-    {
-        _target = target;
-    }
-
-    override public function update():void
-    {
-        _target.beta = this.value;
-    }
-}
-
-
-internal class InternalMockSprite
-{
-    public var alpha:Number;
-    public var beta:Number;
-}
-
-// ----------------------------------------------------------------------
-internal class TestViewAlpha
-{
-    public function init():void
-    {
-        
-    }
-}
 
 internal class ActivePassiveMapping extends VisualMappingBuilder
 {
     protected var _:TestStateMachineBuilder;
-    protected var _icon:Sprite; // = new SpriteAccessor() ??
+    protected var _icon:Sprite;
     protected var _backgroundAcc:TestBackgroundColorAccessor;
 
     override protected function getTickGenerator():ITickGenerator
@@ -248,7 +132,6 @@ internal class ActivePassiveMapping extends VisualMappingBuilder
                 ease(_backgroundAcc).by(Linear.easeIn, 300);
             break;
 
-
             default:
                 _icon.alpha = .6;
                 _backgroundAcc.color = 0x333333;
@@ -258,4 +141,49 @@ internal class ActivePassiveMapping extends VisualMappingBuilder
         }
     }
 
+}
+
+//--------------------------------------------------------------------------
+//
+//  Internal classes used in testing
+//
+//--------------------------------------------------------------------------
+
+internal class TestBackgroundColorAccessor
+{
+    public var color:uint;
+}
+
+import flash.events.EventDispatcher;
+
+import nanosome.flow.visualizing.ticking.ITickGenerator;
+import nanosome.flow.visualizing.ticking.TickGeneratorEvent;
+
+internal class TestingTickGenerator extends EventDispatcher implements ITickGenerator
+{
+    private var _isRunning:Boolean = false;
+
+    public function TestingTickGenerator()
+    {
+    }
+
+    public function start():void
+    {
+        _isRunning = true;
+    }
+
+    public function stop():void
+    {
+        _isRunning = false;
+    }
+
+    public function makeTicks(delta:Number):void
+    {
+        dispatchEvent(new TickGeneratorEvent(TickGeneratorEvent.TICK_UPDATE, delta));
+    }
+
+    public function get isRunning():Boolean
+    {
+        return _isRunning;
+    }
 }
