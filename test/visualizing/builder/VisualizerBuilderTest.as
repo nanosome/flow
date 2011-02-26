@@ -70,12 +70,10 @@ internal class ActivePassiveMapping extends VisualMappingBuilder
 
     override protected function registerAnimators():void
     {
-        forProperty("alpha").
-            ofInstance(_icon).
-            useAnimator(NumericPropertyAnimator);
-        forProperty("color").
-            ofInstance(_backgroundAcc).
-            useAnimator(NumericPropertyAnimator);
+        animate("alpha").ofInstance(_icon).
+            by(NumericPropertyAnimator);
+        animate("color").ofInstance(_backgroundAcc).
+            by(NumericPropertyAnimator);
     }
 
     override protected function defineStatesAndTransitions(state:State, transition:Transition):void
@@ -98,13 +96,12 @@ internal class ActivePassiveMapping extends VisualMappingBuilder
             break;
 
             case _.fromOveredToNormal:
-                ease(_icon).by(Linear.easeIn, 500);
+                ease(_icon, "alpha").by(Linear.easeIn, 500);
                 ease(_backgroundAcc).by(Linear.easeIn, 300);
             break;
 
             case _.fromOveredToPressed:
-                ease(_icon).by(Linear.easeIn, 500);
-                ease(_backgroundAcc).by(Linear.easeIn, 300);
+                ease(_icon).and(_backgroundAcc).by(Linear.easeIn, 500);
             break;
 
             case _.pressed:
@@ -113,7 +110,7 @@ internal class ActivePassiveMapping extends VisualMappingBuilder
             break;
 
             case _.fromPressedToOvered:
-                ease(_icon, _backgroundAcc).by(Linear.easeIn, 500);
+                ease(_icon, "alpha").and(_backgroundAcc, "color").by(Linear.easeIn, 500);
             break;
 
             case _.fromPressedToPressedOutside:

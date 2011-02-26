@@ -16,24 +16,22 @@ package nanosome.flow.visualizing.builders
     {
         protected var __smBuilder:StateMachineBuilder;
 
-        private var _namesMappings:Dictionary;
-        private var _easingMappings:Vector.<EasingMappingBuilder>;
-        private var _animatorMappings:Vector.<PropertyAnimatorMappingBuilder>;
+        private var __namesMappings:Dictionary;
 
-        private var _currentState:State;
-        private var _currentTransition:Transition;
+        private var __visualMappingsStorage:VisualMappingsStorage;
 
-        //XXX: I guess we have to instantiate Animators or Visualizers (or both?) here and map em to names too for later use.
+        private var __currentState:State;
+        private var __currentTransition:Transition;
 
         public function VisualMappingBuilder()
         {
-            _namesMappings = new Dictionary();
-            _animatorMappings = new Vector.<PropertyAnimatorMappingBuilder>();
-            _easingMappings = new Vector.<EasingMappingBuilder>();
+            __namesMappings = new Dictionary();
+
             instantiateVariables();
             identifyStateMachineBuilder();
             registerAnimators();
             _defineStatesAndTransitions();
+            validateMappings();
         }
 
         protected function getTickGenerator():ITickGenerator
@@ -48,16 +46,26 @@ package nanosome.flow.visualizing.builders
 
             var i:int;
             var k:uint;
+            var instance:Object;
             for (i = 0, k = states.length; i < k; i++)
             {
-                _currentState = states[k];
-                defineStatesAndTransitions(_currentState, null);
+                for each (instance in __namesMappings)
+                {
+                    __visualMappingsStorage.storeValuesFor(instance, __namesMappings[instance]);
+                }
+                __currentState = states[k];
+                defineStatesAndTransitions(__currentState, null);
+                for each (instance in __namesMappings)
+                {
+                    __visualMappingsStorage.compareAndMapValuesFor(instance, __namesMappings[instance], __currentState);
+                }
             }
 
             for (i = 0, k = transitions.length; i < k; i++)
             {
-                _currentTransition = transitions[k];
-                defineStatesAndTransitions(null, _currentTransition);
+                __currentTransition = transitions[k];
+                __visualMappingsStorage.setCurrentTransition(__currentTransition);
+                defineStatesAndTransitions(null, __currentTransition);
             }
         }
 
@@ -65,20 +73,30 @@ package nanosome.flow.visualizing.builders
         {
             var namesAndTypes:Vector.<Array>;
             var nameAndType:Array;
+            var name:String;
             var clazz:Class;
 
             namesAndTypes = ClassUtils.getVariablesNamesAndTypes(this);
             for each (nameAndType in namesAndTypes)
             {
-                clazz = getDefinitionByName(nameAndType[1]) as Class;
-                this[nameAndType[0]] = new clazz();
-                _namesMappings[this[nameAndType[0]]] = nameAndType[0];
+                name = nameAndType[0];
+                if (name.substr(0, 2) != "__" && !this[name])
+                {
+                    clazz = getDefinitionByName(nameAndType[1]) as Class;
+                    this[name] = new clazz();
+                    __namesMappings[this[name]] = name;
+                }
             }
+        }
+
+        private function validateMappings():void
+        {
+            // TODO: Add validation after building is complete
         }
 
         public function getNameForInstance(instance:Object):String
         {
-            return _namesMappings[instance];
+            return __namesMappings[instance];
         }
 
         private function identifyStateMachineBuilder():void
@@ -93,41 +111,23 @@ package nanosome.flow.visualizing.builders
 
         //--------------------------------------------------------------------------
         //
-        //  This methods returns corresponding builders
+        //  This methods returns mapping builder
         //
         //--------------------------------------------------------------------------
 
-        //----------------------------------
-        //  Builder for mapping animators
-        //  to properties and instances
-        //----------------------------------
 
-        protected function forProperty(propertyName:String):PropertyAnimatorMappingBuilder
+        protected function animate(propertyName:String):MappingAnimatorBuilder
         {
-            var propertyAnimatorMapper:PropertyAnimatorMappingBuilder =
-                    new PropertyAnimatorMappingBuilder(this);
-            _animatorMappings.push(propertyAnimatorMapper);
-            propertyAnimatorMapper.andProperty(propertyName);
-            return propertyAnimatorMapper;
+            var mapper:MappingAnimatorBuilder = new MappingAnimatorBuilder(this, __visualMappingsStorage);
+            mapper.andProperty(propertyName);
+            return mapper;
         }
 
-        //----------------------------------
-        //  Builder for mapping easings
-        //----------------------------------
-
-        protected function ease(...instances):EasingMappingBuilder
+        protected function ease(instance:Object, propertyName:String = ""):MappingEasingBuilder
         {
-            var easingMappingBuilder:EasingMappingBuilder = new EasingMappingBuilder();
-            var i:int;
-            var k:uint;
-            for (i = 0, k = instances.length; i < k; i++)
-            {
-                easingMappingBuilder.addInstance(instances[i]);
-            }
-            
-            _easingMappings.push(easingMappingBuilder);
-            
-            return easingMappingBuilder;
+            var mapper:MappingEasingBuilder = new MappingEasingBuilder(this, __visualMappingsStorage);
+            mapper.and(instance, propertyName);
+            return mapper;
         }
 
         //--------------------------------------------------------------------------
