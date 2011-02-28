@@ -60,8 +60,8 @@ import stateMachine.builder.TestStateMachineBuilder;
 internal class ActivePassiveMapping extends VisualMappingBuilder
 {
     protected var _:TestStateMachineBuilder;
-    protected var _icon:Sprite;
-    protected var _backgroundAcc:TestBackgroundColorAccessor;
+    public var _icon:Sprite;
+    public var _backgroundAcc:TestBackgroundColorAccessor;
 
     override protected function getTickGenerator():ITickGenerator
     {

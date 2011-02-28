@@ -61,6 +61,12 @@ package nanosome.flow.visualizing.builders
             return _mappings[key];
         }
 
+        internal function hasMapping(instanceName:String, propertyName:String):Boolean
+        {
+             var key:String = instanceName + "." + propertyName;
+            return _mappings[key];
+        }
+
         private function getAllRegisteredPropertiesFor(instanceName:String):Vector.<String>
         {
             return _instances[instanceName];
@@ -75,26 +81,33 @@ package nanosome.flow.visualizing.builders
         {
             _currentValues = new Dictionary();
             var props:Vector.<String> = getAllRegisteredPropertiesFor(instanceName);
-            var i:int;
-            var k:uint;
-            for (i = 0, k < props.length; i < k; i++)
+            if (props)
             {
-                _currentValues[instanceName + "." + props[i]] = instance[props[i]];
+                var i:int;
+                var k:uint;
+
+                for (i = 0, k < props.length; i < k; i++)
+                {
+                    _currentValues[instanceName + "." + props[i]] = instance[props[i]];
+                }
             }
         }
 
         internal function compareAndMapValuesFor(instance:Object, instanceName:String, state:State):void
         {
             var props:Vector.<String> = getAllRegisteredPropertiesFor(instanceName);
-            var i:int;
-            var k:uint;
-            var value:*;
-            for (i = 0, k < props.length; i < k; i++)
+            if (props)
             {
-                value = instance[props[i]];
-                if (value != _currentValues[instanceName + "." + props[i]])
+                var i:int;
+                var k:uint;
+                var value:*;
+                for (i = 0, k < props.length; i < k; i++)
                 {
-                    getMapping(instanceName,  props[i]).mapValue(state, value);
+                    value = instance[props[i]];
+                    if (value != _currentValues[instanceName + "." + props[i]] && hasMapping(instanceName,  props[i]))
+                    {
+                        getMapping(instanceName,  props[i]).mapValue(state, value);
+                    }
                 }
             }
         }

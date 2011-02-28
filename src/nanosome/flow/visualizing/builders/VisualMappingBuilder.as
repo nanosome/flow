@@ -10,22 +10,28 @@ package nanosome.flow.visualizing.builders
     import nanosome.flow.visualizing.ticking.FrameTickGenerator;
     import nanosome.flow.visualizing.ticking.ITickGenerator;
 
-    // VisualMappingBuilder is supposed to be overriden by internal classes to map values of object properties
-    // to StateMachine states, and easings of object properties to StateMachine transitions.
+    /**
+     * VisualMappingBuilder is supposed to be overriden by internal classes to map values of object properties
+     * to StateMachine states, and easings of object properties to StateMachine transitions.
+     *
+     * Public properties of child class will be attempted to auto-instantiate, so use other
+     * scope (like protected) to avoid it.
+     */
     public class VisualMappingBuilder implements IInstanceNameResolver
     {
-        protected var __smBuilder:StateMachineBuilder;
+        protected var _smBuilder:StateMachineBuilder;
 
-        private var __namesMappings:Dictionary;
+        protected var _namesMappings:Dictionary;
 
-        private var __visualMappingsStorage:VisualMappingsStorage;
+        private var _visualMappingsStorage:VisualMappingsStorage;
 
-        private var __currentState:State;
-        private var __currentTransition:Transition;
+        private var _currentState:State;
+        private var _currentTransition:Transition;
 
         public function VisualMappingBuilder()
         {
-            __namesMappings = new Dictionary();
+            _visualMappingsStorage = new VisualMappingsStorage();
+            _namesMappings = new Dictionary();
 
             instantiateVariables();
             identifyStateMachineBuilder();
@@ -41,50 +47,52 @@ package nanosome.flow.visualizing.builders
 
         private function _defineStatesAndTransitions():void
         {
-            var states:Vector.<State> = __smBuilder.getStateMachine().states;
-            var transitions:Vector.<Transition> = __smBuilder.getStateMachine().transitions;
+            var states:Vector.<State> = _smBuilder.getStateMachine().states;
+            var transitions:Vector.<Transition> = _smBuilder.getStateMachine().transitions;
 
             var i:int;
             var k:uint;
             var instance:Object;
             for (i = 0, k = states.length; i < k; i++)
             {
-                for each (instance in __namesMappings)
+                for (instance in _namesMappings)
                 {
-                    __visualMappingsStorage.storeValuesFor(instance, __namesMappings[instance]);
+                    _visualMappingsStorage.storeValuesFor(instance, _namesMappings[instance]);
                 }
-                __currentState = states[k];
-                defineStatesAndTransitions(__currentState, null);
-                for each (instance in __namesMappings)
+                _currentState = states[i];
+                defineStatesAndTransitions(_currentState, null);
+                for (instance in _namesMappings)
                 {
-                    __visualMappingsStorage.compareAndMapValuesFor(instance, __namesMappings[instance], __currentState);
+                    _visualMappingsStorage.compareAndMapValuesFor(instance, _namesMappings[instance], _currentState);
                 }
             }
 
             for (i = 0, k = transitions.length; i < k; i++)
             {
-                __currentTransition = transitions[k];
-                __visualMappingsStorage.setCurrentTransition(__currentTransition);
-                defineStatesAndTransitions(null, __currentTransition);
+                _currentTransition = transitions[i];
+                _visualMappingsStorage.setCurrentTransition(_currentTransition);
+                defineStatesAndTransitions(null, _currentTransition);
             }
         }
 
         private function instantiateVariables():void
         {
             var namesAndTypes:Vector.<Array>;
-            var nameAndType:Array;
             var name:String;
             var clazz:Class;
+            var i:int;
+            var k:uint;
 
             namesAndTypes = ClassUtils.getVariablesNamesAndTypes(this);
-            for each (nameAndType in namesAndTypes)
+            for (i = 0, k = namesAndTypes.length; i < k; i++)
             {
-                name = nameAndType[0];
-                if (name.substr(0, 2) != "__" && !this[name])
+                name = namesAndTypes[i][0];
+                if (!this[name])
                 {
-                    clazz = getDefinitionByName(nameAndType[1]) as Class;
+                    clazz = getDefinitionByName(namesAndTypes[i][1]) as Class;
                     this[name] = new clazz();
-                    __namesMappings[this[name]] = name;
+                    if (!(this[name] is StateMachineBuilder))
+                        _namesMappings[this[name]] = name;
                 }
             }
         }
@@ -96,17 +104,19 @@ package nanosome.flow.visualizing.builders
 
         public function getNameForInstance(instance:Object):String
         {
-            return __namesMappings[instance];
+            return _namesMappings[instance];
         }
 
         private function identifyStateMachineBuilder():void
         {
             var stateMachineVars:Vector.<String> = ClassUtils.getVariablesOfTypeOrInherited(this, StateMachineBuilder);
 
-            if (stateMachineVars.length > 0)
+            if (stateMachineVars.length > 1)
                 throw new Error("Only one StateMachineBuilder per VisualMappingBuilder allowed");
+            else if (stateMachineVars.length == 0)
+                throw new Error("We need at least one StateMachineBuilder per VisualMappingBuilder");
 
-            __smBuilder = this[stateMachineVars[0]];
+            _smBuilder = this[stateMachineVars[0]];
         }
 
         //--------------------------------------------------------------------------
@@ -118,14 +128,14 @@ package nanosome.flow.visualizing.builders
 
         protected function animate(propertyName:String):MappingAnimatorBuilder
         {
-            var mapper:MappingAnimatorBuilder = new MappingAnimatorBuilder(this, __visualMappingsStorage);
+            var mapper:MappingAnimatorBuilder = new MappingAnimatorBuilder(this, _visualMappingsStorage);
             mapper.andProperty(propertyName);
             return mapper;
         }
 
         protected function ease(instance:Object, propertyName:String = ""):MappingEasingBuilder
         {
-            var mapper:MappingEasingBuilder = new MappingEasingBuilder(this, __visualMappingsStorage);
+            var mapper:MappingEasingBuilder = new MappingEasingBuilder(this, _visualMappingsStorage);
             mapper.and(instance, propertyName);
             return mapper;
         }
