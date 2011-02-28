@@ -13,21 +13,21 @@ package nanosome.flow.visualizing.builders
         private var _animatorClasses:Dictionary;
         private var _currentValues:Dictionary;
 
-        private var _instances:Dictionary;
+        private var _instanceProps:Dictionary;
 
         public function VisualMappingsStorage()
         {
             _mappings = new Dictionary();
             _animatorClasses = new Dictionary();
-            _instances = new Dictionary();
+            _instanceProps = new Dictionary();
         }
 
         public function registerAnimator(instanceName:String, propertyName:String, animatorClass:Class):void
         {
-            if (!_instances[instanceName])
-                _instances[instanceName] = new Vector.<String>();
+            if (!_instanceProps[instanceName])
+                _instanceProps[instanceName] = new Vector.<String>();
 
-            var instance:Vector.<String> = _instances[instanceName];
+            var instance:Vector.<String> = _instanceProps[instanceName];
 
             if (instance.indexOf(propertyName) < 0)
                 instance.push(propertyName);
@@ -60,7 +60,7 @@ package nanosome.flow.visualizing.builders
 
         private function getAllRegisteredPropertiesFor(instanceName:String):Vector.<String>
         {
-            return _instances[instanceName];
+            return _instanceProps[instanceName];
         }
         
         internal function storeValuesFor(instance:Object, instanceName:String):void
