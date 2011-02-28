@@ -5,6 +5,8 @@ package
     import animators.CrossfadeShaderAnimatorTest;
     import animators.NumericAnimatorTest;
 
+    import nanosome.flow.visualizing.builders.VisualMappingsStorageTest;
+
     import visualizing.AnimationMappingTest;
     import visualizing.VisualizerTest;
     import visualizing.builder.VisualMappingBuilderTest;
@@ -14,6 +16,7 @@ package
     [RunWith("org.flexunit.runners.Suite")]
     public class VisualBuildersTestsSuite
     {
-        public var t1:VisualMappingBuilderTest;
+        public var t1:VisualMappingsStorageTest;
+        public var t2:VisualMappingBuilderTest;
     }
 }

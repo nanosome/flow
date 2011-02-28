@@ -87,30 +87,35 @@ package nanosome.flow.visualizing
             var stateObj:Object;
             for (stateObj in targetValues)
             {
-                if (targetValues[stateObj] !== _values[stateObj])
+                if (targetValues[stateObj] != _values[stateObj])
                     return false
             }
 
             var transitionObj:Object;
             for (transitionObj in targetEasings)
             {
-                if (targetEasings[transitionObj] !== _easings[transitionObj])
+                if (!areTimedEasingsEqual(targetEasings[transitionObj], _easings[transitionObj]))
                     return false
             }
 
             for (stateObj in _values)
             {
-                if (_values[stateObj] !== targetValues[stateObj])
+                if (_values[stateObj] != targetValues[stateObj])
                     return false
             }
 
             for (transitionObj in _easings)
             {
-                if (_easings[transitionObj] !== targetEasings[transitionObj])
+                if (!areTimedEasingsEqual(_easings[transitionObj], targetEasings[transitionObj]))
                     return false
             }
 
             return true;
+        }
+
+        private function areTimedEasingsEqual(easingOne:TimedEasing, easingTwo:TimedEasing):Boolean
+        {
+            return (easingOne._duration == easingTwo.duration && easingOne._easing  == easingTwo._easing);
         }
     }
 }

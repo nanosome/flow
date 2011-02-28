@@ -22,8 +22,7 @@ package nanosome.flow.visualizing.builders
         protected var _smBuilder:StateMachineBuilder;
 
         protected var _namesMappings:Dictionary;
-
-        private var _visualMappingsStorage:VisualMappingsStorage;
+        protected var _visualMappingsStorage:VisualMappingsStorage;
 
         private var _currentState:State;
         private var _currentTransition:Transition;
@@ -70,7 +69,6 @@ package nanosome.flow.visualizing.builders
             for (i = 0, k = transitions.length; i < k; i++)
             {
                 _currentTransition = transitions[i];
-                _visualMappingsStorage.setCurrentTransition(_currentTransition);
                 defineStatesAndTransitions(null, _currentTransition);
             }
         }
@@ -135,7 +133,7 @@ package nanosome.flow.visualizing.builders
 
         protected function ease(instance:Object, propertyName:String = ""):MappingEasingBuilder
         {
-            var mapper:MappingEasingBuilder = new MappingEasingBuilder(this, _visualMappingsStorage);
+            var mapper:MappingEasingBuilder = new MappingEasingBuilder(this, _visualMappingsStorage, _currentTransition);
             mapper.and(instance, propertyName);
             return mapper;
         }

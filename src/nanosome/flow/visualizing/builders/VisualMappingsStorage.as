@@ -15,8 +15,6 @@ package nanosome.flow.visualizing.builders
 
         private var _instances:Dictionary;
 
-        private var _currentTransition:Transition;
-
         public function VisualMappingsStorage()
         {
             _mappings = new Dictionary();
@@ -34,10 +32,12 @@ package nanosome.flow.visualizing.builders
             if (instance.indexOf(propertyName) < 0)
                 instance.push(propertyName);
 
-            _animatorClasses[instanceName + "." + propertyName] = animatorClass;
+            var key:String = instanceName + "." + propertyName;
+            _animatorClasses[key] = animatorClass;
+            _mappings[key] = new AnimationMapping();
         }
 
-        public function registerEasing(instanceName:String, propertyName:String, timedEasing:TimedEasing):void
+        public function registerEasing(instanceName:String, propertyName:String, transition:Transition, timedEasing:TimedEasing):void
         {
             if (propertyName == "")
             {
@@ -46,37 +46,23 @@ package nanosome.flow.visualizing.builders
                 var k:uint;
                 for (i = 0, k = properties.length; i < k; i++)
                 {
-                    registerEasing(instanceName, properties[i], timedEasing);
+                    registerEasing(instanceName, properties[i], transition, timedEasing);
                 }
                 return;
             }
-            getMapping(instanceName, propertyName).mapTransition(_currentTransition, timedEasing);
+            AnimationMapping(_mappings[instanceName + "." + propertyName]).mapTransition(transition, timedEasing);
         }
 
         internal function getMapping(instanceName:String, propertyName:String):AnimationMapping
         {
-             var key:String = instanceName + "." + propertyName;
-            if (!_mappings[key])
-                _mappings[key] = new AnimationMapping();
-            return _mappings[key];
-        }
-
-        internal function hasMapping(instanceName:String, propertyName:String):Boolean
-        {
-             var key:String = instanceName + "." + propertyName;
-            return _mappings[key];
+            return _mappings[instanceName + "." + propertyName];
         }
 
         private function getAllRegisteredPropertiesFor(instanceName:String):Vector.<String>
         {
             return _instances[instanceName];
         }
-
-        internal function setCurrentTransition(transition:Transition):void
-        {
-            _currentTransition = transition;
-        }
-
+        
         internal function storeValuesFor(instance:Object, instanceName:String):void
         {
             _currentValues = new Dictionary();
@@ -86,7 +72,7 @@ package nanosome.flow.visualizing.builders
                 var i:int;
                 var k:uint;
 
-                for (i = 0, k < props.length; i < k; i++)
+                for (i = 0, k = props.length; i < k; i++)
                 {
                     _currentValues[instanceName + "." + props[i]] = instance[props[i]];
                 }
@@ -101,13 +87,14 @@ package nanosome.flow.visualizing.builders
                 var i:int;
                 var k:uint;
                 var value:*;
-                for (i = 0, k < props.length; i < k; i++)
+                var key:String;
+
+                for (i = 0, k = props.length; i < k; i++)
                 {
                     value = instance[props[i]];
-                    if (value != _currentValues[instanceName + "." + props[i]] && hasMapping(instanceName,  props[i]))
-                    {
-                        getMapping(instanceName,  props[i]).mapValue(state, value);
-                    }
+                    key = instanceName + "." + props[i];
+                    if (value != _currentValues[key] && _mappings[key])
+                        AnimationMapping(_mappings[key]).mapValue(state, value);
                 }
             }
         }
