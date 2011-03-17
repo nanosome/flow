@@ -72,7 +72,7 @@ package nanosome.flow.visualizing
         {
             var isReversing:Boolean = ( _prevTransition &&
                 transition.source == _prevTransition.target &&
-                transition.target == _prevTransition.source
+                transition.target == _prevTransition.source && _animator
             );
 
             if (!_animator)
