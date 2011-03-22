@@ -1,42 +1,49 @@
 package visualizing.builder
 {
-    import mx.effects.easing.Linear;
-    import mx.effects.easing.Quadratic;
-
-    import nanosome.flow.visualizing.TimedEasing;
-
-
-    import nanosome.flow.visualizing.builders.VisualMappingBuilder;
+    import misc.ButtonSignals;
 
     import org.flexunit.Assert;
 
-    import visualizing.builder.stateMachinesConfig.ActivePassiveSignals;
-    import visualizing.builder.stateMachinesConfig.NormalOveredSignals;
-    import visualizing.builder.stateMachinesConfig.TestActivePassiveSM;
-    import visualizing.builder.stateMachinesConfig.TestNormalOveredSM;
-    import visualizing.builder.stateMachinesConfig.TestVisualizersSMBuildersFactory;
-
-    public class VisualizerBuilderTest
+    // TODO: Finish FlowBuilderTest
+    public class FlowBuilderTest
     {
-        private static var _normalOvered:TestNormalOveredSM;
-        private static var _activePassive:TestActivePassiveSM;
+        private static var _flow:ActivePassiveFlow;
 
-        private static var _tickGenerator:TestingTickGenerator;
+        public var _backgroundAcc:Object;
+        public var _icon:Object;
 
         [BeforeClass]
-        public static function createBuildersAndStateMachines():void
+        public static function InstantiateFlow():void
         {
-            var repository:TestVisualizersSMBuildersFactory;
-            repository = new TestVisualizersSMBuildersFactory();
-            _normalOvered = repository.testNormalOveredSMBuilder;
-            _activePassive = repository.testActivePassiveSMBuilder;
+            _flow = new ActivePassiveFlow();
+        }
 
-            _tickGenerator = new TestingTickGenerator();
+        [Before]
+        public function createObjects():void
+        {
+            _backgroundAcc = {color: 0x00000};
+            _icon = {alpha: 1};
+        }
+
+        [Test]
+        public function isFlowInstantiated():void
+        {
+            Assert.assertNotNull(_flow);
+        }
+
+        [Test]
+        public function isErrorThrownOnAbsentInstances():void
+        {
+            Assert.assertNotNull(_backgroundAcc);
+            Assert.assertNotNull(_flow);
+            
+            var signals:ButtonSignals = _flow.getSignals();
+
+            _flow.visualize(this, signals);
         }
 
     }
 }
-
 
 
 //--------------------------------------------------------------------------
@@ -47,25 +54,32 @@ package visualizing.builder
 
 import flash.display.Sprite;
 
+import misc.ButtonSignals;
+
 import mx.effects.easing.Linear;
 
 import nanosome.flow.stateMachine.State;
 import nanosome.flow.stateMachine.Transition;
 
 import nanosome.flow.visualizing.animators.NumericPropertyAnimator;
-import nanosome.flow.visualizing.builders.VisualMappingBuilder;
+import nanosome.flow.visualizing.builders.FlowBuilder;
 
 import stateMachine.builder.TestStateMachineBuilder;
 
-internal class ActivePassiveMapping extends VisualMappingBuilder
+internal class ActivePassiveFlow extends FlowBuilder
 {
-    protected var _:TestStateMachineBuilder;
+    public var _:TestStateMachineBuilder; // all of these members should be public to be discoverable
     public var _icon:Sprite;
-    public var _backgroundAcc:TestBackgroundColorAccessor;
+    public var _backgroundAcc:Object;
 
     override protected function getTickGenerator():ITickGenerator
     {
         return new TestingTickGenerator();
+    }
+
+    public function getSignals():ButtonSignals
+    {
+        return _.getNewSignalsSet();
     }
 
     override protected function registerAnimators():void

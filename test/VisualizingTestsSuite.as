@@ -7,7 +7,7 @@ package
 
     import visualizing.AnimationMappingTest;
     import visualizing.VisualizerTest;
-    import visualizing.builder.VisualizerBuilderTest;
+    import visualizing.builder.FlowBuilderTest;
 
     [Suite]
     [RunWith("org.flexunit.runners.Suite")]

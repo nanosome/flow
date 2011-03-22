@@ -8,7 +8,7 @@ package nanosome.flow.visualizing
     import nanosome.flow.visualizing.ticking.ITickGenerator;
     import nanosome.flow.visualizing.ticking.TickGeneratorEvent;
 
-    public class Visualizer
+    public class TargetPropertyVisualizer
     {
         private var _animator:BaseAnimator;
         private var _AnimatorClass:Class;
@@ -26,7 +26,7 @@ package nanosome.flow.visualizing
         //
         //--------------------------------------------------------------------------
 
-        public function Visualizer(mapping:AnimationMapping, animatorClass:Class, target:Object, propertyName:String)
+        public function TargetPropertyVisualizer(mapping:AnimationMapping, animatorClass:Class, target:Object, propertyName:String)
         {
             _mapping = mapping;
             _target = target;

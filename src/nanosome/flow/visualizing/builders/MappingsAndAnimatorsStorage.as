@@ -7,7 +7,7 @@ package nanosome.flow.visualizing.builders
     import nanosome.flow.visualizing.AnimationMapping;
     import nanosome.flow.visualizing.TimedEasing;
 
-    public class VisualMappingsStorage implements IAnimatorRegistrator, IEasingRegistrator
+    public class MappingsAndAnimatorsStorage implements IAnimatorRegistrator, IEasingRegistrator
     {
         private var _mappings:Dictionary;
         private var _animatorClasses:Dictionary;
@@ -15,7 +15,7 @@ package nanosome.flow.visualizing.builders
 
         private var _instanceProps:Dictionary;
 
-        public function VisualMappingsStorage()
+        public function MappingsAndAnimatorsStorage()
         {
             _mappings = new Dictionary();
             _animatorClasses = new Dictionary();
@@ -58,7 +58,12 @@ package nanosome.flow.visualizing.builders
             return _mappings[instanceName + "." + propertyName];
         }
 
-        private function getAllRegisteredPropertiesFor(instanceName:String):Vector.<String>
+        internal function getAnimatorClass(instanceName:String, propertyName:String):Class
+        {
+            return _animatorClasses[instanceName + "." + propertyName];
+        }
+
+        internal function getAllRegisteredPropertiesFor(instanceName:String):Vector.<String>
         {
             return _instanceProps[instanceName];
         }

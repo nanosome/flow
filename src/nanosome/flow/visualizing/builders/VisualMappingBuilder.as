@@ -22,14 +22,14 @@ package nanosome.flow.visualizing.builders
         protected var _smBuilder:StateMachineBuilder;
 
         protected var _namesMappings:Dictionary;
-        protected var _visualMappingsStorage:VisualMappingsStorage;
+        protected var _mappingsAndAnimatorsStorage:MappingsAndAnimatorsStorage;
 
         private var _currentState:State;
         private var _currentTransition:Transition;
 
         public function VisualMappingBuilder()
         {
-            _visualMappingsStorage = new VisualMappingsStorage();
+            _mappingsAndAnimatorsStorage = new MappingsAndAnimatorsStorage();
             _namesMappings = new Dictionary();
 
             instantiateVariables();
@@ -56,13 +56,13 @@ package nanosome.flow.visualizing.builders
             {
                 for (instance in _namesMappings)
                 {
-                    _visualMappingsStorage.storeValuesFor(instance, _namesMappings[instance]);
+                    _mappingsAndAnimatorsStorage.storeValuesFor(instance, _namesMappings[instance]);
                 }
                 _currentState = states[i];
                 defineStatesAndTransitions(_currentState, null);
                 for (instance in _namesMappings)
                 {
-                    _visualMappingsStorage.compareAndMapValuesFor(instance, _namesMappings[instance], _currentState);
+                    _mappingsAndAnimatorsStorage.compareAndMapValuesFor(instance, _namesMappings[instance], _currentState);
                 }
             }
 
@@ -126,14 +126,14 @@ package nanosome.flow.visualizing.builders
 
         protected function animate(propertyName:String):MappingAnimatorBuilder
         {
-            var mapper:MappingAnimatorBuilder = new MappingAnimatorBuilder(this, _visualMappingsStorage);
+            var mapper:MappingAnimatorBuilder = new MappingAnimatorBuilder(this, _mappingsAndAnimatorsStorage);
             mapper.andProperty(propertyName);
             return mapper;
         }
 
         protected function ease(instance:Object, propertyName:String = ""):MappingEasingBuilder
         {
-            var mapper:MappingEasingBuilder = new MappingEasingBuilder(this, _visualMappingsStorage, _currentTransition);
+            var mapper:MappingEasingBuilder = new MappingEasingBuilder(this, _mappingsAndAnimatorsStorage, _currentTransition);
             mapper.and(instance, propertyName);
             return mapper;
         }

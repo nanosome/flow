@@ -6,7 +6,7 @@ package visualizing
     import nanosome.flow.visualizing.TimedEasing;
     import nanosome.flow.visualizing.AnimationMapping;
 
-    import nanosome.flow.visualizing.Visualizer;
+    import nanosome.flow.visualizing.TargetPropertyVisualizer;
 
     import nanosome.flow.visualizing.animators.NumericPropertyAnimator;
 
@@ -64,7 +64,7 @@ package visualizing
         public function areValuesChangingOnTicking():void
         {
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            var alphaVisualizer:Visualizer = new Visualizer(
+            var alphaVisualizer:TargetPropertyVisualizer = new TargetPropertyVisualizer(
                     _alphaMapping, NumericPropertyAnimator,
                     _visualizerTarget, "alpha"
             );
@@ -120,13 +120,13 @@ package visualizing
             betaMapping.mapValue(_.overed, 90);
 
             var tickGenerator:TestingTickGenerator = new TestingTickGenerator();
-            var alphaVisualizer:Visualizer = new Visualizer(
+            var alphaVisualizer:TargetPropertyVisualizer = new TargetPropertyVisualizer(
                 _alphaMapping, NumericPropertyAnimator,
                 _visualizerTarget, "alpha"
             );
             alphaVisualizer.setCustomTickGenerator(tickGenerator);
 
-            var betaVisualizer:Visualizer = new Visualizer(
+            var betaVisualizer:TargetPropertyVisualizer = new TargetPropertyVisualizer(
                 betaMapping, NumericPropertyAnimator,
                 _visualizerTarget, "beta"
             );

@@ -10,7 +10,7 @@ package
     import visualizing.AnimationMappingTest;
     import visualizing.VisualizerTest;
     import visualizing.builder.VisualMappingBuilderTest;
-    import visualizing.builder.VisualizerBuilderTest;
+    import visualizing.builder.FlowBuilderTest;
 
     [Suite]
     [RunWith("org.flexunit.runners.Suite")]
@@ -18,5 +18,6 @@ package
     {
         public var t1:VisualMappingsStorageTest;
         public var t2:VisualMappingBuilderTest;
+        public var t3:FlowBuilderTest;
     }
 }

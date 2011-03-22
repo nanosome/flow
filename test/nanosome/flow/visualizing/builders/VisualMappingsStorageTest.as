@@ -7,7 +7,7 @@ package nanosome.flow.visualizing.builders
     import nanosome.flow.visualizing.AnimationMapping;
     import nanosome.flow.visualizing.TimedEasing;
     import nanosome.flow.visualizing.animators.NumericPropertyAnimator;
-    import nanosome.flow.visualizing.builders.VisualMappingsStorage;
+    import nanosome.flow.visualizing.builders.MappingsAndAnimatorsStorage;
 
     import org.flexunit.Assert;
 
@@ -17,7 +17,7 @@ package nanosome.flow.visualizing.builders
         [Test]
         public function checkMappingsRegistration():void
         {
-            var storage:VisualMappingsStorage = new VisualMappingsStorage();
+            var storage:MappingsAndAnimatorsStorage = new MappingsAndAnimatorsStorage();
 
             storage.registerAnimator("_sprite", "x", NumericPropertyAnimator);
             storage.registerAnimator("_sprite", "y", NumericPropertyAnimator);
@@ -45,7 +45,7 @@ package nanosome.flow.visualizing.builders
             var stateNormal:State = new State("normal");
             var stateOvered:State = new State("overed");
 
-            var storage:VisualMappingsStorage = new VisualMappingsStorage();
+            var storage:MappingsAndAnimatorsStorage = new MappingsAndAnimatorsStorage();
 
             storage.registerAnimator("_sprite", "x", NumericPropertyAnimator);
 
@@ -72,7 +72,7 @@ package nanosome.flow.visualizing.builders
             var _:TestStateMachineBuilder = new TestStateMachineBuilder();
             var _sprite:Object = new Object();
 
-            var storage:VisualMappingsStorage = new VisualMappingsStorage();
+            var storage:MappingsAndAnimatorsStorage = new MappingsAndAnimatorsStorage();
 
             storage.registerAnimator("_sprite", "x", NumericPropertyAnimator);
             
@@ -94,7 +94,7 @@ package nanosome.flow.visualizing.builders
             var _:TestStateMachineBuilder = new TestStateMachineBuilder();
             var _sprite:Object = new Object();
 
-            var storage:VisualMappingsStorage = new VisualMappingsStorage();
+            var storage:MappingsAndAnimatorsStorage = new MappingsAndAnimatorsStorage();
 
             storage.registerAnimator("_sprite", "x", NumericPropertyAnimator);
             storage.registerAnimator("_sprite", "y", NumericPropertyAnimator);

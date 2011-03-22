@@ -12,10 +12,10 @@ package nanosome.flow.visualizing
      * to signals by immediately switching states (transitions has zero duration),
      * and visualizer performs switching in steps (whatever time or frame based).
      */
-    public class VisualizerManager extends StateMachineProcessor
+    public class TargetPropertyVisualizerManager extends StateMachineProcessor
     {
 
-        private var _visualizers:Vector.<Visualizer>;
+        private var _propertyVisualizers:Vector.<TargetPropertyVisualizer>;
 
         //--------------------------------------------------------------------------
         //
@@ -23,10 +23,10 @@ package nanosome.flow.visualizing
         //
         //--------------------------------------------------------------------------
 
-        public function VisualizerManager(stateMachine:StateMachine, signals:AbstractSignalSet)
+        public function TargetPropertyVisualizerManager(stateMachine:StateMachine, signals:AbstractSignalSet)
         {
             super(stateMachine, signals);
-            _visualizers = new Vector.<Visualizer>();
+            _propertyVisualizers = new Vector.<TargetPropertyVisualizer>();
 
             // instead of overriding protected method handling transitions, just add
             // event listener to ourselves - it will allow us easily decouple (if needed)
@@ -35,16 +35,16 @@ package nanosome.flow.visualizing
         }
 
 
-        public function addVisualizer(visualizer:Visualizer):void
+        public function addTargetPropertyVisualizer(visualizer:TargetPropertyVisualizer):void
         {
-            _visualizers.push(visualizer);
+            _propertyVisualizers.push(visualizer);
             visualizer.setInitialState(_currentState);
         }
 
         private function onStateChanged(event:StateMachineProcessorEvent):void
         {
-            var v:Visualizer;
-            for each (v in _visualizers)
+            var v:TargetPropertyVisualizer;
+            for each (v in _propertyVisualizers)
             {
                 v.setTransition(event.transition);
             }
