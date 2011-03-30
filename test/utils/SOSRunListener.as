@@ -1,8 +1,11 @@
 package utils
 {
     import org.as3commons.logging.ILogger;
+    import org.as3commons.logging.LOGGER_FACTORY;
     import org.as3commons.logging.getLogger;
 
+    import org.as3commons.logging.setup.SimpleTargetSetup;
+    import org.as3commons.logging.setup.target.SOSTarget;
     import org.flexunit.reporting.FailureFormatter;
     import org.flexunit.runner.IDescription;
     import org.flexunit.runner.Result;
@@ -16,7 +19,7 @@ package utils
      */
     public class SOSRunListener extends RunListener 
     {
-        private static const _logger: ILogger = getLogger( SOSRunListener );
+        private static var _logger:ILogger;
 
         private var _logger:ILogger;
         
@@ -25,6 +28,8 @@ package utils
          */
         public function SOSRunListener() 
         {
+            LOGGER_FACTORY.setup = new SimpleTargetSetup( new SOSTarget() );
+            _logger = getLogger( SOSRunListener );
             super();
         }
 
