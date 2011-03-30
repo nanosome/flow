@@ -2,8 +2,6 @@ package nanosome.flow.visualizing.animators.base
 {
     import flash.events.EventDispatcher;
 
-    import mx.effects.easing.Linear;
-
     import nanosome.flow.visualizing.TimedEasing;
 
     public class BaseAnimator extends EventDispatcher
@@ -47,7 +45,12 @@ package nanosome.flow.visualizing.animators.base
         {
             // we have to mimic switching because some transformations (like shaders)
             // may require both inputs
-            switchTo(Linear.easeIn, 1, startValue, startValue);
+            switchTo(linearEasing, 1, startValue, startValue);
+        }
+
+        private function linearEasing(t:Number, b:Number, c:Number, d:Number):Number
+        {
+            return c * t / d + b;
         }
 
         public function switchTo(easing:Function, duration:Number, newStartValue:*, newEndValue:*):void
