@@ -1,3 +1,4 @@
+// @license@
 package nanosome.flow.utils
 {
     import flash.utils.describeType;

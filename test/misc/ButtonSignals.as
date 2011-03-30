@@ -1,7 +1,5 @@
 package misc
 {
-    import flash.events.EventDispatcher;
-
     import nanosome.flow.signals.AbstractSignalSet;
     import nanosome.flow.signals.Signal;
 

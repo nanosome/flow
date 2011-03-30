@@ -1,0 +1,20 @@
+<overviews>
+	<all-packages>
+		<description><![CDATA[
+			<div id="shortIntroduction">
+				<p>
+					Description...
+				</p>
+			</div> 
+		]]></description>
+	</all-packages>
+	<packages>
+		<package name="nanosome.flow" >
+			<shortDescription><![CDATA[
+				package description
+			]]></shortDescription>
+			<description><![CDATA[
+			]]></description>
+		</package>
+	</packages>
+</overviews>

@@ -1,3 +1,4 @@
+// @license@
 package nanosome.flow.visualizing.animators
 {
     import flash.display.BitmapData;

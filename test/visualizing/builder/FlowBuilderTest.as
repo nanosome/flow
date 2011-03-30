@@ -66,6 +66,7 @@ import nanosome.flow.visualizing.animators.NumericPropertyAnimator;
 import nanosome.flow.visualizing.builders.FlowBuilder;
 
 import stateMachine.builder.TestStateMachineBuilder;
+import nanosome.flow.visualizing.ticking.ITickGenerator;
 
 internal class ActivePassiveFlow extends FlowBuilder
 {
@@ -168,7 +169,6 @@ internal class TestBackgroundColorAccessor
 
 import flash.events.EventDispatcher;
 
-import nanosome.flow.visualizing.ticking.ITickGenerator;
 import nanosome.flow.visualizing.ticking.TickGeneratorEvent;
 
 internal class TestingTickGenerator extends EventDispatcher implements ITickGenerator

@@ -1,3 +1,4 @@
+// @license@
 package nanosome.flow.stateMachine.builder
 {
     import nanosome.flow.signals.Signal;

@@ -1,10 +1,13 @@
+// @license@
 package nanosome.flow.visualizing.animators.base
 {
     import nanosome.flow.visualizing.TimedEasing;
     
     public class NumericAnimator extends BaseAnimator
     {
-        protected var _deltaValue:Number;
+        protected var _deltaValue : Number;
+
+        public function NumericAnimator() {}
 
         override protected function compare(comparingFirstValue:*, comparingSecondValue: *):int
         {

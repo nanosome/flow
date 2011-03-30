@@ -9,9 +9,11 @@ package nanosome.flow.stateMachine
     *  
     *  @author dimitri.fedorov
     */
-    public class Transition
-    { 
-         /**
+    public class Transition {
+        
+        public function Transition() {}
+        
+        /**
          * @private
          * Holds source state.
          */

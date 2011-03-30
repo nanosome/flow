@@ -1,3 +1,4 @@
+// @license@
 package nanosome.flow.visualizing.animators
 {
     import nanosome.flow.visualizing.animators.base.NumericAnimator;
@@ -5,7 +6,9 @@ package nanosome.flow.visualizing.animators
     public class NumericPropertyAnimator extends NumericAnimator implements IPropertyAnimator
     {
         protected var _target:*;
-        protected var _property:String;
+        protected var _property : String;
+
+        public function NumericPropertyAnimator() {}
 
         public function setTargetAndProperty(target:*, property:String):void
         {

@@ -1,3 +1,4 @@
+// @license@
 package nanosome.flow.signals
 {
     import flash.events.Event;

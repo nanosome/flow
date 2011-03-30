@@ -1,3 +1,4 @@
+// @license@
 package nanosome.flow.visualizing.animators.base
 {
     import flash.events.EventDispatcher;

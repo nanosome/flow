@@ -1,3 +1,4 @@
+// @license@
 package nanosome.flow.stateMachine.processor
 {
     import flash.events.Event;

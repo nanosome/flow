@@ -17,19 +17,14 @@ package utils
      * 
      * @author dimitri.fedorov
      */
-    public class SOSRunListener extends RunListener 
+    public class AS3CommonsRunListener extends RunListener 
     {
-        private static var _logger:ILogger;
-
-        private var _logger:ILogger;
+        private static var _logger: ILogger = getLogger( AS3CommonsRunListener );
         
         /**
          * Constructor.
          */
-        public function SOSRunListener() 
-        {
-            LOGGER_FACTORY.setup = new SimpleTargetSetup( new SOSTarget() );
-            _logger = getLogger( SOSRunListener );
+        public function AS3CommonsRunListener() {
             super();
         }
 
