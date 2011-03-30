@@ -1,8 +1,8 @@
 package utils
 {
-    import net.antistatic.logging.LogFactory;
-    import net.antistatic.logging.ILogger;
-    
+    import org.as3commons.logging.ILogger;
+    import org.as3commons.logging.getLogger;
+
     import org.flexunit.reporting.FailureFormatter;
     import org.flexunit.runner.IDescription;
     import org.flexunit.runner.Result;
@@ -16,6 +16,7 @@ package utils
      */
     public class SOSRunListener extends RunListener 
     {
+        private static const _logger: ILogger = getLogger( SOSRunListener );
 
         private var _logger:ILogger;
         
@@ -24,7 +25,6 @@ package utils
          */
         public function SOSRunListener() 
         {
-            _logger = LogFactory.getLogger("FlexUnit");
             super();
         }
 

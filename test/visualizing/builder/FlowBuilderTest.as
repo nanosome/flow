@@ -22,8 +22,9 @@ package visualizing.builder
         public function createObjects():void
         {
             _backgroundAcc = {color: 0x00000};
-            _icon = {alpha: 1};
+            // _icon = {alpha: 1};
         }
+
 
         [Test]
         public function isFlowInstantiated():void
@@ -31,7 +32,7 @@ package visualizing.builder
             Assert.assertNotNull(_flow);
         }
 
-        [Test]
+        [Test(expects="Error")]
         public function isErrorThrownOnAbsentInstances():void
         {
             Assert.assertNotNull(_backgroundAcc);
