@@ -2,6 +2,7 @@ package nanosome.flow.visualizing.builders
 {
     import flash.utils.Dictionary;
 
+    import nanosome.flow.ICloneable;
     import nanosome.flow.stateMachine.State;
     import nanosome.flow.stateMachine.Transition;
     import nanosome.flow.visualizing.AnimationMapping;
@@ -9,9 +10,9 @@ package nanosome.flow.visualizing.builders
 
     public class MappingsAndAnimatorsStorage implements IAnimatorRegistrator, IEasingRegistrator
     {
-        private var _mappings:Dictionary;
-        private var _animatorClasses:Dictionary;
-        private var _currentValues:Dictionary;
+        protected var _mappings:Dictionary;
+        protected var _animatorClasses:Dictionary;
+        protected var _currentValues:Dictionary;
 
         private var _instanceProps:Dictionary;
 
@@ -79,7 +80,10 @@ package nanosome.flow.visualizing.builders
 
                 for (i = 0, k = props.length; i < k; i++)
                 {
-                    _currentValues[instanceName + "." + props[i]] = instance[props[i]];
+                    if (instance[props[i]] is ICloneable)
+                        _currentValues[instanceName + "." + props[i]] = ICloneable(instance[props[i]]).clone();
+                    else
+                        _currentValues[instanceName + "." + props[i]] = instance[props[i]];
                 }
             }
         }

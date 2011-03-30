@@ -8,10 +8,8 @@ package nanosome.flow.visualizing
 
     public class AnimationMapping
     {
-        private var _values:Dictionary;
-        private var _easings:Dictionary;
-
-        private var _states:Array;
+        internal var _values:Dictionary;
+        internal var _easings:Dictionary;
         
         //--------------------------------------------------------------------------
         //
@@ -21,14 +19,12 @@ package nanosome.flow.visualizing
 
         public function AnimationMapping()
         {
-            _states = [];
             _values = new Dictionary();
             _easings = new Dictionary();
         }
 
         public function mapValue(state:State, value:*):void
         {
-            _states.push(state);
             _values[state] = value;
         }
 
@@ -67,7 +63,6 @@ package nanosome.flow.visualizing
             return res;
         }
 
-
         internal function getEasingForTransition(transition:Transition):TimedEasing
         {
             return _easings[transition];
@@ -75,47 +70,7 @@ package nanosome.flow.visualizing
 
         internal function getValueForState(state:State):*
         {
-            var res:* = _values[state];
             return _values[state];
-        }
-
-        public function hasIdenticalMappingsWith(target:AnimationMapping):Boolean
-        {
-            var targetValues:Dictionary = target._values;
-            var targetEasings:Dictionary = target._easings;
-
-            var stateObj:Object;
-            for (stateObj in targetValues)
-            {
-                if (targetValues[stateObj] != _values[stateObj])
-                    return false
-            }
-
-            var transitionObj:Object;
-            for (transitionObj in targetEasings)
-            {
-                if (!areTimedEasingsEqual(targetEasings[transitionObj], _easings[transitionObj]))
-                    return false
-            }
-
-            for (stateObj in _values)
-            {
-                if (_values[stateObj] != targetValues[stateObj])
-                    return false
-            }
-
-            for (transitionObj in _easings)
-            {
-                if (!areTimedEasingsEqual(_easings[transitionObj], targetEasings[transitionObj]))
-                    return false
-            }
-
-            return true;
-        }
-
-        private function areTimedEasingsEqual(easingOne:TimedEasing, easingTwo:TimedEasing):Boolean
-        {
-            return (easingOne._duration == easingTwo.duration && easingOne._easing  == easingTwo._easing);
         }
     }
 }

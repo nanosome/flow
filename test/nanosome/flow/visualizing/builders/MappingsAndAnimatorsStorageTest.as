@@ -3,18 +3,18 @@ package nanosome.flow.visualizing.builders
     import easing.Linear;
 
     import nanosome.flow.stateMachine.State;
-    import nanosome.flow.visualizing.AnimationMapping;
+    import nanosome.flow.visualizing.AnimationMappingDecorator;
     import nanosome.flow.visualizing.TimedEasing;
     import nanosome.flow.visualizing.animators.NumericPropertyAnimator;
 
     import org.flexunit.Assert;
 
-    public class VisualMappingsStorageTest
+    public class MappingsAndAnimatorsStorageTest
     {
         [Test]
         public function checkMappingsRegistration():void
         {
-            var storage:MappingsAndAnimatorsStorage = new MappingsAndAnimatorsStorage();
+            var storage:MappingsAndAnimatorsStorageDecorator = new MappingsAndAnimatorsStorageDecorator();
 
             storage.registerAnimator("_sprite", "x", NumericPropertyAnimator);
             storage.registerAnimator("_sprite", "y", NumericPropertyAnimator);
@@ -36,13 +36,13 @@ package nanosome.flow.visualizing.builders
         }
 
         [Test]
-        public function checkValuesMapping():void
+        public function checkPrimitiveValuesMapping():void
         {
             var _sprite:Object = new Object();
             var stateNormal:State = new State("normal");
             var stateOvered:State = new State("overed");
 
-            var storage:MappingsAndAnimatorsStorage = new MappingsAndAnimatorsStorage();
+            var storage:MappingsAndAnimatorsStorageDecorator = new MappingsAndAnimatorsStorageDecorator();
 
             storage.registerAnimator("_sprite", "x", NumericPropertyAnimator);
 
@@ -54,12 +54,40 @@ package nanosome.flow.visualizing.builders
             _sprite.x = 10;
             storage.compareAndMapValuesFor(_sprite, "_sprite", stateOvered);
 
-            var mapping:AnimationMapping = new AnimationMapping();
+            var mapping:AnimationMappingDecorator = new AnimationMappingDecorator();
             mapping.mapValue(stateNormal, 15);
             mapping.mapValue(stateOvered, 10);
 
             Assert.assertTrue(
-                mapping.hasIdenticalMappingsWith(storage.getMapping("_sprite", "x"))
+                mapping.hasIdenticalMappingsWith(AnimationMappingDecorator(storage.getMapping("_sprite", "x")))
+            );
+        }
+
+        [Test]
+        public function checkComplexValuesMapping():void
+        {
+            var _sprite:Object = new Object();
+            var stateNormal:State = new State("normal");
+            var stateOvered:State = new State("overed");
+
+            var storage:MappingsAndAnimatorsStorageDecorator = new MappingsAndAnimatorsStorageDecorator();
+
+            storage.registerAnimator("_sprite", "complexProperty", NumericPropertyAnimator);
+
+            storage.storeValuesFor(_sprite, "_sprite");
+            _sprite.complexProperty = new ComplexCloneableProperty(1, "first");
+            storage.compareAndMapValuesFor(_sprite, "_sprite", stateNormal);
+
+            storage.storeValuesFor(_sprite, "_sprite");
+            _sprite.complexProperty = new ComplexCloneableProperty(2, "second");
+            storage.compareAndMapValuesFor(_sprite, "_sprite", stateOvered);
+
+            var mapping:AnimationMappingDecorator = new AnimationMappingDecorator();
+            mapping.mapValue(stateNormal, new ComplexCloneableProperty(1, "first"));
+            mapping.mapValue(stateOvered, new ComplexCloneableProperty(2, "second"));
+
+            Assert.assertTrue(
+                mapping.hasIdenticalMappingsWith(AnimationMappingDecorator(storage.getMapping("_sprite", "complexProperty")))
             );
         }
 
@@ -69,19 +97,19 @@ package nanosome.flow.visualizing.builders
             var _:TestStateMachineBuilder = new TestStateMachineBuilder();
             var _sprite:Object = new Object();
 
-            var storage:MappingsAndAnimatorsStorage = new MappingsAndAnimatorsStorage();
+            var storage:MappingsAndAnimatorsStorageDecorator = new MappingsAndAnimatorsStorageDecorator();
 
             storage.registerAnimator("_sprite", "x", NumericPropertyAnimator);
             
             storage.registerEasing("_sprite", "x", _.fromNormalToOvered, new TimedEasing(Linear.easeIn, 200));
             storage.registerEasing("_sprite", "x", _.fromOveredToNormal, new TimedEasing(Linear.easeOut, 400));
 
-            var mapping:AnimationMapping = new AnimationMapping();
+            var mapping:AnimationMappingDecorator = new AnimationMappingDecorator();
             mapping.mapTransition(_.fromNormalToOvered, new TimedEasing(Linear.easeIn, 200));
             mapping.mapTransition(_.fromOveredToNormal, new TimedEasing(Linear.easeOut, 400));
 
             Assert.assertTrue(
-                mapping.hasIdenticalMappingsWith(storage.getMapping("_sprite", "x"))
+                mapping.hasIdenticalMappingsWith(AnimationMappingDecorator(storage.getMapping("_sprite", "x")))
             );
         }
 
@@ -91,7 +119,7 @@ package nanosome.flow.visualizing.builders
             var _:TestStateMachineBuilder = new TestStateMachineBuilder();
             var _sprite:Object = new Object();
 
-            var storage:MappingsAndAnimatorsStorage = new MappingsAndAnimatorsStorage();
+            var storage:MappingsAndAnimatorsStorageDecorator = new MappingsAndAnimatorsStorageDecorator();
 
             storage.registerAnimator("_sprite", "x", NumericPropertyAnimator);
             storage.registerAnimator("_sprite", "y", NumericPropertyAnimator);
@@ -99,16 +127,16 @@ package nanosome.flow.visualizing.builders
             storage.registerEasing("_sprite", "", _.fromNormalToOvered, new TimedEasing(Linear.easeIn, 200));
             storage.registerEasing("_sprite", "", _.fromOveredToNormal, new TimedEasing(Linear.easeOut, 400));
 
-            var mapping:AnimationMapping = new AnimationMapping();
+            var mapping:AnimationMappingDecorator = new AnimationMappingDecorator();
             mapping.mapTransition(_.fromNormalToOvered, new TimedEasing(Linear.easeIn, 200));
             mapping.mapTransition(_.fromOveredToNormal, new TimedEasing(Linear.easeOut, 400));
 
             Assert.assertTrue(
-                mapping.hasIdenticalMappingsWith(storage.getMapping("_sprite", "x"))
+                mapping.hasIdenticalMappingsWith(AnimationMappingDecorator(storage.getMapping("_sprite", "x")))
             );
 
             Assert.assertTrue(
-                mapping.hasIdenticalMappingsWith(storage.getMapping("_sprite", "y"))
+                mapping.hasIdenticalMappingsWith(AnimationMappingDecorator(storage.getMapping("_sprite", "y")))
             );
         }
     }
