@@ -1,16 +1,13 @@
 package nanosome.flow.visualizing.builders
 {
-    import mx.effects.easing.Linear;
+    import easing.Linear;
 
     import nanosome.flow.stateMachine.State;
-    import nanosome.flow.stateMachine.Transition;
     import nanosome.flow.visualizing.AnimationMapping;
     import nanosome.flow.visualizing.TimedEasing;
     import nanosome.flow.visualizing.animators.NumericPropertyAnimator;
-    import nanosome.flow.visualizing.builders.MappingsAndAnimatorsStorage;
 
     import org.flexunit.Assert;
-
 
     public class VisualMappingsStorageTest
     {

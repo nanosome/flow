@@ -1,7 +1,7 @@
 package visualizing
 {
-    import mx.effects.easing.Linear;
-    import mx.effects.easing.Quadratic;
+    import easing.Linear;
+    import easing.Quadratic;
 
     import nanosome.flow.visualizing.TimedEasing;
     import nanosome.flow.stateMachine.State;

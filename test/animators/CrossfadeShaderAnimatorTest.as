@@ -5,7 +5,7 @@ package animators
 
     import flash.events.Event;
 
-    import mx.effects.easing.Linear;
+    import easing.Linear;
 
     import nanosome.flow.visualizing.animators.CrossfadeShaderAnimator;
 

@@ -57,7 +57,7 @@ import flash.display.Sprite;
 
 import misc.ButtonSignals;
 
-import mx.effects.easing.Linear;
+import easing.Linear;
 
 import nanosome.flow.stateMachine.State;
 import nanosome.flow.stateMachine.Transition;

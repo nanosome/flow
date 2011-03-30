@@ -1,7 +1,7 @@
 package animators
 {
-    import mx.effects.easing.Exponential;
-    import mx.effects.easing.Linear;
+    import easing.Exponential;
+    import easing.Linear;
 
     import nanosome.flow.visualizing.animators.base.ColorAnimator;
 

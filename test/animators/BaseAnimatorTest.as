@@ -1,7 +1,5 @@
 package animators
 {
-
-    import mx.effects.easing.Linear;
     import org.flexunit.Assert;
 
     public class BaseAnimatorTest

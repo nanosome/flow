@@ -50,7 +50,7 @@ package visualizing.builder
 
 import flash.display.Sprite;
 
-import mx.effects.easing.Linear;
+import easing.Linear;
 
 import nanosome.flow.stateMachine.State;
 import nanosome.flow.stateMachine.Transition;

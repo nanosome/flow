@@ -1,7 +1,7 @@
 package animators
 {
-    import mx.effects.easing.Exponential;
-    import mx.effects.easing.Linear;
+    import easing.Exponential;
+    import easing.Linear;
 
     import org.flexunit.Assert;
 
