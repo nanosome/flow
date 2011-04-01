@@ -12,7 +12,7 @@ package nanosome.flow.visualizing.builders
     public class MappingsAndAnimatorsStorageTest
     {
         [Test]
-        public function checkMappingsRegistration():void
+        public function areAnimatorMappingsRegisteredInStorage():void
         {
             var storage:MappingsAndAnimatorsStorageDecorator = new MappingsAndAnimatorsStorageDecorator();
 
@@ -36,7 +36,7 @@ package nanosome.flow.visualizing.builders
         }
 
         [Test]
-        public function checkPrimitiveValuesMapping():void
+        public function arePrimitiveValuesMapping():void
         {
             var _sprite:Object = new Object();
             var stateNormal:State = new State("normal");
@@ -64,7 +64,7 @@ package nanosome.flow.visualizing.builders
         }
 
         [Test]
-        public function checkComplexValuesMapping():void
+        public function areComplexValuesMapping():void
         {
             var _sprite:Object = new Object();
             var stateNormal:State = new State("normal");

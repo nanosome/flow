@@ -2,6 +2,7 @@ package nanosome.flow.visualizing
 {
     import flash.utils.Dictionary;
     import nanosome.flow.IComparable;
+    import nanosome.flow.stateMachine.Transition;
 
     public class AnimationMappingDecorator extends AnimationMapping
     {
@@ -58,6 +59,11 @@ package nanosome.flow.visualizing
         private function areTimedEasingsEqual(easingOne:TimedEasing, easingTwo:TimedEasing):Boolean
         {
             return (easingOne._duration == easingTwo.duration && easingOne._easing  == easingTwo._easing);
+        }
+
+        public function publicGetEasingForTransition(transition:Transition):TimedEasing
+        {
+            return getEasingForTransition(transition);
         }
     }
 }
