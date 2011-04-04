@@ -46,20 +46,14 @@ package nanosome.flow.signals
         {
             var stateClassName:String = getQualifiedClassName(Signal);
             var typeDesc:XML = describeType(this);
-
             var vars:XMLList = typeDesc.child("variable");
-
-            var typeAttr:String;
             var nameAttr:String;
 
             for each (var item:XML in vars)
             {
-                typeAttr = item.attribute("type");
                 nameAttr = item.attribute("name");
 
-                if (this[nameAttr] != null)
-                    continue;  // check another name, if this property with this name is already instantiated
-                else if (typeAttr == stateClassName)
+                if (this[nameAttr] == null && item.attribute("type") == stateClassName)
                     this[nameAttr] = new Signal(SIGNAL_ID_PREFIX + nameAttr, this);
             }
         }
