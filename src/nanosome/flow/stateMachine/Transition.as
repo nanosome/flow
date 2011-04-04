@@ -2,13 +2,14 @@
 package nanosome.flow.stateMachine
 {
     /**
-    *  Transition class for StateMachine, storing source and target states.
-    *  
-    *  @see StateMachine
-    *  @see State
-    *  
-    *  @author dimitri.fedorov
-    */
+     * Transition class for <code>StateMachine</code>.
+     * <code>Transition</code> consists of source and target states.
+     *
+     * @see StateMachine
+     * @see State
+     *
+     * @author dimitri.fedorov
+     */
     public class Transition
     {
         /**

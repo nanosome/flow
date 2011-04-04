@@ -48,10 +48,10 @@ package nanosome.flow.stateMachine.processor
         
         protected function handle(eventCode:String):Boolean
         {
-            if (!_stateMachine.hasTransitionFromStateForForEvent(_currentState, eventCode))
+            if (!_stateMachine.hasTransitionFromStateForSignal(_currentState, eventCode))
                 return false;
 
-            var transition:Transition = _stateMachine.getTransitionFromStateForEvent(_currentState,eventCode);
+            var transition:Transition = _stateMachine.getTransitionFromStateForSignal(_currentState,eventCode);
             var oldState:State = _currentState;
             _currentState = transition.target;
             dispatchEvent(new StateMachineProcessorEvent(oldState, transition));

@@ -4,12 +4,14 @@ package nanosome.flow.stateMachine
     import flash.utils.Dictionary;
 
     /**
-     *  State object for the StateMachine class.
+     *  State object for <code>StateMachine</code> class.
      *  Each <code>State</code> instance contains list of adjacent transitions,
      *  therefore each <code>State</code> object is stateful and unique.
      *  Please pay attention to it.
      *  
      *  @see StateMachine
+     *  @see Transition
+     *
      *  @author dimitri.fedorov
      */
     public class State
@@ -33,8 +35,8 @@ package nanosome.flow.stateMachine
         //--------------------------------------------------------------------------
         
         /**
-         *  Constructor
-         *  @param id id for this state.
+         *  Constructor.
+         *  @param id Unique id for this state.
          */    
         public function State(id:String)
         {
@@ -43,6 +45,7 @@ package nanosome.flow.stateMachine
         }
 
         /**
+         * Unique ID for this state.
          * @return id ID for this state.
          */
         public function get id():String
@@ -57,12 +60,10 @@ package nanosome.flow.stateMachine
         //--------------------------------------------------------------------------
             
         /**
-         *  Returns <code>Transition</code>, associated with specified <code>signalID</code>.
+         *  Returns <code>Transition</code> associated with specified signal id.
          *
          *  @param signalID id for the <code>Signal</code> to be checked with.
-         *  @return Transition object.
-         *  
-         *  @see Transition
+         *  @return <code>Transition</code> object.
          */        
         internal function transitionForSignal(signalID:String):Transition
         {
@@ -70,12 +71,10 @@ package nanosome.flow.stateMachine
         }
         
         /**
-         *  Performs check if this <code>State</code> has transition for specified signalID.
+         *  Performs check if this <code>State</code> has transition for specified signal id.
          *
          *  @param signalID id for the signal to be checked with.
          *  @return True, if transition for given signal id exists, false otherwise.
-         *  
-         *  @see Transition
          */        
         internal function hasTransitionForSignal(signalID:String):Boolean
         {
@@ -83,7 +82,7 @@ package nanosome.flow.stateMachine
         }
         
         /**
-         *  Creates new transition and adds it for this State.
+         *  Creates new transition and adds it to this State.
          *
          *  @param signalID id of the <code>Signal</code> which should trigger transition.
          *  @param targetState Target <code>State</code> for the transition
@@ -97,7 +96,7 @@ package nanosome.flow.stateMachine
         }
 
         /**
-         *  Defines already existing <code>Transition</code> and adds it for this <code>State</code>.
+         *  Defines already existing <code>Transition</code> and adds it to this <code>State</code>.
          *
          *  @param transition <code>Transition</code> object to be defined.
          *  @param signalID id for the signal to trigger this transition.
@@ -124,7 +123,7 @@ package nanosome.flow.stateMachine
         //--------------------------------------------------------------------------
 
         /**
-         * Utility getter, sweeps all transitions and collects all related target states.
+         * Contains all target states for this state.
          * 
          * @return Vector of State objects
          */
@@ -146,9 +145,9 @@ package nanosome.flow.stateMachine
         }
 
         /**
-         * Utility getter, returns all transitions for this <code>State</code>.
+         * Contains all transitions for this state (where this state is the source state).
          *
-         * @return Vector of State objects
+         * @return Vector of Transition objects
          */
         internal function get transitions():Vector.<Transition>
         {

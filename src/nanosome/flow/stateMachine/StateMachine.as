@@ -2,33 +2,34 @@
 package nanosome.flow.stateMachine
 {
     /**
-     * StateMachine class contains only configured initial <code>State</code> and some methods to work with it.
+     * Due to implementation specific, <code>StateMachine</code> class consists
+     * only of configured initial <code>State</code> and some methods to work with it.
      * Please note <code>State</code> objects in this implementation are stateful.
      */
     public class StateMachine
     {
         /**
          * @private
-         * Holds configured initial <code>State<code> object
+         * Holds configured initial <code>State<code> object.
          */
         private var _initialState:State;
 
         /**
          * @private
-         * Holds a cache of collected <code>State<code> objects in this state machine
+         * Holds a cache of collected <code>State<code> objects in this state machine.
          */
         private var _statesCache:Vector.<State>;
 
         /**
          * @private
-         * Holds a cache of collected <code>Transition<code> objects in this state machine
+         * Holds a cache of collected <code>Transition<code> objects in this state machine.
          */
         private var _transitionsCache:Vector.<Transition>;
 
         /**
-         * Constructor
+         * Constructor.
          *  
-         * @param initialState Initial state to start with
+         * @param initialState Initial state to start with.
          */
         public function StateMachine(initialState:State)
         {
@@ -36,7 +37,8 @@ package nanosome.flow.stateMachine
         }
 
         /**
-         * @return Initial state for this state machine
+         * Returns initial state for this state machine.
+         * @return Initial <code>State</code>.
          */
         public function getInitialState():State
         {
@@ -50,53 +52,55 @@ package nanosome.flow.stateMachine
         //--------------------------------------------------------------------------
 
         /**
-         * Checks if there is transition in this state machine for <code>state</code> on <code>signal</code>.
+         * Checks if there is transition in this state machine for <code>state</code>
+         * triggered by <code>Signal</code> with specified id.
          *
-         * @param state State to be checked for transition
-         * @param signal Signal <code>state</code> will be checked with
-         * @return True, if transition exists in this state machine for specified state an signal, false otherwise.
+         * @param state State to be checked for transition.
+         * @param signalID Signal id for specified <code>state</code>.
+         * @return True, if transition exists, false otherwise.
          */
-        public function hasTransitionFromStateForForEvent(state:State, signal:String):Boolean
+        public function hasTransitionFromStateForSignal(state:State, signalID:String):Boolean
         {
-            return state.hasTransitionForSignal(signal);
+            return state.hasTransitionForSignal(signalID);
         }
 
         /**
-         * Returns transition for <code>state</code> of this state machine triggered by <code>signal</code>.
+         * Returns transition for <code>state</code> of this state machine
+         * triggered by <code>Signal</code> with specified id.
          *
-         * @param state State to be retrieved transition from
-         * @param signal Signal for transition
-         * @return Transition for <code>state</code> triggered by <code>signal</code>
+         * @param state State to be retrieved transition from.
+         * @param signalID Signal id triggering transition.
+         * @return Transition for <code>state</code> triggered by <code>signal</code> with id <code>signalID</code>.
          */
-        public function getTransitionFromStateForEvent(state:State, signal:String):Transition
+        public function getTransitionFromStateForSignal(state:State, signalID:String):Transition
         {
-            return state.transitionForSignal(signal);
+            return state.transitionForSignal(signalID);
         }
 
         /**
          * Adds new transition to this state machine.
          *
-         * @param source Source state
-         * @param signal Signal triggering this transition
-         * @param target Target state
+         * @param source Source state.
+         * @param signalID Signal id triggering this transition.
+         * @param target Target state.
          * @return New <code>Transition</code>
          */
-        public function addTransition(source:State, signal:String, target:State):Transition
+        public function addTransition(source:State, signalID:String, target:State):Transition
         {
-            return source.addTransition(signal, target);
+            return source.addTransition(signalID, target);
         }
 
         /**
-         * Defines or redefines already existing transition in this state machine.
+         * Defines or redefines already existing transition for this state machine.
          *
-         * @param transition Existing transition to be redefined
-         * @param source Source state
-         * @param signal Signal triggering transition
-         * @param target Target state
+         * @param transition Existing transition to be redefined.
+         * @param source Source state.
+         * @param signalID Signal id triggering transition.
+         * @param target Target state.
          */
-        public function defineTransition(transition:Transition, source:State, signal:String, target:State):void
+        public function defineTransition(transition:Transition, source:State, signalID:String, target:State):void
         {
-            source.defineTransition(transition, signal, target);
+            source.defineTransition(transition, signalID, target);
         }
 
         //--------------------------------------------------------------------------
@@ -106,8 +110,8 @@ package nanosome.flow.stateMachine
         //--------------------------------------------------------------------------
         
         /**
-         * Utility method, returning all states found in this StateMachine.
-         * Uses cache variable <code>_statesCache</code> to speed up the process.
+         * Contains all states found in this <code>StateMachine</code>.
+         * Uses internal caching mechanism to speed up the process.
          * 
          * @return Vector of <code>State</code> objects
          */
@@ -123,7 +127,7 @@ package nanosome.flow.stateMachine
         /**
          * Recursively collect all related states from <code>state</code> and adds them to <code>result</code>.
          * 
-         * @param result Vector.<State> with target states of <code>state</code>
+         * @param result Vector.<State> with target states of <code>state</code>.
          * @param state State to collect target states from.
          */
         private function collectStates(result:Vector.<State>, state:State):void
@@ -143,10 +147,10 @@ package nanosome.flow.stateMachine
         }
         
         /**
-         * Utility method, returning all transitions found in this StateMachine.
-         * Uses cache variable <code>_transitionsCache</code> to speed up the process.
+         * Contains all transitions found in this <code>StateMachine</code>.
+         * Uses internal caching mechanism to speed up the process.
          *
-         * @return Vector of Transition objects
+         * @return Vector of Transition objects.
          */
         public function get transitions():Vector.<Transition>
         {
