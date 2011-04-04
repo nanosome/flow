@@ -6,31 +6,42 @@ package nanosome.flow.signals
     import flash.utils.getQualifiedClassName;
 
     /**
-     * There is some concerns regarding signals:
-     * 1) circular referencing (passing to each signal its parent)
-     * 2) Necessity to instantiate a set of signals for each state machine
-     * processor may lead to excessive memory consuming.
+     * This class is used as a builder, like other builders in Flow.
+     * And, like other builders, it is supposed to be overriden and its using
+     * implicit instantiation:
      *
-     * First issue seems to be minor one, as signals now are handled together
-     * with their parent sets, and should be garbage collected properly even with flash
-     * garbage collector.
+     * <listing version="3">
+     * package signals
+     * {
+     *     import nanosome.flow.signals.AbstractSignalSet;
+     *     import nanosome.flow.signals.Signal;
      *
-     * Second issue may be serious enough, although it require testing,
-     * how much is used, how fast/slow it is, etc. For now, I'll leave
-     * it as is for the sake of being short and already working, but its
-     * the first candidate to review/rewrite, after flow is done and running.
+     *     public class TestSignalsSet extends AbstractSignalSet
+     *     {
+     *         public var signalA:Signal;
+     *         public var signalB:Signal;
+     *     }
+     * }
+     * </listing>
      *
-     * -df
+     * @author df
      */
     public class AbstractSignalSet extends EventDispatcher
     {
         public static const SIGNAL_ID_PREFIX:String = "signal.";
 
+        /**
+         * This constructor shouldn't be overriden and even used in any way. See usage example.
+         */
         public function AbstractSignalSet()
         {
             initiateSignals();
         }
 
+        /**
+         * This method runs through public properties of the class and auto-instantiates
+         * those of Signal type.
+         */
         private function initiateSignals():void
         {
             var stateClassName:String = getQualifiedClassName(Signal);
@@ -46,17 +57,21 @@ package nanosome.flow.signals
                 typeAttr = item.attribute("type");
                 nameAttr = item.attribute("name");
 
-                if (this[nameAttr] != null) // exit, if this member already exists
-                    return;
-
+                if (this[nameAttr] != null)
+                    continue;  // check another name, if this property with this name is already instantiated
                 else if (typeAttr == stateClassName)
                     this[nameAttr] = new Signal(SIGNAL_ID_PREFIX + nameAttr, this);
             }
         }
 
-        public function fireSignal(signal:Signal):void
+        /**
+         * This method is invoked by one of auto-instantiated children (<code>Signal</code> class)
+         * to notify <code>AbstracSignalSet</code>.
+         * @param signal
+         */
+        internal function fireSignal(signal:Signal):void
         {
-            dispatchEvent(new SignalEvent(signal));
+            dispatchEvent(new SignalEvent(signal.id));
         }
     }
 }

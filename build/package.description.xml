@@ -1,20 +1,45 @@
 <overviews>
-	<all-packages>
-		<description><![CDATA[
-			<div id="shortIntroduction">
-				<p>
-					Description...
-				</p>
-			</div> 
-		]]></description>
-	</all-packages>
-	<packages>
-		<package name="nanosome.flow" >
-			<shortDescription><![CDATA[
-				package description
-			]]></shortDescription>
-			<description><![CDATA[
-			]]></description>
-		</package>
-	</packages>
+    <all-packages>
+        <description><![CDATA[
+            <div id="shortIntroduction">
+                <p>
+                    Description...
+                </p>
+            </div> 
+        ]]></description>
+    </all-packages>
+    <packages>
+        <package name="nanosome.flow" >
+            <shortDescription><![CDATA[
+                package description
+            ]]></shortDescription>
+            <description><![CDATA[
+            ]]></description>
+        </package>
+        <package name="nanosome.flow.signals" >
+            <shortDescription><![CDATA[
+                    This layer provides basic messaging throughout flow package. It is not supposed to be very important
+                    and those wanting to replace it with their own solution are encouraged to do so.
+            ]]></shortDescription>
+            <description><![CDATA[
+                &lt;p&gt;
+                This layer provides basic messaging throughout flow package. It is not supposed to be very important
+                and those wanting to replace it with their own solution are encouraged to do so.
+                &lt;/p&gt;&lt;p&gt;
+                Right now there is some concerns regarding signals:
+                &lt;ul&gt;
+                    &lt;li&gt;Circular referencing (passing to each signal its parent&lt;/li&gt;
+                    &lt;li&gt;Necessity to instantiate a set of signals for each state machine processor may lead to excessive memory consuming&lt;/li&gt;
+                &lt;/ul&gt;
+                &lt;/p&gt;&lt;p&gt;
+                First issue seems to be minor one, as signals now are handled together with their parent sets,
+                and should be garbage collected properly even with flash garbage collector.
+                &lt;/p&gt;&lt;p&gt;
+                Second issue may be serious enough, although it require testing, how much is used, how fast it is, etc.
+                For now, I'll leave it as is for the sake of being short and already working, but signals layer
+                is the candidate for reviewing/rewriting, after flow is done and running.
+                &lt;/p&gt;
+            ]]></description>
+        </package>
+    </packages>
 </overviews>
