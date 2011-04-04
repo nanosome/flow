@@ -2,7 +2,7 @@
 package nanosome.flow.stateMachine.processor
 {
 
-    import nanosome.flow.stateMachine.*;
+    import nanosome.flow.stateMachine.StateMachine;
     import flash.events.EventDispatcher;
 
     import nanosome.flow.stateMachine.State;

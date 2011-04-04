@@ -1,6 +1,6 @@
 package stateMachine.builder
 {
-    import nanosome.flow.stateMachine.builder.StateMachineBuildersFactory;
+    import nanosome.flow.stateMachine.builders.StateMachineBuildersFactory;
 
     /**
      * Each StateMachineBuilder should be created / configured only once.

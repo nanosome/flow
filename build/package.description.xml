@@ -3,19 +3,12 @@
         <description><![CDATA[
             <div id="shortIntroduction">
                 <p>
-                    Description...
+                    The nanosome-flow project is a system for building and processing visual state machines.
                 </p>
             </div> 
         ]]></description>
     </all-packages>
     <packages>
-        <package name="nanosome.flow" >
-            <shortDescription><![CDATA[
-                package description
-            ]]></shortDescription>
-            <description><![CDATA[
-            ]]></description>
-        </package>
         <package name="nanosome.flow.signals" >
             <shortDescription><![CDATA[
                     This layer provides basic messaging throughout flow package. It is not supposed to be very important
@@ -38,6 +31,63 @@
                 Second issue may be serious enough, although it require testing, how much is used, how fast it is, etc.
                 For now, I'll leave it as is for the sake of being short and already working, but signals layer
                 is the candidate for reviewing/rewriting, after flow is done and running.
+                &lt;/p&gt;
+            ]]></description>
+        </package>
+        <package name="nanosome.flow.stateMachine">
+            <shortDescription><![CDATA[
+                Core state machine classes.
+            ]]></shortDescription>
+            <description><![CDATA[
+                &lt;p&gt;
+                This package provides core classes for state machines. Current implementation uses <code>State</code>
+                objects as fully configured nodes with their own lists of adjacent edges, makes every instance of State unique and stateful.
+                &lt;/p&gt;&lt;p&gt;
+                As alternate approach, one may try to implement <code>StateMachine</code> with stateless states.
+                <code>StateMachine</code> class in this case will have at least two lists - one for nodes (states),
+                other for edges (transitions). This approach may be more tricky in implementation and slower
+                when searching for transitions, although with sane amount of states this should not be a problem.
+                &lt;/p&gt;
+            ]]></description>
+        </package>
+        <package name="nanosome.flow.stateMachine.builders">
+            <shortDescription><![CDATA[
+                Internal DSL builder for state machines creation.
+            ]]></shortDescription>
+            <description><![CDATA[
+                &lt;p&gt;
+                This package contains internal DSL builder classes required for state machines creation.
+                &lt;/p&gt;
+            ]]></description>
+        </package>
+        <package name="nanosome.flow.stateMachine.processor">
+            <shortDescription><![CDATA[
+                Classes for state machines processing.
+            ]]></shortDescription>
+            <description><![CDATA[
+                &lt;p&gt;
+                State machine themselves are stateless, allowing to reuse same state machine once its configured.
+                For actual use, state machine processor is required. This package contains classes for state machines processing.
+                &lt;/p&gt;
+            ]]></description>
+        </package>
+        <package name="nanosome.flow.utils">
+            <shortDescription><![CDATA[
+                Utilities used by other packages.
+            ]]></shortDescription>
+            <description><![CDATA[
+                &lt;p&gt;
+                This package contains utility classes which doesn&#39;t belong to any specific part of flow and used by other classes.
+                &lt;/p&gt;
+            ]]></description>
+        </package>
+        <package name="nanosome.flow.visualizing">
+            <shortDescription><![CDATA[
+                State machines visualization package.
+            ]]></shortDescription>
+            <description><![CDATA[
+                &lt;p&gt;
+                This package deals with state machine visualization.
                 &lt;/p&gt;
             ]]></description>
         </package>

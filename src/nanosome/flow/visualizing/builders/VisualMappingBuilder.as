@@ -5,7 +5,7 @@ package nanosome.flow.visualizing.builders
 
     import nanosome.flow.stateMachine.State;
     import nanosome.flow.stateMachine.Transition;
-    import nanosome.flow.stateMachine.builder.StateMachineBuilder;
+    import nanosome.flow.stateMachine.builders.StateMachineBuilder;
     import nanosome.flow.utils.ClassUtils;
     import nanosome.flow.visualizing.ticking.FrameTickGenerator;
     import nanosome.flow.visualizing.ticking.ITickGenerator;
@@ -119,7 +119,7 @@ package nanosome.flow.visualizing.builders
 
         //--------------------------------------------------------------------------
         //
-        //  This methods returns mapping builder
+        //  This methods returns mapping builders
         //
         //--------------------------------------------------------------------------
 

@@ -1,7 +1,7 @@
 package stateMachine.builder
 {
     import nanosome.flow.stateMachine.StateMachine;
-    import nanosome.flow.stateMachine.builder.StateMachineBuilder;
+    import nanosome.flow.stateMachine.builders.StateMachineBuilder;
     import nanosome.flow.stateMachine.State;
     import nanosome.flow.stateMachine.Transition;
 
@@ -52,7 +52,7 @@ package stateMachine.builder
                define(fromNormalToOvered).by(signals.mouseOver).
                back(fromOveredToNormal, signals.mouseOut);
 
-               also consider more straight builder;
+               also consider more straight builders;
 
                public const normal: State = createState();
                public const overed: State = createState();

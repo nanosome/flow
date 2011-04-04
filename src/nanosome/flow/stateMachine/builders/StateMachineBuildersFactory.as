@@ -1,8 +1,12 @@
 // @license@
-package nanosome.flow.stateMachine.builder
+package nanosome.flow.stateMachine.builders
 {
     import nanosome.flow.utils.ClassUtils;
 
+    /**
+     * This is a helper class, implicitly instantiating declared state machines.
+     *
+     */
     public class StateMachineBuildersFactory
     {
         public function StateMachineBuildersFactory()

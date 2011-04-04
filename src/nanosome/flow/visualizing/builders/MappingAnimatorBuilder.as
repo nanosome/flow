@@ -1,8 +1,5 @@
 package nanosome.flow.visualizing.builders
 {
-    import nanosome.flow.visualizing.TimedEasing;
-    import nanosome.flow.visualizing.builders.IInstanceNameResolver;
-
     public class MappingAnimatorBuilder
     {
         private var _propertyNames:Vector.<String>;

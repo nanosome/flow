@@ -6,7 +6,7 @@ package nanosome.flow.signals
     import flash.utils.getQualifiedClassName;
 
     /**
-     * This class is used as a builder, like other builders in Flow.
+     * This class is used as a builders, like other builders in Flow.
      * And, like other builders, it is supposed to be overriden and its using
      * implicit instantiation:
      *

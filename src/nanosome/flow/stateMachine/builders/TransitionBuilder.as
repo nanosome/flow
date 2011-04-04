@@ -1,5 +1,5 @@
 // @license@
-package nanosome.flow.stateMachine.builder
+package nanosome.flow.stateMachine.builders
 {
     import nanosome.flow.signals.Signal;
     import nanosome.flow.stateMachine.State;

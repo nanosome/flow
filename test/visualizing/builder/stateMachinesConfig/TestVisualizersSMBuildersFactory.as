@@ -1,7 +1,7 @@
 package visualizing.builder.stateMachinesConfig
 {
     import stateMachine.builder.*;
-    import nanosome.flow.stateMachine.builder.StateMachineBuildersFactory;
+    import nanosome.flow.stateMachine.builders.StateMachineBuildersFactory;
 
     import visualizing.builder.stateMachinesConfig.TestActivePassiveSM;
 

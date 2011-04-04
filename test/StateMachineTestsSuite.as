@@ -8,7 +8,7 @@ package
     [RunWith("org.flexunit.runners.Suite")]
     public class StateMachineTestsSuite
     {
-        // testing StateMachine and its builder stuff
+        // testing StateMachine and its builders stuff
         public var t1:SignalsLayerTest;
         public var t2:StateMachineTest;
         public var t3:StateMachineBuilderTest;

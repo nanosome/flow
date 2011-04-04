@@ -2,17 +2,15 @@
 package nanosome.flow.stateMachine
 {
     /**
-    *  State Transition for StateMachine
+    *  Transition class for StateMachine, storing source and target states.
     *  
     *  @see StateMachine
     *  @see State
     *  
     *  @author dimitri.fedorov
     */
-    public class Transition {
-        
-        public function Transition() {}
-        
+    public class Transition
+    {
         /**
          * @private
          * Holds source state.
@@ -31,6 +29,15 @@ package nanosome.flow.stateMachine
         //
         //--------------------------------------------------------------------------
 
+        public function Transition() {}
+
+        /**
+         * Internal method for defining transition.
+         * Delayed definition is required by DSL implementation logic.
+         *
+         * @param source Source state
+         * @param target Target state
+         */
         internal function define(source:State, target:State):void
         {
             _source = source;
@@ -38,7 +45,7 @@ package nanosome.flow.stateMachine
         }
            
         /**
-         *  Returns source state for this transition
+         *  Source state for this transition
          */    
         public function get source():State
         {
@@ -46,18 +53,26 @@ package nanosome.flow.stateMachine
         }           
            
         /**
-         *  Returns target state for this transition
+         *  Target state for this transition
          */    
         public function get target():State
         {
             return _target;
         }
 
+        /**
+         * Check if <code>Transition</code> was defined.
+         *
+         * @returns True, if this transition was defined, false otherwise.
+         */
         public function get isDefined():Boolean
         {
             return _source != null;
         }
 
+        /**
+         * Stringifier for Transition object
+         */
         public function toString():String
         {
             return "[object Transition: (sourceState: " + _source + ", targetState: " + _target + ")]";

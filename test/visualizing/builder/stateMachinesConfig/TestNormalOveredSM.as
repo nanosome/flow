@@ -1,7 +1,7 @@
 package visualizing.builder.stateMachinesConfig
 {
     import nanosome.flow.stateMachine.StateMachine;
-    import nanosome.flow.stateMachine.builder.StateMachineBuilder;
+    import nanosome.flow.stateMachine.builders.StateMachineBuilder;
     import nanosome.flow.stateMachine.State;
     import nanosome.flow.stateMachine.Transition;
 

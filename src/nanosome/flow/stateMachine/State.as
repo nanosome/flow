@@ -5,9 +5,11 @@ package nanosome.flow.stateMachine
 
     /**
      *  State object for the StateMachine class.
+     *  Each <code>State</code> instance contains list of adjacent transitions,
+     *  therefore each <code>State</code> object is stateful and unique.
+     *  Please pay attention to it.
      *  
      *  @see StateMachine
-     *  
      *  @author dimitri.fedorov
      */
     public class State
@@ -32,13 +34,17 @@ package nanosome.flow.stateMachine
         
         /**
          *  Constructor
+         *  @param id id for this state.
          */    
         public function State(id:String)
         {
             _id = id;
             _transitions = {};
         }
-        
+
+        /**
+         * @return id ID for this state.
+         */
         public function get id():String
         { 
             return _id;
@@ -51,31 +57,37 @@ package nanosome.flow.stateMachine
         //--------------------------------------------------------------------------
             
         /**
-         *  Performs check for the new transition, returns new transition, if its conditions are met.
-         *  
+         *  Returns <code>Transition</code>, associated with specified <code>signalID</code>.
+         *
+         *  @param signalID id for the <code>Signal</code> to be checked with.
          *  @return Transition object.
          *  
          *  @see Transition
          */        
-        internal function transitionForEvent(signalID:String):Transition
+        internal function transitionForSignal(signalID:String):Transition
         {
             return Transition(_transitions[signalID]);
         }
         
         /**
-         *  Performs check for transition with signalID,.
-         *  
-         *  @return True, if transition exists, false otherwise.
+         *  Performs check if this <code>State</code> has transition for specified signalID.
+         *
+         *  @param signalID id for the signal to be checked with.
+         *  @return True, if transition for given signal id exists, false otherwise.
          *  
          *  @see Transition
          */        
-        internal function hasTransitionForEvent(signalID:String):Boolean
+        internal function hasTransitionForSignal(signalID:String):Boolean
         {
             return _transitions[signalID] != null;
         }
         
         /**
-         *  Adds Transition for this State.
+         *  Creates new transition and adds it for this State.
+         *
+         *  @param signalID id of the <code>Signal</code> which should trigger transition.
+         *  @param targetState Target <code>State</code> for the transition
+         *  @return Resulting transition
          */
         internal function addTransition(signalID:String, targetState:State):Transition
         {
@@ -84,6 +96,13 @@ package nanosome.flow.stateMachine
             return t;
         }
 
+        /**
+         *  Defines already existing <code>Transition</code> and adds it for this <code>State</code>.
+         *
+         *  @param transition <code>Transition</code> object to be defined.
+         *  @param signalID id for the signal to trigger this transition.
+         *  @param targetState New <code>State</code> this transition should lead to.
+         */
         internal function defineTransition(transition:Transition, signalID:String, targetState:State):void
         {
             transition.define(this, targetState);
@@ -91,17 +110,21 @@ package nanosome.flow.stateMachine
         }
     
         /**
-         *  Stringifier for the State class
-         *  
-         *  @return String used for output.
+         *  Stringifier for the State class.
          */        
         public function toString():String
         {
             return "[object State (" + id + ")]";
         }
 
+        //--------------------------------------------------------------------------
+        //
+        //  Utility methods
+        //
+        //--------------------------------------------------------------------------
+
         /**
-         * Utility method, sweeps all transitions and collects all related targets.
+         * Utility getter, sweeps all transitions and collects all related target states.
          * 
          * @return Vector of State objects
          */
@@ -123,7 +146,7 @@ package nanosome.flow.stateMachine
         }
 
         /**
-         * Utility method, returns all transitions of this state.
+         * Utility getter, returns all transitions for this <code>State</code>.
          *
          * @return Vector of State objects
          */
