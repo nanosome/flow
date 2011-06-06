@@ -5,7 +5,8 @@ package
     public class FlowEndToEndSuite
     {
         public var s1:StateMachineTestsSuite;
-        public var s2:VisualizingTestsSuite;
-        public var s3:VisualBuildersTestsSuite;
+        public var s2:AnimatorsTestsSuite;
+        public var s3:VisualizingTestsSuite;
+        public var s4:VisualBuildersTestsSuite;
     }
 }

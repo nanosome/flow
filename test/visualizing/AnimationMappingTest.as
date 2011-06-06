@@ -7,12 +7,13 @@ package visualizing
     import nanosome.flow.stateMachine.State;
     import nanosome.flow.stateMachine.Transition;
     import nanosome.flow.visualizing.AnimationMapping;
+    import nanosome.flow.visualizing.validation.findUnmappedStates;
+    import nanosome.flow.visualizing.validation.findUnmappedTransitions;
 
     import org.flexunit.Assert;
 
     import stateMachine.builder.TestStateMachineBuilder;
     import stateMachine.builder.TestStateMachineBuildersFactory;
-
 
     public class AnimationMappingTest
     {
@@ -28,7 +29,6 @@ package visualizing
 
         private var _testMapping:AnimationMapping;
 
-
         [Before]
         public function configureVisualizerAndTarget():void
         {
@@ -37,9 +37,9 @@ package visualizing
             var inEasing:TimedEasing = new TimedEasing(Linear.easeIn, 100);
             var outEasing:TimedEasing = new TimedEasing(Quadratic.easeOut, 200);
 
-            _testMapping.mapTransition(_.fromNormalToOvered, inEasing);
-            _testMapping.mapTransition(_.fromOveredToNormal, outEasing);
-            _testMapping.mapTransition(_.fromOveredToPressed, inEasing);
+            _testMapping.mapEasing(_.fromNormalToOvered, inEasing);
+            _testMapping.mapEasing(_.fromOveredToNormal, outEasing);
+            _testMapping.mapEasing(_.fromOveredToPressed, inEasing);
             _testMapping.mapValue(_.normal, .5);
             _testMapping.mapValue(_.overed, .9);
             _testMapping.mapValue(_.pressed, .3);
@@ -52,12 +52,15 @@ package visualizing
             _testMapping = null;
         }
 
+        //----------------------------------
+        //  Check validators
+        //----------------------------------
 
         [Test]
         public function areMissingStatesDetected():void
         {
             var totalStates:Vector.<State> = _.getStateMachine().states;
-            var missingStates:Vector.<State> = _testMapping.checkMissingStates(_.getStateMachine());
+            var missingStates:Vector.<State> = findUnmappedStates(_testMapping, _.getStateMachine());
 
             Assert.assertEquals(
                 "Number of states in state machine being visualized",
@@ -75,12 +78,11 @@ package visualizing
             );
         }
 
-
         [Test]
         public function areMissingTransitionsDetected():void
         {
             var totalTransitions:Vector.<Transition> = _.getStateMachine().transitions;
-            var missingTransitions:Vector.<Transition> = _testMapping.checkMissingTransitions(_.getStateMachine());
+            var missingTransitions:Vector.<Transition> = findUnmappedTransitions(_testMapping, _.getStateMachine());
 
             Assert.assertEquals(
                 "Number of transitions in state machine being visualized",

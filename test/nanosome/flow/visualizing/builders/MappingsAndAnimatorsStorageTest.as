@@ -105,8 +105,8 @@ package nanosome.flow.visualizing.builders
             storage.registerEasing("_sprite", "x", _.fromOveredToNormal, new TimedEasing(Linear.easeOut, 400));
 
             var mapping:AnimationMappingDecorator = new AnimationMappingDecorator();
-            mapping.mapTransition(_.fromNormalToOvered, new TimedEasing(Linear.easeIn, 200));
-            mapping.mapTransition(_.fromOveredToNormal, new TimedEasing(Linear.easeOut, 400));
+            mapping.mapEasing(_.fromNormalToOvered, new TimedEasing(Linear.easeIn, 200));
+            mapping.mapEasing(_.fromOveredToNormal, new TimedEasing(Linear.easeOut, 400));
 
             Assert.assertTrue(
                 mapping.hasIdenticalMappingsWith(AnimationMappingDecorator(storage.getMapping("_sprite", "x")))
@@ -128,8 +128,8 @@ package nanosome.flow.visualizing.builders
             storage.registerEasing("_sprite", "", _.fromOveredToNormal, new TimedEasing(Linear.easeOut, 400));
 
             var mapping:AnimationMappingDecorator = new AnimationMappingDecorator();
-            mapping.mapTransition(_.fromNormalToOvered, new TimedEasing(Linear.easeIn, 200));
-            mapping.mapTransition(_.fromOveredToNormal, new TimedEasing(Linear.easeOut, 400));
+            mapping.mapEasing(_.fromNormalToOvered, new TimedEasing(Linear.easeIn, 200));
+            mapping.mapEasing(_.fromOveredToNormal, new TimedEasing(Linear.easeOut, 400));
 
             Assert.assertTrue(
                 mapping.hasIdenticalMappingsWith(AnimationMappingDecorator(storage.getMapping("_sprite", "x")))

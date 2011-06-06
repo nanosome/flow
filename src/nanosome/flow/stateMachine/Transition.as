@@ -14,26 +14,27 @@ package nanosome.flow.stateMachine
     {
         /**
          * @private
-         * Holds source state.
+         * Holds source <code>State</code> .
          */
         private var _source:State;
         
         /**
          * @private
-         * Holds destination state.
+         * Holds destination <code>State</code> .
          */
         private var _target:State;
 
+
         //--------------------------------------------------------------------------
         //
-        //  Constructor
+        //  CONSTRUCTOR
         //
         //--------------------------------------------------------------------------
 
         public function Transition() {}
 
         /**
-         * Internal method for defining transition.
+         * Internal method for defining <code>Transition</code>.
          * Delayed definition is required by DSL implementation logic.
          *
          * @param source Source state
@@ -46,7 +47,7 @@ package nanosome.flow.stateMachine
         }
            
         /**
-         *  Source state for this transition
+         *  Source <code>State</code> for this transition.
          */    
         public function get source():State
         {
@@ -54,7 +55,7 @@ package nanosome.flow.stateMachine
         }           
            
         /**
-         *  Target state for this transition
+         *  Target <code>State</code> for this transition.
          */    
         public function get target():State
         {
@@ -64,7 +65,7 @@ package nanosome.flow.stateMachine
         /**
          * Check if <code>Transition</code> was defined.
          *
-         * @returns True, if this transition was defined, false otherwise.
+         * @returns <code>true</code>, if this transition was defined properly, <code>false</code> otherwise.
          */
         public function get isDefined():Boolean
         {
@@ -72,7 +73,9 @@ package nanosome.flow.stateMachine
         }
 
         /**
-         * Stringifier for Transition object
+         * Stringifier for <code>Transition<code> object.
+         *
+         * @returns String representation of this <code>Transition<code>.
          */
         public function toString():String
         {

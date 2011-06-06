@@ -4,24 +4,36 @@ package nanosome.flow.signals
     import flash.events.Event;
 
     /**
-     * <code>Signal</code> is supposed to be used with <code>AbstractSignalSet</code> class.
+     * This class is used together with <code>AbstractSignalSet</code> class.
+     * <code>Signal</code> is notifying its parental <code>AbstractSignalSet</code> when its method
+     * <code>Signal.fire</code> is invoked.
      *
      * @see nanosome.flow.signals.AbstractSignalSet
-     * @author df
+     * @author dimitri.fedorov
      */
     public class Signal
     {
+        /**
+         * @private
+         * Holds unique ID for this signal.
+         */
         private var _id:String;
+
+       /**
+        * @private
+        * Holds parental <code>AbstractSignalSet</code> to be notified
+        * when <code>Signal.fire</code> method is invoked.
+        */
         private var _ownerSet:AbstractSignalSet;
 
         //--------------------------------------------------------------------------
         //
-        //  Constructor
+        //  CONSTRUCTOR
         //
         //--------------------------------------------------------------------------
 
         /**
-         * Creates a new <code>Signal</code>. Constructor should be invoked automatically, see <code>AbstractSignalSet</code>.
+         * Creates a new <code>Signal</code>. Constructor should be invoked automagically, see <code>AbstractSignalSet</code>.
          *
          * @param id ID for this signal
          * @param ownerSet Parental AbstractSignalSet to be notified when event will be fired
@@ -56,5 +68,6 @@ package nanosome.flow.signals
         {
             _ownerSet.fireSignal(this);
         }
+
     }
 }

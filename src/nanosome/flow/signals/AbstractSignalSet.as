@@ -6,8 +6,8 @@ package nanosome.flow.signals
     import flash.utils.getQualifiedClassName;
 
     /**
-     * This class is used as a builders, like other builders in Flow.
-     * And, like other builders, it is supposed to be overriden and its using
+     * This class is supposed to be used as a builder.
+     * And, like other builders in Flow, it's supposed to be using
      * implicit instantiation:
      *
      * <listing version="3">
@@ -24,14 +24,17 @@ package nanosome.flow.signals
      * }
      * </listing>
      *
-     * @author df
+     * @see wiki:ImplicitInstantiationInBuilders
+     *
+     * @author dimitri.fedorov
      */
     public class AbstractSignalSet extends EventDispatcher
     {
         public static const SIGNAL_ID_PREFIX:String = "signal.";
 
         /**
-         * This constructor shouldn't be overriden and even used in any way. See usage example.
+         * This constructor shouldn't be used or referenced in any way.
+         * See usage example.
          */
         public function AbstractSignalSet()
         {
@@ -39,8 +42,8 @@ package nanosome.flow.signals
         }
 
         /**
-         * This method runs through public properties of the class and auto-instantiates
-         * those of Signal type.
+         * This method runs through public properties of the class
+         * and auto-instantiates those of Signal type.
          */
         private function initiateSignals():void
         {
@@ -60,7 +63,7 @@ package nanosome.flow.signals
 
         /**
          * This method is invoked by one of auto-instantiated children (<code>Signal</code> class)
-         * to notify <code>AbstracSignalSet</code>.
+         * to notify <code>AbstractSignalSet</code> of being fired.
          * @param signal
          */
         internal function fireSignal(signal:Signal):void

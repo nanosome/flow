@@ -36,9 +36,9 @@ package visualizing
 
             _alphaMapping = new AnimationMapping();
 
-            _alphaMapping.mapTransition(_.fromNormalToOvered, inEasing);
-            _alphaMapping.mapTransition(_.fromOveredToNormal, outEasing);
-            _alphaMapping.mapTransition(_.fromOveredToPressed, inEasing);
+            _alphaMapping.mapEasing(_.fromNormalToOvered, inEasing);
+            _alphaMapping.mapEasing(_.fromOveredToNormal, outEasing);
+            _alphaMapping.mapEasing(_.fromOveredToPressed, inEasing);
             _alphaMapping.mapValue(_.normal, .5);
             _alphaMapping.mapValue(_.overed, .9);
             _alphaMapping.mapValue(_.pressed, .3);
@@ -104,6 +104,9 @@ package visualizing
             );
         }
 
+        //----------------------------------
+        //  Checking ticker logic
+        //----------------------------------
 
         [Test]
         public function severalVisualizersWithSameTicker():void
@@ -113,8 +116,8 @@ package visualizing
             var secondaryInEasing:TimedEasing = new TimedEasing(Linear.easeIn, 200);
             var secondaryOutEasing:TimedEasing = new TimedEasing(Quadratic.easeOut, 400);
 
-            betaMapping.mapTransition(_.fromNormalToOvered, secondaryInEasing);
-            betaMapping.mapTransition(_.fromOveredToNormal, secondaryOutEasing);
+            betaMapping.mapEasing(_.fromNormalToOvered, secondaryInEasing);
+            betaMapping.mapEasing(_.fromOveredToNormal, secondaryOutEasing);
 
             betaMapping.mapValue(_.normal, 50);
             betaMapping.mapValue(_.overed, 90);

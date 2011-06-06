@@ -2,7 +2,6 @@ package nanosome.flow.visualizing
 {
     import flash.utils.Dictionary;
 
-    import nanosome.flow.stateMachine.StateMachine;
     import nanosome.flow.stateMachine.State;
     import nanosome.flow.stateMachine.Transition;
 
@@ -10,6 +9,9 @@ package nanosome.flow.visualizing
     {
         internal var _values:Dictionary;
         internal var _easings:Dictionary;
+
+        private var _useExternalValues:Boolean = false;
+        private var _useExternalEasings:Boolean = false;
         
         //--------------------------------------------------------------------------
         //
@@ -25,52 +27,49 @@ package nanosome.flow.visualizing
 
         public function mapValue(state:State, value:*):void
         {
+            if (_useExternalValues)
+                throw new Error("External values mapping is used, you can't map it in this class.");
+
             _values[state] = value;
         }
 
-        public function mapTransition(transition:Transition, timedEasing:TimedEasing):void
+        public function mapEasing(transition:Transition, timedEasing:TimedEasing):void
         {
+            if (_useExternalValues)
+                throw new Error("External values mapping is used, you can't map it in this class.");
+
             _easings[transition] = timedEasing;
         }
 
-        //--------------------------------------------------------------------------
-        //
-        //  Utility methods
-        //
-        //--------------------------------------------------------------------------
-
-        public function checkMissingStates(stateMachine:StateMachine):Vector.<State>
-        {
-            var res:Vector.<State> = new Vector.<State>();
-            
-            for each (var state:State in stateMachine.states)
-            {
-                if (_values[state] == null)
-                    res.push(state);
-            }
-            return res;
-        }
-
-        public function checkMissingTransitions(stateMachine:StateMachine):Vector.<Transition>
-        {
-            var res:Vector.<Transition> = new Vector.<Transition>();
-
-            for each (var transition:Transition in stateMachine.transitions)
-            {
-                if (_easings[transition] == null)
-                    res.push(transition);
-            }
-            return res;
-        }
-
-        internal function getEasingForTransition(transition:Transition):TimedEasing
+        public function getEasingForTransition(transition:Transition):TimedEasing
         {
             return _easings[transition];
         }
 
-        internal function getValueForState(state:State):*
+        public function getValueForState(state:State):*
         {
             return _values[state];
         }
+
+        //--------------------------------------------------------------------------
+        //
+        //  Because of AnimationMappings quite often are sharing values or easings
+        //  mappings, we're implementing ability to use external Dictionaries for mapping.
+        //
+        //--------------------------------------------------------------------------
+
+
+        public function useValuesMapping(valuesMapping:Dictionary):void
+        {
+            _useExternalValues = true;
+            _values = valuesMapping;
+        }
+
+        public function useEasingsMapping(easingsMapping:Dictionary):void
+        {
+            _useExternalEasings = true;
+            _easings = easingsMapping;
+        }
+
     }
 }

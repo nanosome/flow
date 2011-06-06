@@ -6,7 +6,7 @@ package nanosome.flow.signals
     /**
      * Custom event used by <code>AbstractSignalSet</code> for notifying outer systems of firing events.
      *
-     * @author df
+     * @author dimitri.fedorov
      */
     public class SignalEvent extends Event
     {

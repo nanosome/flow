@@ -29,14 +29,19 @@ package nanosome.flow.visualizing.builders
 
         public function VisualMappingBuilder()
         {
+            prepare();
+            _defineAllStatesAndTransitions();
+            validate();
+        }
+        
+        protected function prepare():void
+        {
             _mappingsAndAnimatorsStorage = new MappingsAndAnimatorsStorage();
             _namesMappings = new Dictionary();
 
             instantiateVariables();
             identifyStateMachineBuilder();
             registerAnimators();
-            _defineStatesAndTransitions();
-            validateMappings();
         }
 
         protected function getTickGenerator():ITickGenerator
@@ -44,7 +49,7 @@ package nanosome.flow.visualizing.builders
             return new FrameTickGenerator();
         }
 
-        private function _defineStatesAndTransitions():void
+        protected function _defineAllStatesAndTransitions(configObject:Object = null):void
         {
             var states:Vector.<State> = _smBuilder.getStateMachine().states;
             var transitions:Vector.<Transition> = _smBuilder.getStateMachine().transitions;
@@ -59,7 +64,7 @@ package nanosome.flow.visualizing.builders
                     _mappingsAndAnimatorsStorage.storeValuesFor(instance, _namesMappings[instance]);
                 }
                 _currentState = states[i];
-                defineStatesAndTransitions(_currentState, null);
+                _defineStatesAndTransitions(_currentState, null, configObject);
                 for (instance in _namesMappings)
                 {
                     _mappingsAndAnimatorsStorage.compareAndMapValuesFor(instance, _namesMappings[instance], _currentState);
@@ -69,7 +74,7 @@ package nanosome.flow.visualizing.builders
             for (i = 0, k = transitions.length; i < k; i++)
             {
                 _currentTransition = transitions[i];
-                defineStatesAndTransitions(null, _currentTransition);
+                _defineStatesAndTransitions(null, _currentTransition, configObject);
             }
         }
 
@@ -95,7 +100,7 @@ package nanosome.flow.visualizing.builders
             }
         }
 
-        private function validateMappings():void
+        protected function validate():void
         {
             // TODO: Add validation after building is complete
         }
@@ -149,7 +154,7 @@ package nanosome.flow.visualizing.builders
             throw new Error("This method should be overriden");
         }
 
-        protected function defineStatesAndTransitions(state:State, transition:Transition):void
+        protected function _defineStatesAndTransitions(state:State, transition:Transition, configObject:Object):void
         {
             throw new Error("This method should be overriden");
         }

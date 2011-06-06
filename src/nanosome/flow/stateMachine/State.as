@@ -30,13 +30,13 @@ package nanosome.flow.stateMachine
         
         //--------------------------------------------------------------------------
         //
-        //  Constructor
+        //  CONSTRUCTOR
         //
         //--------------------------------------------------------------------------
         
         /**
-         *  Constructor.
-         *  @param id Unique id for this state.
+         * Constructor.
+         * @param id Unique id for this state.
          */    
         public function State(id:String)
         {
@@ -45,25 +45,28 @@ package nanosome.flow.stateMachine
         }
 
         /**
-         * Unique ID for this state.
-         * @return id ID for this state.
+         * Unique id for this state.
+         * @return id for this state.
          */
         public function get id():String
         { 
             return _id;
         }
-        
+
         //--------------------------------------------------------------------------
         //
         //  Handling transitions
         //
         //--------------------------------------------------------------------------
-            
+        
         /**
-         *  Returns <code>Transition</code> associated with specified signal id.
+         * Returns <code>Transition</code> associated with specified signal id.
+         * If current <code>State</code> got a <code>Transition</code>,
+         * triggered by <code>Signal</code> with  id <code>signalID</code>,
+         * this <code>Transition</code> will be returned.
          *
-         *  @param signalID id for the <code>Signal</code> to be checked with.
-         *  @return <code>Transition</code> object.
+         * @param signalID id for the <code>Signal</code> to be checked with.
+         * @return <code>Transition</code> object.
          */        
         internal function transitionForSignal(signalID:String):Transition
         {
@@ -72,6 +75,8 @@ package nanosome.flow.stateMachine
         
         /**
          *  Performs check if this <code>State</code> has transition for specified signal id.
+         *  Returns <code>true</code>, if this state got a <code>Transition</code>, triggered
+         *  by <code>Signal</code> with id <code>signalID</code>, <code>false</code> otherwise.
          *
          *  @param signalID id for the signal to be checked with.
          *  @return True, if transition for given signal id exists, false otherwise.
@@ -82,7 +87,7 @@ package nanosome.flow.stateMachine
         }
         
         /**
-         *  Creates new transition and adds it to this State.
+         *  Creates new <code>Transition</code> and adds it to this <code>State</code>.
          *
          *  @param signalID id of the <code>Signal</code> which should trigger transition.
          *  @param targetState Target <code>State</code> for the transition
@@ -123,9 +128,9 @@ package nanosome.flow.stateMachine
         //--------------------------------------------------------------------------
 
         /**
-         * Contains all target states for this state.
+         * Contains all target states for this <code>State</code>.
          * 
-         * @return Vector of State objects
+         * @return Vector of <code>State</code> objects
          */
         internal function get targets():Vector.<State>
         {
@@ -145,9 +150,10 @@ package nanosome.flow.stateMachine
         }
 
         /**
-         * Contains all transitions for this state (where this state is the source state).
+         * Contains all transitions for this <code>State</code>
+         * (where this <code>State</code> is the source state).
          *
-         * @return Vector of Transition objects
+         * @return Vector of <code>Transition</code> objects
          */
         internal function get transitions():Vector.<Transition>
         {
@@ -159,5 +165,6 @@ package nanosome.flow.stateMachine
             }
             return result;
         }
+    
     }
 }

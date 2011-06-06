@@ -1,10 +1,17 @@
 package visualizing.builder
 {
-    import misc.ButtonSignals;
+import easing.Linear;
 
-    import org.flexunit.Assert;
+import misc.ButtonSignals;
 
-    public class FlowBuilderTest
+import nanosome.flow.visualizing.TimedEasing;
+import nanosome.flow.visualizing.animators.ColorPropertyAnimator;
+import nanosome.flow.visualizing.animators.NumericPropertyAnimator;
+import nanosome.flow.visualizing.builders.TestStateMachineBuilder;
+
+import org.flexunit.Assert;
+
+    public class FlowBuilderLateTest
     {
         private static var _flow:ActivePassiveFlow;
 
@@ -21,9 +28,8 @@ package visualizing.builder
         public function createObjects():void
         {
             _backgroundAcc = {color: 0x00000};
-            // _icon = {alpha: 1};
+            _icon = {alpha: 1};
         }
-
 
         [Test]
         public function isFlowInstantiated():void
@@ -31,15 +37,49 @@ package visualizing.builder
             Assert.assertNotNull(_flow);
         }
 
-        [Test(expects="Error")]
-        public function isErrorThrownOnAbsentInstances():void
+        [Test]
+        public function isFlowLateInitialized():void
         {
-            Assert.assertNotNull(_backgroundAcc);
-            Assert.assertNotNull(_flow);
-            
-            var signals:ButtonSignals = _flow.createSignals();
+            Assert.assertFalse(_flow.initialized);
+            var _:TestStateMachineBuilder;
+            var s:ButtonSignals = new ButtonSignals();
 
-            _flow.visualize(this, signals);
+            // 1) VisualMapping - contains values and easings mapped to state machine. No animated objects or their properties are specified here.
+            // 2) Animator - class knows how to animate/access object and its property. Instantiated and disposed automatically.
+
+            // _flow.map will return AnimationMappingBuilder, you can build mapping
+            // this way...
+            var alphaMapping:VisualMapping = _flow.map
+                .state(_.normal).valueIs(0)
+                .state(_.overed).valueIs(1)
+                .transition(_.fromNormalToOvered).ease(new TimedEasing(Linear.easeIn, 200))
+                .transition(_.fromOveredToNormal).ease(new TimedEasing(Linear.easeOut, 400)).endOfMapping();
+            // and use it later:
+            _flow.visualize(_icon, 'alpha').by(NumericPropertyAnimator).withMapping(alphaMapping);
+
+            // you can also remap it like this:
+            var colorMapping:VisualMapping = _flow.remap(myMapping)
+                .state(_.normal).valueIs(0x330044)
+                .state(_.overed).valueIs(0x004433).endOfMapping();
+            // and use with another object:
+            _flow.visualize(_backgroundAcc, 'color').by(ColorPropertyAnimator).withMapping(colorMapping);
+
+            // alternatively, you can use it right away:
+            _flow.visualize(_icon, 'alpha').by(NumericPropertyAnimator).withMapping()
+                .state(_.normal).valueIs(0)
+                .state(_.overed).valueIs(1)
+                .transition(_.fromNormalToOvered).ease(new TimedEasing(Linear.easeIn, 200))
+                .transition(_.fromOveredToNormal).ease(new TimedEasing(Linear.easeOut, 400)).endOfMapping();
+
+            /*
+            _flow.initialize({
+                _.normal: {
+                    _icon.alpha:
+                }
+                iconAlphaNormal: 0, iconAlphaOvered: .5, iconAlphaPressed: 1,
+                backColorNormal: 0x888899, backColorOvered:0x998888,  backColorPressed:0x998888
+            });
+            */
         }
 
     }
@@ -62,12 +102,12 @@ import nanosome.flow.stateMachine.State;
 import nanosome.flow.stateMachine.Transition;
 
 import nanosome.flow.visualizing.animators.NumericPropertyAnimator;
-import nanosome.flow.visualizing.builders.FlowBuilder;
+import nanosome.flow.visualizing.builders.FlowLateBuilder;
 
 import stateMachine.builder.TestStateMachineBuilder;
 import nanosome.flow.visualizing.ticking.ITickGenerator;
 
-internal class ActivePassiveFlow extends FlowBuilder
+internal class ActivePassiveFlow extends FlowLateBuilder
 {
     public var _:TestStateMachineBuilder; // all of these members should be public to be discoverable
     public var _icon:Sprite;
@@ -78,7 +118,7 @@ internal class ActivePassiveFlow extends FlowBuilder
         return new TestingTickGenerator();
     }
 
-    public function createSignals():ButtonSignals
+    public function getSignals():ButtonSignals
     {
         return _.getNewSignalsSet();
     }
@@ -91,13 +131,13 @@ internal class ActivePassiveFlow extends FlowBuilder
             by(NumericPropertyAnimator);
     }
 
-    override protected function defineStatesAndTransitions(state:State, transition:Transition):void
+    override protected function defineStatesAndTransitions(state:State, transition:Transition, $:Object):void
     {
         switch(state || transition)
         {
             case _.normal:
-                _icon.alpha = .3;
-                _backgroundAcc.color  = 0xFF0000;
+                _icon.alpha = $['iconAlphaNormal'];
+                _backgroundAcc.color  = $['backColorNormal'];
             break;
 
             case _.fromNormalToOvered:
@@ -106,8 +146,8 @@ internal class ActivePassiveFlow extends FlowBuilder
             break;
 
             case _.overed:
-                _icon.alpha = .8;
-                _backgroundAcc.color  = 0x00FF00;
+                _icon.alpha = $['iconAlphaOvered'];
+                _backgroundAcc.color  = $['backColorOvered'];
             break;
 
             case _.fromOveredToNormal:
@@ -120,8 +160,8 @@ internal class ActivePassiveFlow extends FlowBuilder
             break;
 
             case _.pressed:
-                _icon.alpha = 1;
-                _backgroundAcc.color  = 0x0000FF;
+                _icon.alpha = $['iconAlphaPressed'];
+                _backgroundAcc.color  = $['backColorPressed'];
             break;
 
             case _.fromPressedToOvered:

@@ -51,7 +51,7 @@ package nanosome.flow.visualizing.builders
                 }
                 return;
             }
-            AnimationMapping(_mappings[instanceName + "." + propertyName]).mapTransition(transition, timedEasing);
+            AnimationMapping(_mappings[instanceName + "." + propertyName]).mapEasing(transition, timedEasing);
         }
 
         internal function getMapping(instanceName:String, propertyName:String):AnimationMapping
